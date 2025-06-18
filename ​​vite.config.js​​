@@ -3,20 +3,30 @@ import vue from '@vitejs/plugin-vue';
 import { resolve } from 'path';
 import dts from 'vite-plugin-dts';
 
+const __dirname = resolve()
+
 export default defineConfig({
   plugins: [
-    vue(),
+    vue({
+      reactivityTransform: true
+    }),
     dts({
-      outputDir: 'types',
+      outputDir: 'dist/types',
       staticImport: true,
-      insertTypesEntry: true
+      insertTypesEntry: true,
+      compilerOptions: {
+        declaration: true,
+        emitDeclarationOnly: true,
+        noEmit: false
+      }
     })
   ],
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'FormKit',
-      fileName: (format) => `formkit.${format}.js`
+      fileName: (format) => `formkit.${format}.js`,
+      formats: ['es', 'umd']
     },
     rollupOptions: {
       external: ['vue', 'element-plus', 'lodash'],
@@ -24,9 +34,20 @@ export default defineConfig({
         globals: {
           vue: 'Vue',
           'element-plus': 'ElementPlus',
-          lodash: '_',
-        }
-      }
+          lodash: '_'
+        },
+        exports: 'named'
+      },
+    },
+    emptyOutDir: true,
+    outDir: 'dist',
+    target: 'esnext',
+    minify: 'terser',
+    cssCodeSplit: true
+  },
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, 'src')
     }
   }
-});
+})

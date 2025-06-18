@@ -1,6 +1,13 @@
 import { defineAsyncComponent } from 'vue';
+import type { Component } from 'vue';
 
-export const Modules: Record<string, any> = {
+const asyncElementPlus = (componentName: string): Component => {
+  return defineAsyncComponent(() => 
+    import('element-plus').then(module => module[componentName] as any)
+  )
+};
+
+export const Modules: Record<string, Component> = {
   select: defineAsyncComponent(() => import('./modules/select.vue')),
   remoteSearchSelect: defineAsyncComponent(() => import('./modules/remoteSearchSelect.vue')),
   address: defineAsyncComponent(() => import('./modules/address.vue')),
@@ -8,7 +15,14 @@ export const Modules: Record<string, any> = {
   radio: defineAsyncComponent(() => import('./modules/radio.vue')),
   popover: defineAsyncComponent(() => import('./modules/popover.vue')),
   inputNumber: defineAsyncComponent(() => import('./modules/inputNumber.vue')),
-  upload: defineAsyncComponent(() => import('./modules/upload.vue'))
+  upload: defineAsyncComponent(() => import('./modules/upload.vue')),
+  
+  input: asyncElementPlus('ElInput'),
+  datePicker: asyncElementPlus('ElDatePicker'),
+  timePicker: asyncElementPlus('ElTimePicker'),
+  timeSelect: asyncElementPlus('ElTimeSelect'),
+  cascader: asyncElementPlus('ElCascader'),
+  rate: asyncElementPlus('ElRate')
 };
 
 export default Object.keys(Modules);
