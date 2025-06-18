@@ -1,7 +1,61 @@
 # element-plus-formkit
 Based on ElementPlus form components for the combination of packaging , through the data flow method of the form data , to facilitate rapid development.
 
-### Component Attributes
+## install
+```
+pnpm add element-plus-formkit
+```
+
+## use Formkit components
+```
+// main.ts
+import { createApp } from 'vue';
+import App from './App.vue';
+import FormKit, { setFormKitConfig, registerFormKitModule } from 'element-plus-formkit';
+
+const app = createApp(App);
+app.use(FormKit);
+
+app.mount('#app');
+```
+
+### registerFormKitModule
+Formkit allows you to register customized components
+```
+import CustomEditor from './components/CustomEditor.vue'
+registerFormKitModule('customEditor', CustomEditor)
+
+// formkit item config
+{
+    type: 'customEditor', // Using custom modules
+    key: 'content',
+    label: 'Article'
+}
+```
+
+### setFormKitConfig
+Formkit accepts a number of global configuration parameters, e.g. file upload network address, etc.
+```
+// Set global configuration (can be set before or after installation)
+setFormKitConfig({
+  uploadUrl: 'https://api.example.com/upload',
+  apiAdapter: async (url, data) => {
+    const response = await fetch(url, {
+      method: 'POST',
+      body: data
+    });
+    return response.json();
+  }
+});
+
+app.use(FormKitPro, {
+  // Optional: configuration can also be passed here (will be merged with setFormKitConfig)
+  // apiTimeout: 10000
+});
+```
+*** Note that formkit relies on elementplus form for development, and you will need to introduce elementplus into your system. ***
+
+## Component Attributes
 | Parameters | Description | Types | Defaults | 
 | -------- | :----- | :----: | :----: |
 | model-value / v-model | Component Binding Data Source | Object | {}
@@ -15,7 +69,7 @@ Based on ElementPlus form components for the combination of packaging , through 
 
 **Note**: `label-width` will be invalidated when `columns` is set to the string `'auto'`, and the result will be `0px` when it is invalidated.
 
-### Config Attributes
+## Config Attributes
 | Parameters | Description | Optional Values | Type | Case
 | -------- | :-----:  |  :----: |  :----:  | :----: |
 | label |  Form item name  |   -   |  String  |  -
@@ -33,7 +87,7 @@ Based on ElementPlus form components for the combination of packaging , through 
 | events |  Accepting component events  |   -   |  Object  |  -
 | hint |  Display prompt text below the current line  |   -   |  string  |  -
 
-### Config type explain
+## Config type explain
 | Keywords | Description | Remarks
 | -------- | :-----: | :----: |
 | input | input box | -
@@ -49,7 +103,7 @@ Based on ElementPlus form components for the combination of packaging , through 
 | upload | File Upload | uploadUrl needs to be modified in utils/upload.class.ts.
 | rate | rating | [documentation](https://element-plus.org/zh-CN/component/rate.html)
 
-### FormKit Slots
+## FormKit Slots
 | Slot Name | Description | Parameters
 | -------- | :-----: | :-----: |
 | prepend | Input box front content | -
@@ -57,7 +111,7 @@ Based on ElementPlus form components for the combination of packaging , through 
 | content | form level content | configs => config item
 | ${config.keys} | form item content component level content | row => current config item, value => component binding value
 
-### Exposes
+## Exposes
 | Name | Description | Parameters | Type
 | -------- | :-----: | :-----: | :-----: |
 | validate | Validate form items now | openTips => If or not popup tips for failed validation | Promise
