@@ -7,7 +7,6 @@ export const Modules: Record<string, any> = {
   checkbox: defineAsyncComponent(() => import('./modules/checkbox.vue')),
   radio: defineAsyncComponent(() => import('./modules/radio.vue')),
   popover: defineAsyncComponent(() => import('./modules/popover.vue')),
-  dropdown: defineAsyncComponent(() => import('./modules/dropdown.vue')),
   inputNumber: defineAsyncComponent(() => import('./modules/inputNumber.vue')),
   upload: defineAsyncComponent(() => import('./modules/upload.vue'))
 };

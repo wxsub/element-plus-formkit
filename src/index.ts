@@ -2,7 +2,6 @@ import { App, Plugin } from 'vue';
 import FormKit from './FormKit.vue';
 import Address from './modules/address.vue';
 import Checkbox from './modules/checkbox.vue';
-import Dropdown from './modules/dropdown.vue';
 import Select from './modules/select.vue';
 import InputNumber from './modules/inputNumber.vue';
 import Popover from './modules/popover.vue';
@@ -13,7 +12,6 @@ import Upload from './modules/upload.vue';
 export {
   Address,
   Checkbox,
-  Dropdown,
   Select,
   InputNumber,
   Popover,
@@ -28,7 +26,6 @@ const install: Plugin = (app: App) => {
   app.component('FormKit', FormKit);
   app.component('FormKitAddress', Address);
   app.component('FormKitCheckbox', Checkbox);
-  app.component('FormKitDropdown', Dropdown);
   app.component('FormKitSelect', Select);
   app.component('FormKitInputNumber', InputNumber);
   app.component('FormKitPopover', Popover);

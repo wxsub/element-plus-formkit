@@ -63,6 +63,5 @@ const fetchAddressData = (pid: any, nodeLevel = 1) => {
     :props="CascaderProp"
     v-model="dataset"
     :key="level"
-    class="w-full"
     v-bind="$attrs" />
 </template>
