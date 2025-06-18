@@ -1,4 +1,4 @@
-import { App, Plugin } from 'vue';
+import { App, Plugin, defineComponent, Component } from 'vue';
 import FormKit from './FormKit.vue';
 import Address from './modules/address.vue';
 import Checkbox from './modules/checkbox.vue';
@@ -8,6 +8,9 @@ import Popover from './modules/popover.vue';
 import Radio from './modules/radio.vue';
 import RemoteSearchSelect from './modules/remoteSearchSelect.vue';
 import Upload from './modules/upload.vue';
+
+import { setFormKitConfig, getFormKitConfig, createUploader, type FormKitGlobalConfig } from './config';
+import { moduleRegistry, registerFormKitModule, type CustomModuleRegistry } from './module-registry';
 
 export {
   FormKit,
@@ -21,9 +24,19 @@ export {
   Upload
 };
 
-export type { FormKitExposed } from './FormKit.vue'
+export type { FormKitExposed, ConfigInterface } from './FormKit.vue'
 
-const install: Plugin = (app: App) => {
+export { setFormKitConfig, getFormKitConfig, createUploader }
+
+export { registerFormKitModule, moduleRegistry }
+
+export type { FormKitGlobalConfig, CustomModuleRegistry }
+
+const install: Plugin = (app: App, config?: FormKitGlobalConfig) => {
+  if (config) {
+    setFormKitConfig(config);
+  }
+  
   app.component('FormKit', FormKit);
   app.component('FormKitAddress', Address);
   app.component('FormKitCheckbox', Checkbox);
@@ -35,7 +48,7 @@ const install: Plugin = (app: App) => {
   app.component('FormKitUpload', Upload);
 };
 
-export default {
+const elementPlusFormkit = {
   install,
   FormKit,
   Address,
@@ -45,5 +58,14 @@ export default {
   Popover,
   Radio,
   RemoteSearchSelect,
-  Upload
-}
+  Upload,
+  
+  setConfig: setFormKitConfig,
+  getConfig: getFormKitConfig,
+  createUploader,
+  
+  registerModule: registerFormKitModule,
+  getModuleRegistry: () => moduleRegistry
+};
+
+export default elementPlusFormkit
