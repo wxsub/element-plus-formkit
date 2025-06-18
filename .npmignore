@@ -1,0 +1,8 @@
+node_modules/
+src/
+.vscode/
+.gitignore
+*.log
+*.md
+tsconfig.json
+vite.config.ts

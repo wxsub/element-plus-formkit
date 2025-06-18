@@ -3,11 +3,14 @@
   "version": "1.0.0",
   "main": "dist/formkit.umd.js",
   "module": "dist/formkit.es.js",
-  "types": "dist/index.d.ts",
-  "files": ["dist"],
+  "types": "types/index.d.ts",
+  "files": [
+    "dist",
+    "types"
+  ],
   "scripts": {
     "build": "vite build",
-    "prepublishOnly": "npm run build"
+    "prepublish": "npm run build"
   },
   "peerDependencies": {
     "vue": "^3.0.0",
@@ -15,9 +18,27 @@
     "lodash": "^4.0.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^4.0.0",
-    "typescript": "^5.0.0",
-    "vite": "^4.0.0",
-    "vite-plugin-dts": "^3.0.0"
-  }
+    "@vitejs/plugin-vue": "^4.5.2",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.12",
+    "vite-plugin-dts": "^3.8.1",
+    "vue": "^3.3.13",
+    "element-plus": "^2.5.4",
+    "lodash": "^4.17.21"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wxsub/element-plus-formkit.git"
+  },
+  "keywords": [
+    "typescript",
+    "vue",
+    "tailwindcss",
+    "vue3",
+    "formkit",
+    "el-form",
+    "element-plus"
+  ],
+  "author": "wxsub",
+  "license": "MIT"
 }

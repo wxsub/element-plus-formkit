@@ -1,28 +1,32 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import dts from 'vite-plugin-dts'
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import { resolve } from 'path';
+import dts from 'vite-plugin-dts';
 
 export default defineConfig({
   plugins: [
     vue(),
     dts({
-      outputDir: 'dist/types'
+      outputDir: 'types',
+      staticImport: true,
+      insertTypesEntry: true
     })
   ],
   build: {
     lib: {
-      entry: 'src/index.ts',
+      entry: resolve(__dirname, 'src/index.ts'),
       name: 'FormKit',
-      fileName: format => `formkit.${format}.js`
+      fileName: (format) => `formkit.${format}.js`
     },
     rollupOptions: {
       external: ['vue', 'element-plus', 'lodash'],
       output: {
         globals: {
           vue: 'Vue',
-          'element-plus': 'ElementPlus'
+          'element-plus': 'ElementPlus',
+          lodash: '_',
         }
       }
     }
   }
-})
+});
