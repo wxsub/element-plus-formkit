@@ -42,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import approved, { Modules } from './asyncModulesLoader.ts'
+import { moduleRegistry } from './module-registry'
 import { ElForm } from 'element-plus'
 import { ElMessage, FormItemRule } from "element-plus"
 import _ from 'lodash'
@@ -148,12 +148,15 @@ const buckets: any = reactive({})
 
 function loader(type: string) {
   try {
-    if (approved.includes(type)) {
-      return Modules[type]
+    const module = moduleRegistry.getModule(type);
+    if (module) {
+      return module;
     } else {
-      return defineComponent({
-        template: `<p>can not find module for ${String(type)}</p>`
-      })
+      return defineAsyncComponent(async () => {
+        return {
+          template: `<p>Unable to find module: ${String(type)}</p>`
+        };
+      });
     }
   } catch (e) {
     return defineAsyncComponent(async () => {
