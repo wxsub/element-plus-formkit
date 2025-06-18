@@ -10,6 +10,7 @@ import RemoteSearchSelect from './modules/remoteSearchSelect.vue';
 import Upload from './modules/upload.vue';
 
 export {
+  FormKit,
   Address,
   Checkbox,
   Select,
@@ -20,7 +21,7 @@ export {
   Upload
 };
 
-export default FormKit;
+export type { FormKitExposed } from './FormKit.vue'
 
 const install: Plugin = (app: App) => {
   app.component('FormKit', FormKit);
@@ -36,16 +37,13 @@ const install: Plugin = (app: App) => {
 
 export default {
   install,
-  ...{
-    FormKit,
-    Address,
-    Checkbox,
-    Dropdown,
-    Select,
-    InputNumber,
-    Popover,
-    Radio,
-    RemoteSearchSelect,
-    Upload
-  }
-};
+  FormKit,
+  Address,
+  Checkbox,
+  Select,
+  InputNumber,
+  Popover,
+  Radio,
+  RemoteSearchSelect,
+  Upload
+}
