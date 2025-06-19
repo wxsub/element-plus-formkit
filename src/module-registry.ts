@@ -1,7 +1,7 @@
 import { type Component } from 'vue';
 import { Modules as BuiltInModules } from './asyncLoadModules';
 
-class ModuleRegistry {
+class FormkitModules {
   private customModules: Record<string, Component> = {};
   
   registerModule(type: string, component: Component) {
@@ -20,8 +20,8 @@ class ModuleRegistry {
   }
 }
 
-export const moduleRegistry = new ModuleRegistry();
+export const modules = new FormkitModules();
 
-export function registerFormKitModule(type: string, component: Component) {
-  moduleRegistry.registerModule(type, component);
+export function registerModule(type: string, component: Component) {
+  modules.registerModule(type, component);
 }

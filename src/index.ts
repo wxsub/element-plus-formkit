@@ -9,8 +9,8 @@ import Radio from './modules/radio.vue';
 import RemoteSearchSelect from './modules/remoteSearchSelect.vue';
 import Upload from './modules/upload.vue';
 
-import { setFormKitConfig, getFormKitConfig, createUploader, type FormKitGlobalConfig } from './config';
-import { moduleRegistry, registerFormKitModule, type CustomModuleRegistry } from './module-registry';
+import { setConfigure, getConfigure, type configType } from './config.ts';
+import { modules, registerModule, type CustomModuleRegistry } from './module-registry';
 
 export {
   FormKit,
@@ -26,15 +26,15 @@ export {
 
 export type { FormKitExposed, ConfigInterface } from './FormKit.vue'
 
-export { setFormKitConfig, getFormKitConfig, createUploader }
+export { setConfigure, getConfigure }
 
-export { registerFormKitModule, moduleRegistry }
+export { registerModule, modules }
 
-export type { FormKitGlobalConfig, CustomModuleRegistry }
+export type { configType, CustomModuleRegistry }
 
-const install: Plugin = (app: App, config?: FormKitGlobalConfig) => {
+const install: Plugin = (app: App, config?: configType) => {
   if (config) {
-    setFormKitConfig(config);
+    setConfigure(config);
   }
   
   app.component('FormKit', FormKit);
@@ -48,7 +48,7 @@ const install: Plugin = (app: App, config?: FormKitGlobalConfig) => {
   app.component('FormKitUpload', Upload);
 };
 
-const elementPlusFormkit = {
+const ElementPlusFormkit = {
   install,
   FormKit,
   Address,
@@ -60,12 +60,11 @@ const elementPlusFormkit = {
   RemoteSearchSelect,
   Upload,
   
-  setConfig: setFormKitConfig,
-  getConfig: getFormKitConfig,
-  createUploader,
+  setConfigure,
+  getConfigure,
   
-  registerModule: registerFormKitModule,
-  getModuleRegistry: () => moduleRegistry
+  registerModule,
+  getModules: () => modules
 };
 
-export default elementPlusFormkit
+export default ElementPlusFormkit

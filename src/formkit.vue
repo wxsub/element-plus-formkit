@@ -42,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import { moduleRegistry } from './module-registry'
+import { modules } from './module-registry'
 import { ElForm } from 'element-plus'
 import { ElMessage, FormItemRule } from "element-plus"
 import _ from 'lodash'
@@ -148,7 +148,7 @@ const buckets: any = reactive({})
 
 function loader(type: string) {
   try {
-    const module = moduleRegistry.getModule(type);
+    const module = modules.getModule(type);
     if (module) {
       return module;
     } else {

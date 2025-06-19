@@ -9,6 +9,7 @@ const props = defineProps({
     autoUpload: { type: Boolean, default: true },
     isCustom: { type: Boolean, default: false },
     beforeUpload: { type: Function, default: null },
+    parameterHandler: { type: Function, default: null },
     accept: {
         type: String,
         default: "image/*"
@@ -69,7 +70,8 @@ const uploading = async () => {
         if (item.status === 1) continue
         const upload = new Upload()
         if (upload.isValidFileType(item.file, props.accept)) {
-            upload.action(item.file)
+            await beforeUpload(item)
+            upload.action(item.file, props.parameterHandler)
         } else {
             item.progress = 0
             item.status = -2

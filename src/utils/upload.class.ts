@@ -1,3 +1,5 @@
+import { getConfigure } from '../config.ts'
+
 type UploadProgressListener = (percentage: number) => void;
 type UploadCompletedListener = (response: any) => void;
 type UploadErrorListener = (error: any) => void;
@@ -9,7 +11,7 @@ class FileUploader {
   private onError: UploadErrorListener;
   private xhr: XMLHttpRequest | null = null;
 
-  constructor(uploadUrl: string = '/default/oss/upload') {
+  constructor(uploadUrl: string = getConfigure().uploadUrl) {
     this.uploadUrl = uploadUrl;
     this.onProgress = () => {};
     this.onComplete = () => {};
@@ -36,7 +38,7 @@ class FileUploader {
     });
   }
 
-  async action(file: File): Promise<void> {
+  async action(file: File, beforeUploadHandler?: Function): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.xhr = new XMLHttpRequest();
       const formData = new FormData();
@@ -77,7 +79,7 @@ class FileUploader {
 
       this.xhr.open('POST', this.uploadUrl);
       
-      this.xhr.send(formData);
+      this.xhr.send(beforeUploadHandler ? beforeUploadHandler(file) : formData);
     });
   }
 
