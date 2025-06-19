@@ -1,6 +1,8 @@
 # element-plus-formkit
 Based on ElementPlus form components for the combination of packaging , through the data flow method of the form data , to facilitate rapid development.
 
+**中文** | [English](./README.md)
+
 ## install
 ```
 pnpm add element-plus-formkit
@@ -53,7 +55,7 @@ app.use(FormKitPro, {
   // apiTimeout: 10000
 });
 ```
-** Note that formkit relies on elementplus form for development, and you will need to introduce elementplus into your system. **
+**Note that formkit relies on elementplus form for development, and you will need to introduce elementplus into your system.**
 
 ## Component Attributes
 | Parameters | Description | Types | Defaults | 
