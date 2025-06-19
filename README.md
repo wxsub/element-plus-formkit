@@ -1,6 +1,6 @@
 # element-plus-formkit
 
-**中文** | [English](./README.md)
+**English** | [中文](./README.zh_CN.md)
 
 Based on ElementPlus form components for the combination of packaging , through the data flow method of the form data , to facilitate rapid development.
 
