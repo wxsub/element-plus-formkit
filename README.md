@@ -6,7 +6,7 @@ Based on ElementPlus form components for the combination of packaging , through 
 pnpm add element-plus-formkit
 ```
 
-## use Formkit components
+## Use Formkit components
 ```
 // main.ts
 import { createApp } from 'vue';
@@ -53,7 +53,7 @@ app.use(FormKitPro, {
   // apiTimeout: 10000
 });
 ```
-*** Note that formkit relies on elementplus form for development, and you will need to introduce elementplus into your system. ***
+** Note that formkit relies on elementplus form for development, and you will need to introduce elementplus into your system. **
 
 ## Component Attributes
 | Parameters | Description | Types | Defaults | 
