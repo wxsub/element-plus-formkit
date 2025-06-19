@@ -1,7 +1,10 @@
 # element-plus-formkit
-Based on ElementPlus form components for the combination of packaging , through the data flow method of the form data , to facilitate rapid development.
 
 **中文** | [English](./README.md)
+
+Based on ElementPlus form components for the combination of packaging , through the data flow method of the form data , to facilitate rapid development.
+
+**Project node version no less than 18.0.0**
 
 ## install
 ```
