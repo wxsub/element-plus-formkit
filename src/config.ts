@@ -1,35 +1,25 @@
 import { ref, reactive, type Ref } from 'vue';
 
-export interface FormKitGlobalConfig {
+export interface configType {
   uploadUrl?: string;
-  apiAdapter?: (url: string, data?: any) => Promise<any>;
+  addressNetWork?: Promise
 }
 
-const defaultConfig: FormKitGlobalConfig = {
-  uploadUrl: '/default/oss/upload',
-  apiAdapter: async (url, data) => {
-    const response = await fetch(url, {
-      method: 'POST',
-      body: data,
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    });
-    return response.json();
-  }
+const defaultConfig: configType = {
+  uploadUrl: ''
 };
 
-const globalConfig: Ref<FormKitGlobalConfig> = ref(defaultConfig);
+const globalConfig: Ref<configType> = ref(defaultConfig);
 
-export function setFormKitConfig(config: Partial<FormKitGlobalConfig>) {
+export function setConfigure(config: Partial<configType>) {
   globalConfig.value = { ...globalConfig.value, ...config };
 }
 
-export function getFormKitConfig(): FormKitGlobalConfig {
+export function getConfigure(): configType {
   return globalConfig.value;
 }
 
 export function createUploader(): FileUploader {
-  const config = getFormKitConfig();
-  return new FileUploader(config.uploadUrl, config.apiAdapter);
+  const config = getConfigure();
+  return new FileUploader(config.uploadUrl);
 }
