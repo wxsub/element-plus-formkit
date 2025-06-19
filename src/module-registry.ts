@@ -1,5 +1,7 @@
 import { type Component } from 'vue';
-import { Modules as BuiltInModules } from './asyncLoadModules';
+import { Modules as BuiltInModules } from './asyncModulesLoader';
+
+export type CustomModuleRegistry = FormkitModules
 
 class FormkitModules {
   private customModules: Record<string, Component> = {};

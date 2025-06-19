@@ -1,7 +1,7 @@
-import { defineConfig } from 'vite';
-import vue from '@vitejs/plugin-vue';
-import { resolve } from 'path';
-import dts from 'vite-plugin-dts';
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import dts from 'vite-plugin-dts'
+import { resolve } from 'path'
 
 const __dirname = resolve()
 
@@ -11,9 +11,10 @@ export default defineConfig({
       reactivityTransform: true
     }),
     dts({
-      outputDir: 'dist/types',
+      outDir: 'types',
       staticImport: true,
       insertTypesEntry: true,
+      tsconfigPath: resolve(__dirname, 'tsconfig.json'),
       compilerOptions: {
         declaration: true,
         emitDeclarationOnly: true,
@@ -25,7 +26,7 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'FormKit',
-      fileName: (format) => `formkit.${format}.js`,
+      fileName: (format: string) => `formkit.${format}.js`,
       formats: ['es', 'umd']
     },
     rollupOptions: {
@@ -42,12 +43,13 @@ export default defineConfig({
     emptyOutDir: true,
     outDir: 'dist',
     target: 'esnext',
-    minify: 'terser',
-    cssCodeSplit: true
+    cssCodeSplit: false,
+    assetsInlineLimit: 0,
+    manifest: false
   },
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src')
     }
   }
-})
+});
