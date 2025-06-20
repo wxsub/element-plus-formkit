@@ -44,31 +44,9 @@
 <script setup lang="ts">
 import { modules } from './module-registry'
 import { ElForm } from 'element-plus'
-import { ElMessage, FormItemRule } from "element-plus"
+import { ElMessage } from "element-plus"
 import _ from 'lodash'
-
-interface ConfigInterface {
-  type?: string;
-  key: string;
-  span?: number;
-  labelWidth?: number;
-  label?: string;
-  prefix?: string;
-  disabled?: boolean;
-  visible?: boolean | object | Array<object>;
-  hint?: string;
-  options?: Array<object>;
-  rules?: Array<FormItemRule>;
-  events?: object;
-  props?: object;
-  request?: Function | object;
-  handle?: Function;
-}
-
-interface FormKitExposed {
-  validate: (openTips?: boolean) => Promise<any>;
-  clearValidate: () => void;
-}
+import { ConfigInterface, FormKitExposed } from "./formkit-types"
 
 const UNIQUE_KEY = ref(Number(new Date())),
     FormKitRef = ref<InstanceType<typeof ElForm> & FormKitExposed>(),
