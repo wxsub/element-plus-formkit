@@ -1,8 +1,8 @@
-import { ref, reactive, type Ref } from 'vue';
+import { ref, type Ref } from 'vue';
 
 export interface configType {
   uploadUrl?: string;
-  addressNetWork?: Promise
+  addressNetWork?: Promise<any>
 }
 
 const defaultConfig: configType = {
@@ -17,9 +17,4 @@ export function setConfigure(config: Partial<configType>) {
 
 export function getConfigure(): configType {
   return globalConfig.value;
-}
-
-export function createUploader(): FileUploader {
-  const config = getConfigure();
-  return new FileUploader(config.uploadUrl);
 }

@@ -1,4 +1,4 @@
-import { App, Plugin, defineComponent, Component } from 'vue';
+import { App, Plugin } from 'vue';
 import FormKit from './FormKit.vue';
 import Address from './modules/address.vue';
 import Checkbox from './modules/checkbox.vue';
@@ -24,7 +24,7 @@ export {
   Upload
 };
 
-export type { FormKitExposed, ConfigInterface } from './FormKit.vue'
+export type { FormKitExposed, ConfigInterface } from './formkit-types'
 
 export { setConfigure, getConfigure }
 

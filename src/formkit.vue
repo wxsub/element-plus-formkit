@@ -46,7 +46,8 @@ import { modules } from './module-registry'
 import { ElForm } from 'element-plus'
 import { ElMessage } from "element-plus"
 import _ from 'lodash'
-import { ConfigInterface, FormKitExposed } from "./formkit-types"
+import { ref, reactive, onMounted, computed, watchEffect, ComputedRef, defineAsyncComponent } from 'vue'
+import { ConfigInterface, FormKitExposed } from './formkit-types'
 
 const UNIQUE_KEY = ref(Number(new Date())),
     FormKitRef = ref<InstanceType<typeof ElForm> & FormKitExposed>(),
@@ -101,7 +102,7 @@ const formAttrs = computed(() => {
       if (_.isObject(conf.visible) && checkConfigIsVisible(conf.visible)) return conf
       if (_.isArray(conf.visible)) {
         const _visible = conf.visible
-        const isCheck = _visible.some((it: Object) => { return checkConfigIsVisible(it) })
+        const isCheck = Array.isArray(_visible) && _visible.some((it: Object) => { return checkConfigIsVisible(it) })
         if (isCheck) return conf
       }
     } else if (_.isBoolean(conf.visible)) {
