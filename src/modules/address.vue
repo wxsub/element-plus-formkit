@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getConfigure } from '@/config.ts'
+import { getConfigure } from '@/config'
 
 import type { CascaderProps } from 'element-plus'
 const props = defineProps({

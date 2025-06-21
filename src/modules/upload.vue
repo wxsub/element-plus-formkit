@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Upload from '@/utils/upload.class'
 import { isString } from 'lodash'
-import { uuid } from '@/utils/util.ts'
+import { v4 as uuidv4 } from 'uuid'
 
 const props = defineProps({
     modelValue: { type: [String, Array] },
@@ -18,7 +18,7 @@ const props = defineProps({
 })
 
 const loading = ref(false),
-    uuid = ref(uuid()),
+    uuid = ref(uuidv4()),
     fileBucket = ref<any>([]);
 
 const emit = defineEmits(['update:modelValue']);

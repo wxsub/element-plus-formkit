@@ -1,4 +1,13 @@
-import { FormItemRule } from "element-plus"
+export interface FormItemRule {
+  trigger?: string | string[];
+  required?: boolean;
+  message?: string;
+  min?: number;
+  max?: number;
+  len?: number;
+  pattern?: RegExp;
+  validator?: (rule: any, value: any, callback: (error?: Error) => void) => void;
+}
 
 export interface ConfigInterface {
   type?: string;

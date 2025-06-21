@@ -1,55 +1,86 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import dts from 'vite-plugin-dts'
-import { resolve } from 'path'
+import vue from "@vitejs/plugin-vue"
 
-const __dirname = resolve()
+import { UserConfig, ConfigEnv, loadEnv, defineConfig } from "vite"
 
-export default defineConfig({
-  plugins: [
-    vue({
-      reactivityTransform: true
-    }),
-    dts({
-      outDir: 'types',
-      staticImport: true,
-      insertTypesEntry: true,
-      tsconfigPath: resolve(__dirname, 'tsconfig.json'),
-      compilerOptions: {
-        declaration: true,
-        emitDeclarationOnly: true,
-        noEmit: false
-      }
-    })
-  ],
-  build: {
-    lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
-      name: 'FormKit',
-      fileName: (format: string) => `formkit.${format}.js`,
-      formats: ['es', 'umd']
-    },
-    rollupOptions: {
-      external: ['vue', 'element-plus', 'lodash'],
-      output: {
-        globals: {
-          vue: 'Vue',
-          'element-plus': 'ElementPlus',
-          lodash: '_'
-        },
-        exports: 'named'
+import tailwindcss from "tailwindcss"
+import autoprefixer from "autoprefixer"
+
+import AutoImport from "unplugin-auto-import/vite"
+import { ElementPlusResolver } from "unplugin-vue-components/resolvers"
+
+import Icons from "unplugin-icons/vite"
+import IconsResolver from "unplugin-icons/resolver"
+
+import { createSvgIconsPlugin } from "vite-plugin-svg-icons"
+
+import path from "path"
+
+const pathSrc = path.resolve(__dirname, "src");
+export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
+  const env = loadEnv(mode, process.cwd());
+  return {
+    resolve: { alias: { "@": pathSrc } },
+    css: {
+      modules: {
+        generateScopedName: env.VITE_USER_NODE_ENV === 'production' ? '[hash:base64:6]' : '[name]__[local]'
       },
+      preprocessorOptions: {
+        scss: {
+          javascriptEnabled: true,
+          additionalData: `@use "@/variables.scss" as *;`
+        }
+      },
+      postcss: {
+        plugins: [tailwindcss(), autoprefixer()]
+      }
     },
-    emptyOutDir: true,
-    outDir: 'dist',
-    target: 'esnext',
-    cssCodeSplit: false,
-    assetsInlineLimit: 0,
-    manifest: false
-  },
-  resolve: {
-    alias: {
-      '@': resolve(__dirname, 'src')
+    plugins: [
+      vue(),
+      AutoImport({
+        imports: ["vue", "@vueuse/core"],
+        dirs: ["src/composable"],
+        resolvers: [ElementPlusResolver(), IconsResolver({ prefix: 'i' })],
+        eslintrc: {
+          enabled: false,
+          filepath: "./.eslintrc-auto-import.json",
+          globalsPropValue: true
+        },
+        vueTemplate: true,
+        dts: 'src/types/auto-imports.d.ts'
+      }),
+      Icons({ autoInstall: true }),
+      createSvgIconsPlugin({
+        iconDirs: [path.resolve(pathSrc, "assets/icons")],
+        symbolId: "icon-[dir]-[name]"
+      })
+    ],
+    optimizeDeps: {
+      include: ["vue", "@vueuse/core"]
+    },
+    build: {
+      lib: {
+        entry: path.resolve(__dirname, 'src/index.ts'),
+        name: 'FormKit',
+        fileName: (format: string) => `formkit.${format}.js`,
+        formats: ['es', 'umd']
+      },
+      rollupOptions: {
+        external: ['vue', 'element-plus', 'lodash'],
+        output: {
+          globals: {
+            vue: 'Vue',
+            'element-plus': 'ElementPlus',
+            lodash: '_'
+          },
+          exports: 'named'
+        },
+      },
+      emptyOutDir: true,
+      outDir: 'packages',
+      target: 'esnext',
+      cssCodeSplit: false,
+      assetsInlineLimit: 0,
+      manifest: false
     }
   }
-});
+})

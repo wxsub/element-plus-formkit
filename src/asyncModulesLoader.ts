@@ -3,7 +3,7 @@ import type { Component } from 'vue';
 
 const asyncElementPlus = (componentName: string): Component => {
   return defineAsyncComponent(() => 
-    import('element-plus').then(module => module[componentName] as any)
+    import('element-plus').then(module => (module as any)[componentName])
   )
 };
 

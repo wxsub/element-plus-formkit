@@ -18,20 +18,27 @@
             :class="{[FormKit['auto-alignment']]: isAutoAlignment }"
             :prop="conf.key"
             :rules="conf.rules">
-            <component
-              v-if="conf.type"
-              :is="loader(conf.type)"
-              :ref="`module-${conf.key}`"
-              :disabled="conf['disabled']"
-              v-model="modelValue[conf.key]"
-              :options="conf.options || buckets[conf.key]"
-              v-on="conf.events || {}"
-              v-bind="conf.props"
-              @change="mutation($event, conf)"
-              :key="`module-${conf.key}-${ComponentUpdateTrigger[conf.key] || 0}`">
-            </component>
-            <slot :name="conf.key" :row="conf" :value="modelValue[conf.key]" :size="size" />
-            <p v-if="conf.hint" :class="[FormKit['item-hint'], 'w-full']" v-html="conf.hint"/>
+            <Suspense>
+              <template #default>
+                <component
+                  v-if="conf.type"
+                  :is="loader(conf.type)"
+                  :ref="`module-${conf.key}`"
+                  :disabled="conf['disabled']"
+                  v-model="modelValue[conf.key]"
+                  :options="conf.options || buckets[conf.key]"
+                  v-on="conf.events || {}"
+                  v-bind="conf.props"
+                  @change="mutation($event, conf)"
+                  :key="`module-${conf.key}-${ComponentUpdateTrigger[conf.key] || 0}`">
+                </component>
+              </template>
+              <template #fallback>
+                <div :class="FormKit.isLoading">
+                  <div :class="FormKit.loader" />
+                </div>
+              </template>
+            </Suspense>
           </el-form-item>
         </el-col>
         <slot name="append" />
@@ -42,12 +49,11 @@
 </template>
 
 <script setup lang="ts">
-import { modules } from './module-registry'
+import { modules } from '@/module-registry'
 import { ElForm } from 'element-plus'
 import { ElMessage } from "element-plus"
-import _ from 'lodash'
-import { ref, reactive, onMounted, computed, watchEffect, ComputedRef, defineAsyncComponent } from 'vue'
-import { ConfigInterface, FormKitExposed } from './formkit-types'
+import { isObject, isNumber, isArray, isBoolean, isFunction } from 'lodash'
+import { ConfigInterface, FormKitExposed } from './types/formkit-types'
 
 const UNIQUE_KEY = ref(Number(new Date())),
     FormKitRef = ref<InstanceType<typeof ElForm> & FormKitExposed>(),
@@ -93,19 +99,19 @@ const formAttrs = computed(() => {
   return props.columns === 'auto'
 }), setSpanAttrs = computed(() => {
   const columnsValue = props.columns as number;
-  return _.isNumber(columnsValue) ? 24 / columnsValue : null
+  return isNumber(columnsValue) ? 24 / columnsValue : null
 }), configs: ComputedRef<ConfigInterface[]> = computed(() => {
   return props.config.filter((conf: ConfigInterface) => {
     if (conf?.visible === undefined) return conf
-    if (_.isObject(conf.visible) || _.isArray(conf.visible)) {
+    if (isObject(conf.visible) || isArray(conf.visible)) {
       fixedPointClearValidate(conf)
-      if (_.isObject(conf.visible) && checkConfigIsVisible(conf.visible)) return conf
-      if (_.isArray(conf.visible)) {
+      if (isObject(conf.visible) && checkConfigIsVisible(conf.visible)) return conf
+      if (isArray(conf.visible)) {
         const _visible = conf.visible
         const isCheck = Array.isArray(_visible) && _visible.some((it: Object) => { return checkConfigIsVisible(it) })
         if (isCheck) return conf
       }
-    } else if (_.isBoolean(conf.visible)) {
+    } else if (isBoolean(conf.visible)) {
       if (conf.visible) return conf
     } else {
       console.warn('visible field has been set, but it is not an [array, object, Boolean]!')
@@ -170,7 +176,7 @@ async function executeRequestStack() {
 	  try {
       const { request, key, handle } = iterator,
         response = Object.prototype.toString.call(request) === '[object Function]' ? await request() : await request;
-      if (_.isFunction(handle)) {
+      if (isFunction(handle)) {
         buckets[key] = handle(response)
       } else {
         const { data = [], code } = response || {}
@@ -211,6 +217,35 @@ defineExpose<FormKitExposed>({
 .item-hint { margin: 0; color: #888888; font-weight: 300; font-size: 12px; line-height: 24px }
 .formKit-list-item { display: inline-block; width: 100% }
 .auto-alignment { margin-bottom: 0 }
+.isLoading {
+  display: inline-flex;
+  justify-content: center;
+  padding: 0 4px;
+  .loader {
+    width: 30px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 8px solid #514b82;
+    animation:
+      l20-1 0.8s infinite linear alternate,
+      l20-2 1.6s infinite linear;
+  }
+  @keyframes l20-1{
+    0%    {clip-path: polygon(50% 50%,0       0,  50%   0%,  50%    0%, 50%    0%, 50%    0%, 50%    0% )}
+    12.5% {clip-path: polygon(50% 50%,0       0,  50%   0%,  100%   0%, 100%   0%, 100%   0%, 100%   0% )}
+    25%   {clip-path: polygon(50% 50%,0       0,  50%   0%,  100%   0%, 100% 100%, 100% 100%, 100% 100% )}
+    50%   {clip-path: polygon(50% 50%,0       0,  50%   0%,  100%   0%, 100% 100%, 50%  100%, 0%   100% )}
+    62.5% {clip-path: polygon(50% 50%,100%    0, 100%   0%,  100%   0%, 100% 100%, 50%  100%, 0%   100% )}
+    75%   {clip-path: polygon(50% 50%,100% 100%, 100% 100%,  100% 100%, 100% 100%, 50%  100%, 0%   100% )}
+    100%  {clip-path: polygon(50% 50%,50%  100%,  50% 100%,   50% 100%,  50% 100%, 50%  100%, 0%   100% )}
+  }
+  @keyframes l20-2{ 
+    0%    {transform:scaleY(1)  rotate(0deg)}
+    49.99%{transform:scaleY(1)  rotate(135deg)}
+    50%   {transform:scaleY(-1) rotate(0deg)}
+    100%  {transform:scaleY(-1) rotate(-135deg)}
+  }
+}
 </style>
 
 <style lang="scss">

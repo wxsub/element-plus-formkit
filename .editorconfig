@@ -1,0 +1,14 @@
+# http://editorconfig.org
+root = true
+
+[*]
+charset = utf-8 # Set the file character set to utf-8
+end_of_line = lf # Control newline type (lf | cr | crlf)
+indent_style = space # Indentation style (tab | space)
+indent_size = 2 # 缩进大小
+insert_final_newline = true # 始终在文件末尾插入一个新行
+
+# md files apply the following rules
+[*.md]
+max_line_length = off # Turn off maximum line length limit
+trim_trailing_whitespace = false # Turn off trailing space trimming

@@ -1,31 +1,79 @@
 {
   "name": "element-plus-formkit",
-  "private": true,
   "version": "0.0.1",
-  "type": "module",
-  "main": "dist/formkit.umd.js",
-  "module": "dist/formkit.es.js",
-  "types": "types/index.d.ts",
-  "files": ["dist", "types"],
   "scripts": {
-    "build": "vite build && tsc",
-    "prepublish": "pnpm run build",
-    "clean": "bash scripts/clean.sh"
+    "build": "vite build --mode development && vue-tsc --noEmit",
+    "build:production": "vite build --mode production && vue-tsc --noEmit",
+    "lint:eslint": "eslint  --fix --ext .ts,.js,.vue ./src ",
+    "lint:prettier": "prettier --write \"**/*.{js,cjs,ts,json,tsx,css,less,scss,vue,html,md}\"",
+    "lint:stylelint": "stylelint  \"**/*.{css,scss,vue}\" --fix"
   },
-  "peerDependencies": {
-    "element-plus": "^2.0.0",
-    "lodash": "^4.0.0",
-    "vue": "^3.0.0"
+  "lint-staged": {
+    "*.{js,ts}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{cjs,json}": [
+      "prettier --write"
+    ],
+    "*.{vue,html}": [
+      "eslint --fix",
+      "prettier --write",
+      "stylelint --fix"
+    ],
+    "*.{scss,css}": [
+      "stylelint --fix",
+      "prettier --write"
+    ],
+    "*.md": [
+      "prettier --write"
+    ]
+  },
+  "type": "module",
+  "dependencies": {
+    "@vitejs/plugin-vue": "^4.4.0",
+    "@vueuse/core": "^10.1.2",
+    "element-plus": "^2.3.14",
+    "lodash": "^4.17.21",
+    "uuid": "^11.0.3",
+    "vue": "^3.3.4"
   },
   "devDependencies": {
-    "@types/node": "^24.0.3",
-    "@vitejs/plugin-vue": "^4.5.2",
-    "element-plus": "^2.5.4",
-    "lodash": "^4.17.21",
-    "typescript": "^5.2.2",
-    "vite": "^5.0.12",
-    "vite-plugin-dts": "^3.8.1",
-    "vue": "^3.3.13"
+    "@commitlint/cli": "^17.6.3",
+    "@commitlint/config-conventional": "^17.6.3",
+    "@iconify-json/ep": "^1.1.10",
+    "@types/lodash": "^4.14.195",
+    "@types/stompjs": "^2.3.5",
+    "@typescript-eslint/eslint-plugin": "^5.59.6",
+    "@typescript-eslint/parser": "^5.59.6",
+    "autoprefixer": "^10.4.19",
+    "eslint": "^8.40.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.28.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-vue": "^9.13.0",
+    "lint-staged": "^13.2.2",
+    "postcss": "^8.4.38",
+    "postcss-html": "^1.5.0",
+    "postcss-scss": "^4.0.6",
+    "prettier": "^2.8.8",
+    "sass": "^1.58.3",
+    "ssh2-sftp-client": "^12.0.0",
+    "stylelint": "^15.10.2",
+    "stylelint-config-html": "^1.1.0",
+    "stylelint-config-recess-order": "^4.0.0",
+    "stylelint-config-recommended-scss": "^12.0.0",
+    "stylelint-config-recommended-vue": "^1.5.0",
+    "stylelint-config-standard": "^34.0.0",
+    "stylelint-config-standard-scss": "^10.0.0",
+    "tailwindcss": "^3.4.3",
+    "typescript": "^5.7.2",
+    "unplugin-auto-import": "^0.15.3",
+    "unplugin-icons": "^0.16.1",
+    "unplugin-vue-components": "^0.24.1",
+    "vite": "^4.4.11",
+    "vite-plugin-svg-icons": "^2.0.1",
+    "vue-tsc": "^2.1.10"
   },
   "repository": {
     "type": "git",
@@ -39,6 +87,9 @@
     "el-form",
     "element-plus"
   ],
-  "author": "wxsub",
-  "license": "MIT"
+  "author": "wxsub.com studios © 2023",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
 }
