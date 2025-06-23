@@ -76,7 +76,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         },
       },
       emptyOutDir: true,
-      outDir: 'packages',
+      outDir: 'dist',
       target: 'esnext',
       cssCodeSplit: false,
       assetsInlineLimit: 0,
