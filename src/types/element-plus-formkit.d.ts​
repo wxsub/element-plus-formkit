@@ -1,0 +1,22 @@
+declare module 'element-plus-formkit' {
+  import { Plugin } from 'vue'
+  import FormKit from '@/formkit.vue'
+  import { setConfigure, getConfigure, registerModule, configType } from '@/config'
+  
+  const ElementPlusFormkit: Plugin
+  export default ElementPlusFormkit
+  
+  export const FormKit: typeof FormKit
+  export const Address: any
+  export const Checkbox: any
+  export const Select: any
+  export const InputNumber: any
+  export const Popover: any
+  export const Radio: any
+  export const RemoteSearchSelect: any
+  export const Upload: any
+  
+  export { setConfigure, getConfigure, registerModule }
+  
+  export type { configType, FormKitExposed, ConfigInterface } from '@/types/formkit-types'
+}
