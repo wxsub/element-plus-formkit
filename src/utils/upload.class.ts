@@ -1,4 +1,4 @@
-import { getConfigure } from '../config.ts'
+import { getConfigure } from '../config'
 
 type UploadProgressListener = (percentage: number) => void;
 type UploadCompletedListener = (response: any) => void;
@@ -11,8 +11,8 @@ class FileUploader {
   private onError: UploadErrorListener;
   private xhr: XMLHttpRequest | null = null;
 
-  constructor(uploadUrl: string = getConfigure().uploadUrl) {
-    this.uploadUrl = uploadUrl;
+  constructor(uploadUrl: string) {
+    this.uploadUrl = uploadUrl || getConfigure('uploadUrl').toString();
     this.onProgress = () => {};
     this.onComplete = () => {};
     this.onError = () => {};
@@ -52,7 +52,7 @@ class FileUploader {
       });
 
       this.xhr.addEventListener('load', () => {
-        if (this.xhr?.status >= 200 && this.xhr.status < 300) {
+        if (this.xhr && this.xhr.status >= 200 && this.xhr.status < 300) {
           try {
             const response = JSON.parse(this.xhr.responseText);
             this.onComplete(response);

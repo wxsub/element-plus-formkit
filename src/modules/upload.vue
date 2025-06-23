@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid'
 const props = defineProps({
     modelValue: { type: [String, Array] },
     limit: { type: Number, default: 1 },
+    uploadUrl: { type: String, default: '' },
     autoUpload: { type: Boolean, default: true },
     isCustom: { type: Boolean, default: false },
     beforeUpload: { type: Function, default: null },
@@ -68,9 +69,9 @@ const change = (e: Event) => {
 const uploading = async () => {
     for (const item of (fileBucket.value || [])) {
         if (item.status === 1) continue
-        const upload = new Upload()
+        const upload = new Upload(props.uploadUrl)
         if (upload.isValidFileType(item.file, props.accept)) {
-            await beforeUpload(item)
+            await props.beforeUpload(item)
             upload.action(item.file, props.parameterHandler)
         } else {
             item.progress = 0

@@ -55,7 +55,7 @@ const fetchAddressData = (pid: any, nodeLevel = 1) => {
     try {
       const network = fetchNetWork();
       if (network) {
-        const response = await network(pid, nodeLevel),
+        const response = typeof network === 'function' ? await network(pid, nodeLevel) : null,
           nodes: any = [];
         if (Array.isArray(response) && response.length > 0) {
           response.map((item) => {
