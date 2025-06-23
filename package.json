@@ -1,6 +1,6 @@
 {
   "name": "element-plus-formkit",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "scripts": {
     "build": "vite build --mode development && vue-tsc --noEmit",
     "build:production": "vite build --mode production && vue-tsc --noEmit",
