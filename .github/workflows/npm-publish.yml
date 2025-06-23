@@ -16,12 +16,16 @@ jobs:
         with:
           node-version: 20
           registry-url: 'https://registry.npmjs.org'
+          cache: 'pnpm'
+
+      - name: Install pnpm
+        run: npm install -g pnpm
 
       - name: Install dependencies
-        run: npm install
+        run: pnpm install
 
       - name: Build project
-        run: npm run build:production
+        run: pnpm run build:production
 
       - name: Publish to npm
         run: npm publish
