@@ -52,10 +52,11 @@
 import { modules } from '@/module-registry'
 import { ElForm } from 'element-plus'
 import { ElMessage } from "element-plus"
+import { v4 as uuidv4 } from 'uuid'
 import { isObject, isNumber, isArray, isBoolean, isFunction } from 'lodash'
 import { ConfigInterface, FormKitExposed } from 'types/formkit-types'
 
-const UNIQUE_KEY = ref(Number(new Date())),
+const UNIQUE_KEY = ref(uuidv4()),
     FormKitRef = ref<InstanceType<typeof ElForm> & FormKitExposed>(),
 	  Stacks: Array<object> = reactive([]),
     emits = defineEmits(["update:modelValue", "update:config", "update", "enter"]);
