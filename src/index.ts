@@ -24,7 +24,7 @@ export {
   Upload
 };
 
-export type { FormKitExposed, ConfigInterface } from './types/formkit-types.ts'
+export type { FormKitExposed, ConfigInterface } from 'types/formkit-types.ts'
 
 export { setConfigure, getConfigure }
 

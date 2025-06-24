@@ -14,7 +14,8 @@
     "allowJs": true,
     "paths": {
       "@/*": ["src/*"],
-      "@types/auto-imports": ["src/types/auto-imports"]
+      "types": ["types/*"],
+      "@types/auto-imports": ["types/auto-imports"]
     },
     "types": [
       "vite/client",

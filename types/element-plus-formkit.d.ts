@@ -5,14 +5,14 @@ declare module 'element-plus-formkit' {
   const ElementPlusFormkit: Plugin & {
     install: (app: App) => void;
     FormKit: typeof FormKitComponent;
-    Address: any;
-    Checkbox: any;
-    Select: any;
-    InputNumber: any;
-    Popover: any;
-    Radio: any;
-    RemoteSearchSelect: any;
-    Upload: any;
+    Address: typeof import('@/modules/address.vue').default;
+    Checkbox: typeof import('@/modules/checkbox.vue').default;
+    Select: typeof import('@/modules/select.vue').default;
+    InputNumber: typeof import('@/modules/inputNumber.vue').default;
+    Popover: typeof import('@/modules/popover.vue').default;
+    Radio: typeof import('@/modules/radio.vue').default;
+    RemoteSearchSelect: typeof import('@/modules/remoteSearchSelect.vue').default;
+    Upload: typeof import('@/modules/upload.vue').default;
     
     setConfigure: typeof import('@/config').setConfigure;
     getConfigure: typeof import('@/config').getConfigure;

@@ -53,7 +53,7 @@ import { modules } from '@/module-registry'
 import { ElForm } from 'element-plus'
 import { ElMessage } from "element-plus"
 import { isObject, isNumber, isArray, isBoolean, isFunction } from 'lodash'
-import { ConfigInterface, FormKitExposed } from './types/formkit-types'
+import { ConfigInterface, FormKitExposed } from 'types/formkit-types'
 
 const UNIQUE_KEY = ref(Number(new Date())),
     FormKitRef = ref<InstanceType<typeof ElForm> & FormKitExposed>(),

@@ -19,7 +19,7 @@ const pathSrc = path.resolve(__dirname, "src");
 export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
   const env = loadEnv(mode, process.cwd());
   return {
-    resolve: { alias: { "@": pathSrc } },
+    resolve: { alias: { "@": pathSrc, "types": path.resolve(__dirname, "types") } },
     css: {
       modules: {
         generateScopedName: env.VITE_USER_NODE_ENV === 'production' ? '[hash:base64:6]' : '[name]__[local]'
@@ -46,7 +46,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
           globalsPropValue: true
         },
         vueTemplate: true,
-        dts: 'src/types/auto-imports.d.ts'
+        dts: 'types/auto-imports.d.ts'
       }),
       Icons({ autoInstall: true }),
       createSvgIconsPlugin({
@@ -72,7 +72,13 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
             'element-plus': 'ElementPlus',
             lodash: '_'
           },
-          exports: 'named'
+          exports: 'named',
+          assetFileNames: (assetInfo) => {
+            if (assetInfo.name?.endsWith('.d.ts')) {
+              return 'types/[name][extname]';
+            }
+            return 'assets/[name][extname]';
+          }
         },
       },
       emptyOutDir: true,
