@@ -4,6 +4,7 @@ node_modules
 packages
 dist
 .vuepress
+.packages
 
 # Editor directories and files
 .idea
