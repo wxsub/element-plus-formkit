@@ -6,7 +6,7 @@
   "types": "types/element-plus-formkit.d.ts",
   "files": [
     "dist",
-    "src/types"
+    "types"
   ],
   "scripts": {
     "dev": "node scripts/start-dev.mjs",
@@ -83,7 +83,6 @@
     "unplugin-icons": "^0.16.1",
     "unplugin-vue-components": "^0.24.1",
     "vite": "^4.4.11",
-    "vite-plugin-svg-icons": "^2.0.1",
     "vue-tsc": "^2.1.10"
   },
   "repository": {
