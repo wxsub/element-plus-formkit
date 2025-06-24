@@ -1,36 +1,193 @@
-## 快速开始
+## 基础组件使用
+Element-Plus-Formkit基础组件包含: {{ Array.from(new Set(FormKitConfig.map((it) => (it.type)))).join(" 、 ") }}
 
-这是一个普通的页面，其中包含 Element-Plus-Formkit 基础知识.
+<div>
+    <FormKit v-model="dataset" :config="FormKitConfig" />
+</div>
 
-## Pages
+::: code-tabs
+@tab Template
+```vue
+<FormKit v-model="dataset" :config="FormKitConfig" />
+```
 
-You can add markdown files in your vuepress directory, every markdown file will be converted to a page in your site.
+@tab TypeScript
+```ts
+<script setup>
+import { ref, computed } from 'vue';
 
-See [routing][] for more details.
+const dataset = ref({})
 
-## Content
+const FormKitConfig = computed(() => {
+    return [
+        {
+            type: 'input',
+            label: '姓名 (Name)',
+            key: 'password',
+            props: { placeholder: '请输入姓名' }
+        },
+        {
+            type: 'select',
+            label: '性别 (Sex)',
+            key: 'sex',
+            props: { placeholder: '请选择性别' },
+            options: [
+                { name: '男 man', id: 1 },
+                { name: '女 woman', id: 2 }
+            ]
+        },
+        {
+            type: 'datePicker',
+            label: '出生日期 (Birthday)',
+            key: 'birthday',
+            props: {
+                placeholder: '请选择出生日期',
+                valueFormat: "YYYY-MM-DD",
+                type: "date",
+                style: { width: '100%' }
+            }
+        },
+        {
+            type: 'datePicker',
+            label: '身份证有效期 (I.D. validity period)',
+            key: 'idDate',
+            props: {
+                placeholder: '请选择身份证有效期',
+                valueFormat: "YYYY-MM-DD",
+                type: "daterange",
+                startPlaceholder: '开始时间 Start Time',
+                endPlaceholder: '结束时间 End Time',
+                style: { width: '100%' }
+            }
+        },
+        {
+            type: 'inputNumber',
+            label: '输入数字 (inputNumber)',
+            rules: [
+                { required: true, message: '输入数字不能为空' }
+            ],
+            key: 'inputNumber',
+            props: {
+                style: { width: '100%' },
+                placeholder: '请输入数字',
+                min: 0
+            }
+        },
+        {
+            type: 'rate',
+            label: '等级 (Rate)',
+            key: 'sex'
+        },
+        {
+            type: 'radio',
+            label: '是否显示隐藏项 (Show hidden items)',
+            key: 'show',
+            options: [
+                { name: '是 Yes', id: true },
+                { name: '否 No', id: false }
+            ]
+        },
+        {
+            type: 'input',
+            label: '隐藏项 (hidden item)',
+            key: 'password',
+            visible: { key: 'show' },
+            props: { placeholder: '请输入隐藏项' }
+        }
+    ]
+})
+</script>
+```
+:::
 
-Every markdown file [will be rendered to HTML, then converted to a Vue SFC][content].
+::: tip
+visible属性支持：Object、Array、Boolean
+:::
 
-VuePress support basic markdown syntax and [some extensions][synatex-extensions], you can also [use Vue features][vue-feature] in it.
+## 高级组件使用
+## 文件上传
 
-## Configuration
+<script setup>
+import { ref, computed } from 'vue';
 
-VuePress use a `.vuepress/config.js`(or .ts) file as [site configuration][config], you can use it to config your site.
+const dataset = ref({})
 
-For [client side configuration][client-config], you can create `.vuepress/client.js`(or .ts).
-
-Meanwhile, you can also add configuration per page with [frontmatter][].
-
-## Layouts and customization
-
-Here are common configuration controlling layout of `@vuepress/theme-default`:
-
-- [navbar][]
-- [sidebar][]
-
-Check [default theme docs][default-theme] for full reference.
-
-You can [add extra style][style] with `.vuepress/styles/index.scss` file.
-
-## 快速开始1
+const FormKitConfig = computed(() => {
+    return [
+        {
+            type: 'input',
+            label: '姓名 (Name)',
+            key: 'password',
+            props: { placeholder: '请输入姓名' }
+        },
+        {
+            type: 'select',
+            label: '性别 (Sex)',
+            key: 'sex',
+            props: { placeholder: '请选择性别' },
+            options: [
+                { name: '男 man', id: 1 },
+                { name: '女 woman', id: 2 }
+            ]
+        },
+        {
+            type: 'datePicker',
+            label: '出生日期 (Birthday)',
+            key: 'birthday',
+            props: {
+                placeholder: '请选择出生日期',
+                valueFormat: "YYYY-MM-DD",
+                type: "date",
+                style: { width: '100%' }
+            }
+        },
+        {
+            type: 'datePicker',
+            label: '身份证有效期 (I.D. validity period)',
+            key: 'idDate',
+            props: {
+                placeholder: '请选择身份证有效期',
+                valueFormat: "YYYY-MM-DD",
+                type: "daterange",
+                startPlaceholder: '开始时间 Start Time',
+                endPlaceholder: '结束时间 End Time',
+                style: { width: '100%' }
+            }
+        },
+        {
+            type: 'inputNumber',
+            label: '输入数字 (inputNumber)',
+            rules: [
+                { required: true, message: '输入数字不能为空' }
+            ],
+            key: 'inputNumber',
+            props: {
+                style: { width: '100%' },
+                placeholder: '请输入数字',
+                min: 0
+            }
+        },
+        {
+            type: 'rate',
+            label: '等级 (Rate)',
+            key: 'sex'
+        },
+        {
+            type: 'radio',
+            label: '是否显示隐藏项 (Show hidden items)',
+            key: 'show',
+            options: [
+                { name: '是 Yes', id: true },
+                { name: '否 No', id: false }
+            ]
+        },
+        {
+            type: 'input',
+            label: '隐藏项 (hidden item)',
+            key: 'password',
+            visible: { key: 'show' },
+            props: { placeholder: '请输入隐藏项' }
+        }
+    ]
+})
+</script>
