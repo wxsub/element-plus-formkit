@@ -11,8 +11,6 @@ import { ElementPlusResolver } from "unplugin-vue-components/resolvers"
 import Icons from "unplugin-icons/vite"
 import IconsResolver from "unplugin-icons/resolver"
 
-import { createSvgIconsPlugin } from "vite-plugin-svg-icons"
-
 import path from "path"
 
 const pathSrc = path.resolve(__dirname, "src");
@@ -48,11 +46,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         vueTemplate: true,
         dts: 'types/auto-imports.d.ts'
       }),
-      Icons({ autoInstall: true }),
-      createSvgIconsPlugin({
-        iconDirs: [path.resolve(pathSrc, "assets/icons")],
-        symbolId: "icon-[dir]-[name]"
-      })
+      Icons({ autoInstall: true })
     ],
     optimizeDeps: {
       include: ["vue", "@vueuse/core"]
