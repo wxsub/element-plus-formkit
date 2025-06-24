@@ -1,6 +1,6 @@
 {
   "name": "element-plus-formkit",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "dist/formkit.umd.js",
   "module": "dist/formkit.es.js",
   "types": "src/types/element-plus-formkit.d.ts",
