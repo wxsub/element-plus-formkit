@@ -63,7 +63,7 @@ async function main() {
 
     const buildSpinner = ora('Building...').start();
     try {
-      const service = await startService('pnpm watch', rootDir);
+      const service = await startService('pnpm build', rootDir);
       await new Promise((resolve) => service.on('close', resolve));
       buildSpinner.succeed('Build Success');
     } catch (error) {
