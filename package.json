@@ -1,9 +1,10 @@
 {
   "name": "element-plus-formkit",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "dist/formkit.umd.js",
   "module": "dist/formkit.es.js",
   "types": "src/types/element-plus-formkit.d.ts",
+  "files": ["dist", "src/types"],
   "scripts": {
     "build": "vite build --mode development && vue-tsc --noEmit",
     "build:production": "vite build --mode production && vue-tsc --noEmit",
