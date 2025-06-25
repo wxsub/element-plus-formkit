@@ -16,7 +16,7 @@ pnpm add element-plus-formkit
 // main.ts
 import { createApp } from 'vue';
 import App from './App.vue';
-import FormKit, { setFormKitConfig, registerFormKitModule } from 'element-plus-formkit';
+import FormKit, { setConfigure, registerModule } from 'element-plus-formkit';
 
 const app = createApp(App);
 app.use(FormKit);
@@ -24,11 +24,11 @@ app.use(FormKit);
 app.mount('#app');
 ```
 
-### registerFormKitModule
+### registerModule
 Formkit allows you to register customized components
 ```
 import CustomEditor from './components/CustomEditor.vue'
-registerFormKitModule('customEditor', CustomEditor)
+registerModule('customEditor', CustomEditor)
 
 // formkit item config
 {
@@ -38,11 +38,11 @@ registerFormKitModule('customEditor', CustomEditor)
 }
 ```
 
-### setFormKitConfig
+### setConfigure
 Formkit accepts a number of global configuration parameters, e.g. file upload network address, etc.
 ```
 // Set global configuration (can be set before or after installation)
-setFormKitConfig({
+setConfigure({
   uploadUrl: 'https://api.example.com/upload',
   apiAdapter: async (url, data) => {
     const response = await fetch(url, {
