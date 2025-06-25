@@ -22,6 +22,7 @@ declare module 'element-plus-formkit' {
   export default ElementPlusFormkit;
   
   export const FormKit: typeof FormKitComponent;
+  export type Instance = InstanceType<typeof FormKitComponent>
   export const Address: any;
   export const Checkbox: any;
   export const Select: any;

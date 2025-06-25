@@ -2,7 +2,8 @@
 Element-Plus-Formkit基础组件包含: {{ Array.from(new Set(FormKitConfig.map((it) => (it.type)))).join(" 、 ") }}
 
 <div>
-    <FormKit v-model="dataset" :config="FormKitConfig" />
+    <FormKit v-model="dataset" :config="FormKitConfig" ref="dataSetFormRef" />
+    <el-button color="#626aef" @click="submit">表单校验 form validation</el-button>
 </div>
 
 ::: code-tabs
@@ -107,10 +108,16 @@ visible属性支持：Object、Array、Boolean
 ## 高级组件使用
 ## 文件上传
 
-<script setup>
+<script setup lang="ts">
+import type { Instance } from 'element-plus-formkit'
 import { ref, computed } from 'vue';
 
-const dataset = ref({})
+const dataset = ref({}),
+    dataSetFormRef = ref<Instance>();
+
+async function submit() {
+    await dataSetFormRef.value?.validate()
+}
 
 const FormKitConfig = computed(() => {
     return [
