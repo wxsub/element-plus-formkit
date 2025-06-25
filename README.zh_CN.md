@@ -16,7 +16,7 @@ pnpm add element-plus-formkit
 // main.ts
 import { createApp } from 'vue';
 import App from './App.vue';
-import FormKit, { setFormKitConfig, registerFormKitModule } from 'element-plus-formkit';
+import FormKit, { setConfigure, registerModule } from 'element-plus-formkit';
 
 const app = createApp(App);
 app.use(FormKit);
@@ -24,11 +24,11 @@ app.use(FormKit);
 app.mount('#app');
 ```
 
-### registerFormKitModule
+### registerModule
 Formkit 允许您注册自定义组件
 ```
 import CustomEditor from './components/CustomEditor.vue'
-registerFormKitModule('customEditor', CustomEditor)
+registerModule('customEditor', CustomEditor)
 
 // formkit item config
 {
@@ -38,11 +38,11 @@ registerFormKitModule('customEditor', CustomEditor)
 }
 ```
 
-### setFormKitConfig
+### setConfigure
 Formkit 接受大量全局配置参数，如文件上传网络地址等。
 ```
 // 设置全局配置（可在安装前或安装后设置）
-setFormKitConfig({
+setConfigure({
   uploadUrl: 'https://api.example.com/upload',
   apiAdapter: async (url, data) => {
     const response = await fetch(url, {
