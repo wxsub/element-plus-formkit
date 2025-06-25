@@ -3,6 +3,7 @@ node_modules
 .pnpm-store
 packages
 dist
+.vuepress
 .packages
 
 # Editor directories and files
