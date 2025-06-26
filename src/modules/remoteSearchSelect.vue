@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ElSelect, ElOption } from 'element-plus'
+
 const props = defineProps({
   labelKey: { type: String, default: 'name' },
   valueKey: { type: String, default: 'id' },

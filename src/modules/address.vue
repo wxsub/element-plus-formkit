@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ElCascader } from 'element-plus'
 import { getConfigure } from '@/config'
 
 import type { CascaderProps } from 'element-plus'

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ElIcon, ElImage, ElButton, ElProgress } from 'element-plus'
 import Upload from '@/utils/upload.class'
 import { isString } from 'lodash'
 import { v4 as uuidv4 } from 'uuid'

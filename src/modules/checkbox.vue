@@ -15,6 +15,7 @@
 </template>
 
 <script setup lang="ts">
+import { ElCheckbox, ElCheckboxGroup } from 'element-plus'
 import { computed, ref, useAttrs } from 'vue'
 
 type ATTRS_TYPE = {
@@ -59,7 +60,7 @@ const isShowAllCheck = computed(() => {
   return label
 }), computedAttrs = computed<ATTRS_TYPE>(() => attrs);
 
-function checkAllChange(val: Array<any>) {
+function checkAllChange(val: any) {
   FormData = val ? [...props.options].map(it => it[attrs.valueKey || 'id']) : []
   isIndeterminate.value = false
 }

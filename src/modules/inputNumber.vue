@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ElInputNumber } from 'element-plus'
 const props = defineProps({
     prefix: { type: String, default: null },
     suffix: { type: String, default: null },
