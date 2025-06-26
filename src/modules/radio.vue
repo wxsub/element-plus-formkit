@@ -18,24 +18,26 @@
   </el-radio-group>
 </template>
 
-<script>
-export default {
-  name: 'FormKitRadio',
-  model: { prop: 'value', event: 'change' },
-  props: {
-    value: { default: null },
+<script setup lang="ts">
+import { ElRadio, ElRadioGroup, ElRadioButton } from 'element-plus'
+
+const props = defineProps({
+    modelValue: { default: null },
     type: { default: 'default' },
-    options: { type: Array, default: () => [] }
-  },
-  computed: {
-    _value: {
-      get() {
-        return this.value
-      },
-      set(newVal) {
-        this.$emit('change', newVal)
-      }
+    options: { type: Array<any>, default: () => [] }
+})
+
+const emit = defineEmits(['update:modelValue']);
+
+const $attrs = useAttrs() as { valueKey?: string; labelKey?: string };
+
+const _value: any = computed({
+    get: () => {
+        const { multiple } = useAttrs() || {}
+        return props.modelValue
+    },
+    set: (value) => {
+        emit('update:modelValue', value)
     }
-  }
-}
+})
 </script>
