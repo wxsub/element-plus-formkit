@@ -2,14 +2,10 @@ import vue from "@vitejs/plugin-vue"
 
 import { UserConfig, ConfigEnv, loadEnv, defineConfig } from "vite"
 
-import tailwindcss from "tailwindcss"
 import autoprefixer from "autoprefixer"
 
 import AutoImport from "unplugin-auto-import/vite"
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers"
-
-import Icons from "unplugin-icons/vite"
-import IconsResolver from "unplugin-icons/resolver"
 
 import path from "path"
 
@@ -29,7 +25,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         }
       },
       postcss: {
-        plugins: [tailwindcss(), autoprefixer()]
+        plugins: [autoprefixer()]
       }
     },
     plugins: [
@@ -37,7 +33,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       AutoImport({
         imports: ["vue", "@vueuse/core"],
         dirs: ["src/composable"],
-        resolvers: [ElementPlusResolver(), IconsResolver({ prefix: 'i' })],
+        resolvers: [ElementPlusResolver()],
         eslintrc: {
           enabled: false,
           filepath: "./.eslintrc-auto-import.json",
@@ -45,8 +41,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         },
         vueTemplate: true,
         dts: 'types/auto-imports.d.ts'
-      }),
-      Icons({ autoInstall: true })
+      })
     ],
     optimizeDeps: {
       include: ["vue", "@vueuse/core"]
