@@ -50,7 +50,7 @@
 
 <script setup lang="ts">
 import { modules } from '@/module-registry'
-import { ElForm } from 'element-plus'
+import { ElForm, ElRow, ElCol, ElFormItem } from 'element-plus'
 import { ElMessage } from "element-plus"
 import { v4 as uuidv4 } from 'uuid'
 import { isObject, isNumber, isArray, isBoolean, isFunction } from 'lodash'
@@ -100,7 +100,7 @@ const formAttrs = computed(() => {
   return props.columns === 'auto'
 }), setSpanAttrs = computed(() => {
   const columnsValue = props.columns as number;
-  return isNumber(columnsValue) ? 24 / columnsValue : null
+  return isNumber(columnsValue) ? 24 / columnsValue : -1;
 }), configs: ComputedRef<ConfigInterface[]> = computed(() => {
   return props.config.filter((conf: ConfigInterface) => {
     if (conf?.visible === undefined) return conf
