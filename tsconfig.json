@@ -18,8 +18,7 @@
       "@types/auto-imports": ["types/auto-imports"]
     },
     "types": [
-      "vite/client",
-      "unplugin-icons/types/vue"
+      "vite/client"
     ],
     "skipLibCheck": true /* Skip type checking all .d.ts files. */,
     "allowSyntheticDefaultImports": true /* Allow default import */,
