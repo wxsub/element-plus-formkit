@@ -39,19 +39,26 @@ registerModule('customEditor', CustomEditor)
 ```
 
 ### setConfigure
-Formkit accepts a number of global configuration parameters, e.g. file upload network address, etc.
+Formkit accepts a number of global configuration parameters, e.g. file upload network, etc.
 ```
 // Set global configuration (can be set before or after installation)
-setConfigure({
-  uploadUrl: 'https://api.example.com/upload',
-  apiAdapter: async (url, data) => {
-    const response = await fetch(url, {
-      method: 'POST',
-      body: data
-    });
-    return response.json();
-  }
-});
+import FormKit, { setConfigure } from 'element-plus-formkit'
+import type { UploadProgress } from 'element-plus-formkit/types/formkit-types'
+import 'element-plus-formkit/dist/index.css'
+
+setConfigure('upload', async (file: File, { onProgress }: { onProgress: UploadProgress }) => {
+    const UploadFormData = new FormData()
+    UploadFormData.append('file', file)
+    const response = await useAxios().post("/default/oss/upload", UploadFormData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+        onUploadProgress: (progressEvent) => {
+            const total = progressEvent.total || 1,
+                loaded = progressEvent.loaded;
+            onProgress({ total, loaded })
+        }
+    })
+    return response
+})
 
 app.use(FormKitPro, {
   // Optional: configuration can also be passed here (will be merged with setFormKitConfig)
