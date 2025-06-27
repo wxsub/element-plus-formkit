@@ -27,6 +27,24 @@ $breakpoints: (
   &::-webkit-scrollbar-track { background: transparent }
 }
 
+@for $i from 1 through 5 {
+  @if $i == 1 {
+    .ellipsis {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      word-break: break-all;
+    }
+  } @else {
+    .ellipsis-#{$i} {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: $i;
+      overflow: hidden;
+    }
+  }
+}
+
 .w-full { width: 100%; }
 .h-full { height: 100%; }
 .text-center { text-align: center; }
