@@ -1,21 +1,25 @@
 import { ref, type Ref } from 'vue';
+import type { UploadRequester } from 'types/formkit-types';
 
 export interface configType {
-  uploadUrl?: string;
-  addressNetWork?: Promise<any>;
-  [key: string]: any; // Add an index signature to allow dynamic property access
+  upload?: UploadRequester | null;
 }
 
 const defaultConfig: configType = {
-  uploadUrl: ''
+  upload: null
 };
 
 const globalConfig: Ref<configType> = ref(defaultConfig);
 
-export function setConfigure(config: Partial<configType>) {
-  globalConfig.value = { ...globalConfig.value, ...config };
+export function setConfigure<K extends keyof configType>(
+  name: K,
+  config: configType[K]
+) {
+  globalConfig.value[name] = config;
 }
 
-export function getConfigure(name: string): configType {
+export function getConfigure<T extends keyof configType>(
+  name: T
+): configType[T] {
   return globalConfig.value[name];
 }

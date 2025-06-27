@@ -31,3 +31,15 @@ export interface FormKitExposed {
   validate: (openTips?: boolean) => Promise<any>;
   clearValidate: () => void;
 }
+
+export interface UploadProgress {
+  loaded: number;
+  total: number;
+}
+
+export type UploadRequester = (
+  file: File, 
+  options: {
+    onProgress?: (progress: UploadProgress) => void
+  }
+) => Promise<string>;

@@ -1,110 +1,74 @@
-import { getConfigure } from '../config'
+import { getConfigure } from '@/config'
+import type { UploadRequester } from 'types/formkit-types'
 
 type UploadProgressListener = (percentage: number) => void;
 type UploadCompletedListener = (response: any) => void;
 type UploadErrorListener = (error: any) => void;
 
 class FileUploader {
-  private readonly uploadUrl: string;
-  private onProgress: UploadProgressListener;
-  private onComplete: UploadCompletedListener;
-  private onError: UploadErrorListener;
-  private xhr: XMLHttpRequest | null = null;
+  private onProgress: UploadProgressListener
+  private onComplete: UploadCompletedListener
+  private onError: UploadErrorListener
+  private requester?: UploadRequester | null
 
-  constructor(uploadUrl: string) {
-    this.uploadUrl = uploadUrl || getConfigure('uploadUrl').toString();
-    this.onProgress = () => {};
-    this.onComplete = () => {};
-    this.onError = () => {};
+  constructor(requester?: UploadRequester | null) {
+    this.onProgress = () => {}
+    this.onComplete = () => {}
+    this.onError = () => {}
+
+    this.requester = typeof window !== 'undefined' ? getConfigure('upload') || requester : null;
   }
 
   setProgressListener(listener: UploadProgressListener): void {
-    this.onProgress = listener;
+    this.onProgress = listener
   }
 
   setCompleteListener(listener: UploadCompletedListener): void {
-    this.onComplete = listener;
+    this.onComplete = listener
   }
 
   setErrorListener(listener: UploadErrorListener): void {
-    this.onError = listener;
+    this.onError = listener
   }
 
   isValidFileType(file: File, typePatterns: string): boolean {
-    const Types = typePatterns.split(',') || [];
-    return Types.some((pattern: string) => {
-      const regexPattern = pattern.trim().replace('*', '.*');
-      return new RegExp(`^${regexPattern}$`).test(file.type);
-    });
+    const Types = typePatterns.split(', ') || []
+    return Types.some((pattern: string) => (new RegExp(pattern)).test(file.type))
   }
 
-  async action(file: File, beforeUploadHandler?: Function): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.xhr = new XMLHttpRequest();
-      const formData = new FormData();
-      formData.append('file', file);
+  async action(file: File): Promise<void> {
+    try {
+      console.log(this.requester)
+      if (!this.requester) {
+        this.onError('Upload requester not configured. Call setConfigure(\'upload\', uploader) first.')
+        return
+      }
 
-      this.xhr.upload.addEventListener('progress', (event) => {
-        if (event.lengthComputable) {
-          const percentage = Math.round((event.loaded * 100) / event.total);
-          this.onProgress(percentage);
-        }
-      });
-
-      this.xhr.addEventListener('load', () => {
-        if (this.xhr && this.xhr.status >= 200 && this.xhr.status < 300) {
-          try {
-            const response = JSON.parse(this.xhr.responseText);
-            this.onComplete(response);
-            resolve();
-          } catch (e) {
-            this.onComplete(this.xhr.responseText);
-            resolve();
+      const response = await this.requester(file, {
+        onProgress: (progress) => {
+          if (progress.total > 0) {
+            const percentage = Math.round((progress.loaded / progress.total) * 100);
+            this.onProgress(percentage);
           }
-        } else {
-          this.handleError(this.xhr?.statusText || 'Upload failed');
-          reject(new Error(this.xhr?.statusText || 'Upload failed'));
         }
-      });
+      })
 
-      this.xhr.addEventListener('error', () => {
-        this.handleError('Network error');
-        reject(new Error('Network error'));
-      });
-
-      this.xhr.addEventListener('abort', () => {
-        this.handleError('Upload cancelled');
-        reject(new Error('Upload cancelled'));
-      });
-
-      this.xhr.open('POST', this.uploadUrl);
-      
-      this.xhr.send(beforeUploadHandler ? beforeUploadHandler(file) : formData);
-    });
-  }
-
-  private handleError(message: string) {
-    console.error('Upload error:', message);
-    this.onError(message);
+      this.onComplete(response)
+    } catch (error) { this.onError(error) }
   }
 
   destroy() {
-    if (this.xhr) {
-      this.xhr.abort();
-      this.xhr = null;
-    }
-    this.onProgress = () => {};
-    this.onComplete = () => {};
-    this.onError = () => {};
+    this.onProgress = () => {}
+    this.onComplete = () => {}
+    this.onError = () => {}
   }
 }
 
 export type FileUploaderTypes = {
-  action: (file: File) => Promise<void>;
+  action: (file: File, typePatterns?: string[]) => void;
   setProgressListener: (listener: (percentage: number) => void) => void;
   setCompleteListener: (listener: (response: any) => void) => void;
   setErrorListener: (listener: (error: any) => void) => void;
-  destroy: () => void;
-};
+}
 
-export default FileUploader;
+export default FileUploader

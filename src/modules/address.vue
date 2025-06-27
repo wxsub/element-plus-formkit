@@ -38,23 +38,23 @@ const CascaderProp: CascaderProps = {
   ...props.cascaderProps
 }
 
-const fetchNetWork = () => {
-  if (getConfigure('addressNetWork')) {
-    if (props.network) console.warn("You have set up addressNetWork configuration information, remove the unnecessary props.network parameter")
-    return getConfigure('addressNetWork')
-  } else if (props.network) {
-    return props.network
-  } else {
-    console.error("The parameters for the necessary network requests are missing using address, please consult the documentation for configuration.")
-    return null
-  }
-}
+// const fetchNetWork = () => {
+//   if (getConfigure('addressNetWork')) {
+//     if (props.network) console.warn("You have set up addressNetWork configuration information, remove the unnecessary props.network parameter")
+//     return getConfigure('addressNetWork')
+//   } else if (props.network) {
+//     return props.network
+//   } else {
+//     console.error("The parameters for the necessary network requests are missing using address, please consult the documentation for configuration.")
+//     return null
+//   }
+// }
 
 // fetch address dataset, U need redesign fetchAPI and data structure
 const fetchAddressData = (pid: any, nodeLevel = 1) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const network = fetchNetWork();
+      const network = props.network;
       if (network) {
         const response = typeof network === 'function' ? await network(pid, nodeLevel) : null,
           nodes: any = [];

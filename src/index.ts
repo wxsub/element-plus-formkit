@@ -49,11 +49,7 @@ type ElementPlusFormkitType = {
   getModules: () => typeof modules;
 };
 
-const install: Plugin = (app: App, config?: configType) => {
-  if (config) {
-    setConfigure(config);
-  }
-  
+const install: Plugin = (app: App) => {  
   app.component('FormKit', FormKit);
   app.component('FormKitAddress', Address);
   app.component('FormKitCheckbox', Checkbox);
