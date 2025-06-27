@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ElIcon, ElImage, ElButton, ElProgress } from 'element-plus'
+import { Folder, Close, Plus, WarningFilled, FolderDelete } from '@element-plus/icons-vue'
 import Upload from '@/utils/upload.class'
 import { isString } from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
@@ -132,13 +133,13 @@ const getFileName = (parmas: any) => {
 </script>
 
 <template>
-    <div :class="formKitUpload.upload">
-        <div v-for="(it, index) in fileBucket" :key="index" :class="formKitUpload.uploadPrepare">
-            <div :class="formKitUpload.warning" v-if="it.status === -1">
-                <el-icon :size="(size / 2)" class="text-[#FC4870]"><i-ep-warningFilled /></el-icon>
+    <div class="formkit-module-upload">
+        <div v-for="(it, index) in fileBucket" :key="index" class="uploadPrepare">
+            <div class="warning" v-if="it.status === -1">
+                <el-icon :size="(size / 2)" class="text-red"><WarningFilled /></el-icon>
             </div>
-            <div :class="formKitUpload.warning" v-else-if="it.status === -2">
-                <el-icon :size="(size / 2.1)" class="text-[#E6A23C]"><i-ep-folderDelete /></el-icon>
+            <div class="warning" v-else-if="it.status === -2">
+                <el-icon :size="(size / 2.1)" class="text-warning"><FolderDelete /></el-icon>
                 <p class="text-white text-[10px] leading-[12px] mt-1 text-center">文件类型不合法</p>
             </div>
             <template v-else>
@@ -152,22 +153,22 @@ const getFileName = (parmas: any) => {
                         :initial-index="4"
                         fit="cover"
                     />
-                    <div class="flex w-full h-full items-center justify-center flex-col hover:bg-[#f5f5f5]" v-else @click="windowOpen(it.path || it.temporaryPath)">
-                        <el-icon class="text-[28px]"><i-ep-folder /></el-icon>
+                    <div class="uploadFolder w-full h-full" v-else @click="windowOpen(it.path || it.temporaryPath)">
+                        <el-icon class="text-[28px]"><Folder /></el-icon>
                         <div class="w-full text-center text-[12px] line-clamp-2 leading-[12px] mt-1 px-0.5">{{ getFileName(it.file || it.path) }}</div>
                     </div>
                 </div>
-                <div :class="formKitUpload.progress" v-if="it.status === 0 && it.progress < 100">
+                <div class="progress" v-if="it.status === 0 && it.progress < 100">
                     <el-progress type="circle" :percentage="it.progress || 0" :width="(size / 2)" :stroke-width="3" />
                 </div>
             </template>
-            <div :class="formKitUpload.close" @click="removeFile(index)">
+            <div class="close" @click="removeFile(index)">
                 <el-button circle size="small" plain>
-                    <el-icon><i-ep-close /></el-icon>
+                    <el-icon><Close /></el-icon>
                 </el-button>
             </div>
         </div>
-        <div :class="[formKitUpload.uploadContanier]" v-if="!disabled">
+        <div class="uploadContanier" v-if="!disabled">
             <input
                 type="file"
                 :id="uuid"
@@ -176,17 +177,17 @@ const getFileName = (parmas: any) => {
                 :accept="accept"
                 :multiple="multiple" />
             <label :for="uuid" v-if="isCustom">
-                <slot></slot>
+                <slot />
             </label>
-            <label :for="uuid" :class="formKitUpload.label" v-else>
-                <el-icon><i-ep-plus /></el-icon>
+            <label :for="uuid" class="label" v-else>
+                <el-icon><Plus /></el-icon>
             </label>
         </div>
     </div>
 </template>
 
-<style module="formKitUpload" lang="scss">
-.upload {
+<style scoped lang="scss">
+.formkit-module-upload {
     display: inline-flex;
     flex-wrap: wrap;
     gap: 10px;
@@ -243,6 +244,15 @@ const getFileName = (parmas: any) => {
             &:hover {
                 border-color: #409EFF;
             }
+        }
+    }
+    .uploadFolder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        &:hover {
+            background: #f5f5f5;
         }
     }
     input[type="file"]{ display: none }

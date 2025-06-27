@@ -34,13 +34,13 @@ const label = computed(() => {
 </script>
 
 <template>
-  <el-popover trigger="click" :disabled="loading" v-bind="popoverAttrs">
+  <el-popover trigger="click" :disabled="loading" v-bind="popoverAttrs" class="formkit-module-popover">
     <div>
       <el-empty :image-size="60" v-if="options.length === 0"></el-empty>
       <el-cascader-panel :options="options" v-bind="$attrs" v-model="_value" v-else />
     </div>
-    <span :class="{ [$style.active]: _value }" slot="reference" class="cursor-pointer">
-      <span v-if="loading" :class="$style.loading">
+    <span :class="{ 'active': _value }" slot="reference" class="cursor-pointer">
+      <span v-if="loading" class="loading">
         正在加载 <i class="el-icon-loading" />
       </span>
       <template v-else>
@@ -51,13 +51,15 @@ const label = computed(() => {
   </el-popover>
 </template>
 
-<style module lang="scss">
-.active {
-  color: #128bed
-}
+<style lang="scss">
+.formkit-module-popover {
+  .active {
+    color: #128bed
+  }
 
-.loading {
-  color: #ccc;
-  user-select: none
+  .loading {
+    color: #ccc;
+    user-select: none
+  }
 }
 </style>

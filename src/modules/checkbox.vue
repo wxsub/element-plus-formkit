@@ -1,5 +1,5 @@
 <template>
-  <div class="formKit-checkbox">
+  <div class="formKit-module-checkbox">
     <el-checkbox v-if="isShowAllCheck" :indeterminate="isIndeterminate" v-model="checkAll" @change="checkAllChange">全选</el-checkbox>
     <el-checkbox-group v-if="options.length > 0" :indeterminate="isIndeterminate" v-model="FormData">
       <el-checkbox
@@ -72,8 +72,8 @@ function checkIndeterminate(value?: any) {
 }
 </script>
 
-<style scoped lang="scss">
-.formKit-checkbox {
-  :deep(.el-checkbox-group, .el-checkbox) { height: 24px; line-height: 24px }
+<style lang="scss">
+.formKit-module-checkbox {
+  .el-checkbox-group, .el-checkbox { height: 24px; line-height: 24px }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div :class="[{ 'form-label-auto': isAutoAlignment }]" class="FormKit">
+  <div :class="[{ 'form-label-auto': isAutoAlignment }]" class="element-plus-formkit">
     <el-form
       ref="FormKitRef"
       :model="modelValue"
@@ -15,7 +15,7 @@
           <el-form-item
             :label="conf.label"
             :label-width="isAutoAlignment ? '0px' : (conf.labelWidth || `${labelWidth}px`)"
-            :class="{[FormKit['auto-alignment']]: isAutoAlignment }"
+            :class="{'auto-alignment': isAutoAlignment }"
             :prop="conf.key"
             :rules="conf.rules">
             <Suspense>
@@ -34,8 +34,10 @@
                 </component>
               </template>
               <template #fallback>
-                <div :class="FormKit.isLoading">
-                  <div :class="FormKit.loader" />
+                <div class="formkit-module-loading">
+                  <el-icon class="is-loading">
+                    <Loading />
+                  </el-icon>
                 </div>
               </template>
             </Suspense>
@@ -49,8 +51,9 @@
 </template>
 
 <script setup lang="ts">
+import { Loading } from '@element-plus/icons-vue'
 import { modules } from '@/module-registry'
-import { ElForm, ElRow, ElCol, ElFormItem } from 'element-plus'
+import { ElForm, ElRow, ElCol, ElFormItem, ElIcon } from 'element-plus'
 import { ElMessage } from "element-plus"
 import { v4 as uuidv4 } from 'uuid'
 import { isObject, isNumber, isArray, isBoolean, isFunction } from 'lodash'
@@ -94,8 +97,8 @@ const formAttrs = computed(() => {
   if (props.rules && Object.keys(props.rules).length > 0) attrs.rules = props.rules;
   return attrs
 }), setRowAttrs = computed(() => {
-  const { gutter } = props.rows || {}
-  return { gutter: gutter || 20 }
+  const { columnGap } = props.rows || {}
+  return { gutter: columnGap || 20 }
 }), isAutoAlignment = computed(() => {
   return props.columns === 'auto'
 }), setSpanAttrs = computed(() => {
@@ -213,48 +216,25 @@ defineExpose<FormKitExposed>({
 })
 </script>
 
-<style module="FormKit" lang="scss">
-.form-kit-row { flex-wrap: wrap }
-.item-hint { margin: 0; color: #888888; font-weight: 300; font-size: 12px; line-height: 24px }
-.formKit-list-item { display: inline-block; width: 100% }
-.auto-alignment { margin-bottom: 0 }
-.isLoading {
-  display: inline-flex;
-  justify-content: center;
-  padding: 0 4px;
-  .loader {
-    width: 30px;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    border: 8px solid #514b82;
-    animation:
-      l20-1 0.8s infinite linear alternate,
-      l20-2 1.6s infinite linear;
-  }
-  @keyframes l20-1{
-    0%    {clip-path: polygon(50% 50%,0       0,  50%   0%,  50%    0%, 50%    0%, 50%    0%, 50%    0% )}
-    12.5% {clip-path: polygon(50% 50%,0       0,  50%   0%,  100%   0%, 100%   0%, 100%   0%, 100%   0% )}
-    25%   {clip-path: polygon(50% 50%,0       0,  50%   0%,  100%   0%, 100% 100%, 100% 100%, 100% 100% )}
-    50%   {clip-path: polygon(50% 50%,0       0,  50%   0%,  100%   0%, 100% 100%, 50%  100%, 0%   100% )}
-    62.5% {clip-path: polygon(50% 50%,100%    0, 100%   0%,  100%   0%, 100% 100%, 50%  100%, 0%   100% )}
-    75%   {clip-path: polygon(50% 50%,100% 100%, 100% 100%,  100% 100%, 100% 100%, 50%  100%, 0%   100% )}
-    100%  {clip-path: polygon(50% 50%,50%  100%,  50% 100%,   50% 100%,  50% 100%, 50%  100%, 0%   100% )}
-  }
-  @keyframes l20-2{ 
-    0%    {transform:scaleY(1)  rotate(0deg)}
-    49.99%{transform:scaleY(1)  rotate(135deg)}
-    50%   {transform:scaleY(-1) rotate(0deg)}
-    100%  {transform:scaleY(-1) rotate(-135deg)}
-  }
-}
-</style>
-
 <style lang="scss">
-.FormKit {
-  :deep(.el-form-item) { margin: 0; width: 100% }
-  :deep(.el-form--label-top .el-form-item__label) { padding: 0 }
-  :deep(.el-form-item__error) { position: relative }
-  :deep(.el-form-item--default) { margin-bottom: 0 }
+.element-plus-formkit {
+  .item-hint { margin: 0; color: #888888; font-weight: 300; font-size: 12px; line-height: 24px }
+  .formKit-list-item { display: inline-block; width: 100% }
+  .auto-alignment { margin-bottom: 0 }
+  .form-kit-row {
+    flex-wrap: wrap;
+    .el-form-item__content { display: inline-block }
+  }
+  .formkit-module-loading {
+    display: inline-flex;
+    justify-content: center;
+    padding: 0 4px;
+  }
+
+  .el-row { row-gap: v-bind("`${props.rows?.rowGap || 5}px`") }
+  .el-form-item { margin: 0; width: 100% }
+  .el-form--label-top .el-form-item__label { padding: 0 }
+  .el-form-item__error { position: relative }
+  .el-form-item--default { margin-bottom: 0 }
 }
-.form-kit-auto :deep(.el-form-item__content) { display: inline-block }
 </style>
