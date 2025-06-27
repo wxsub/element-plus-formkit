@@ -11,13 +11,9 @@ import path from "path"
 
 const pathSrc = path.resolve(__dirname, "src");
 export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
-  const env = loadEnv(mode, process.cwd());
   return {
     resolve: { alias: { "@": pathSrc, "types": path.resolve(__dirname, "types") } },
     css: {
-      modules: {
-        generateScopedName: env.VITE_USER_NODE_ENV === 'production' ? '[hash:base64:6]' : '[name]__[local]'
-      },
       preprocessorOptions: {
         scss: {
           javascriptEnabled: true,
