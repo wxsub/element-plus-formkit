@@ -21,7 +21,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       preprocessorOptions: {
         scss: {
           javascriptEnabled: true,
-          additionalData: `@use "@/variables.scss" as *;`
+          additionalData: `@use "@/styles/variables.scss" as *;`
         }
       },
       postcss: {
@@ -63,6 +63,9 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
           },
           exports: 'named',
           assetFileNames: (assetInfo) => {
+            if (assetInfo.name?.endsWith('.css')) {
+              return 'index.css';
+            }
             if (assetInfo.name?.endsWith('.d.ts')) {
               return 'types/[name][extname]';
             }

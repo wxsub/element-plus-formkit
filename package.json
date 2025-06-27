@@ -4,6 +4,8 @@
   "main": "dist/formkit.umd.js",
   "module": "dist/formkit.es.js",
   "types": "types/element-plus-formkit.d.ts",
+  "style": "dist/index.css",
+  "description": "Data-driven form component based on ElementPlus implementation",
   "files": [
     "dist",
     "types"
@@ -40,6 +42,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
     "@vitejs/plugin-vue": "^4.4.0",
     "@vueuse/core": "^10.1.2",
     "element-plus": "^2.3.14",
@@ -77,10 +80,8 @@
     "stylelint-config-recommended-vue": "^1.5.0",
     "stylelint-config-standard": "^34.0.0",
     "stylelint-config-standard-scss": "^10.0.0",
-    "tailwindcss": "^3.4.3",
     "typescript": "^5.7.2",
     "unplugin-auto-import": "^0.15.3",
-    "unplugin-icons": "^0.16.1",
     "unplugin-vue-components": "^0.24.1",
     "vite": "^4.4.11",
     "vue-tsc": "^2.1.10"
