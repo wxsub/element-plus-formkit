@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ElIcon, ElImage, ElButton, ElProgress } from 'element-plus'
 import { Folder, Close, Plus, WarningFilled, FolderDelete } from '@element-plus/icons-vue'
+import type { UploadRequester } from 'types/formkit-types'
 import Upload from '@/utils/upload.class'
 import { isString } from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
@@ -8,11 +9,11 @@ import { v4 as uuidv4 } from 'uuid'
 const props = defineProps({
     modelValue: { type: [String, Array] },
     limit: { type: Number, default: 1 },
-    uploadUrl: { type: String, default: '' },
+    requester: { type: Object as PropType<UploadRequester>, default: null },
     autoUpload: { type: Boolean, default: true },
     isCustom: { type: Boolean, default: false },
     beforeUpload: { type: Function, default: null },
-    parameterHandler: { type: Function, default: null },
+    afterUpload: { type: Function, default: null },
     accept: {
         type: String,
         default: "image/*"
@@ -71,10 +72,12 @@ const change = (e: Event) => {
 const uploading = async () => {
     for (const item of (fileBucket.value || [])) {
         if (item.status === 1) continue
-        const upload = new Upload(props.uploadUrl)
+        const upload = new Upload()
         if (upload.isValidFileType(item.file, props.accept)) {
-            await props.beforeUpload(item)
-            upload.action(item.file, props.parameterHandler)
+            if (props.beforeUpload) {
+                await props.beforeUpload(item)
+            }
+            upload.action(item.file)
         } else {
             item.progress = 0
             item.status = -2
@@ -82,12 +85,13 @@ const uploading = async () => {
         }
         upload.setProgressListener((progress: number) => item.progress = progress)
         upload.setCompleteListener(async (response: any) => {
-            item.path = response || null
+            item.path = props.afterUpload ? props.afterUpload(response) : (response || null)
             item.status = 1
             upload.destroy()
             setTimeout(() => setData(), 300)
         })
-        upload.setErrorListener(() => {
+        upload.setErrorListener((err) => {
+            console.error('Upload error:', err)
             item.progress = 0
             item.status = -1
             upload.destroy()
@@ -140,7 +144,7 @@ const getFileName = (parmas: any) => {
             </div>
             <div class="warning" v-else-if="it.status === -2">
                 <el-icon :size="(size / 2.1)" class="text-warning"><FolderDelete /></el-icon>
-                <p class="text-white text-[10px] leading-[12px] mt-1 text-center">文件类型不合法</p>
+                <p>文件类型不合法</p>
             </div>
             <template v-else>
                 <div class="w-full h-full cursor-pointer">
@@ -155,7 +159,7 @@ const getFileName = (parmas: any) => {
                     />
                     <div class="uploadFolder w-full h-full" v-else @click="windowOpen(it.path || it.temporaryPath)">
                         <el-icon class="text-[28px]"><Folder /></el-icon>
-                        <div class="w-full text-center text-[12px] line-clamp-2 leading-[12px] mt-1 px-0.5">{{ getFileName(it.file || it.path) }}</div>
+                        <div class="w-full folder-box ellipsis-2">{{ getFileName(it.file || it.path) }}</div>
                     </div>
                 </div>
                 <div class="progress" v-if="it.status === 0 && it.progress < 100">
@@ -208,6 +212,13 @@ const getFileName = (parmas: any) => {
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            p {
+                color: white;
+                font-size: 10px;
+                line-height: 12px;
+                margin-top: 4px;
+                text-align: center;
+            }
         }
         .progress {
             position: absolute;
@@ -253,6 +264,13 @@ const getFileName = (parmas: any) => {
         flex-direction: column;
         &:hover {
             background: #f5f5f5;
+        }
+        .folder-box {
+            text-align: center;
+            font-size: 12px;
+            line-height: 12px;
+            margin-top: 4px;
+            padding: 0 2px;
         }
     }
     input[type="file"]{ display: none }
