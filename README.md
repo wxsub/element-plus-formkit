@@ -42,11 +42,11 @@ registerModule('customEditor', CustomEditor)
 Formkit accepts a number of global configuration parameters, e.g. file upload network, etc.
 ```
 // Set global configuration (can be set before or after installation)
-import FormKit, { setConfigure } from 'element-plus-formkit'
-import type { UploadProgress } from 'element-plus-formkit/types/formkit-types'
+import formKit, { setConfigure } from 'element-plus-formkit'
+import type { UploadRequesterOptions } from 'element-plus-formkit/types/formkit-types'
 import 'element-plus-formkit/dist/index.css'
 
-setConfigure('upload', async (file: File, { onProgress }: { onProgress: UploadProgress }) => {
+setConfigure('upload', async (file: File, options: UploadRequesterOptions) => {
     const UploadFormData = new FormData()
     UploadFormData.append('file', file)
     const response = await useAxios().post("/default/oss/upload", UploadFormData, {
@@ -54,13 +54,13 @@ setConfigure('upload', async (file: File, { onProgress }: { onProgress: UploadPr
         onUploadProgress: (progressEvent) => {
             const total = progressEvent.total || 1,
                 loaded = progressEvent.loaded;
-            onProgress({ total, loaded })
+            options.onProgress?.({ total, loaded })
         }
     })
     return response
 })
 
-app.use(FormKitPro, {
+app.use(formKit, {
   // Optional: configuration can also be passed here (will be merged with setFormKitConfig)
   // apiTimeout: 10000
 });

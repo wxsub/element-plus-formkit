@@ -42,11 +42,11 @@ registerModule('customEditor', CustomEditor)
 Formkit 接受大量全局配置参数，如文件上传网络地址等。
 ```
 // 设置全局配置（可在安装前或安装后设置）
-import FormKit, { setConfigure } from 'element-plus-formkit'
-import type { UploadProgress } from 'element-plus-formkit/types/formkit-types'
+import formKit, { setConfigure } from 'element-plus-formkit'
+import type { UploadRequesterOptions } from 'element-plus-formkit/types/formkit-types'
 import 'element-plus-formkit/dist/index.css'
 
-setConfigure('upload', async (file: File, { onProgress }: { onProgress: UploadProgress }) => {
+setConfigure('upload', async (file: File, options: UploadRequesterOptions) => {
     const UploadFormData = new FormData()
     UploadFormData.append('file', file)
     const response = await useAxios().post("/default/oss/upload", UploadFormData, {
@@ -54,13 +54,13 @@ setConfigure('upload', async (file: File, { onProgress }: { onProgress: UploadPr
         onUploadProgress: (progressEvent) => {
             const total = progressEvent.total || 1,
                 loaded = progressEvent.loaded;
-            onProgress({ total, loaded })
+            options.onProgress?.({ total, loaded })
         }
     })
     return response
 })
 
-app.use(FormKitPro, {
+app.use(formKit, {
   // 可选：也可在此处传递配置（将与 setFormKitConfig 合并）
   // apiTimeout: 10000
 });
