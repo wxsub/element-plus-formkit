@@ -16,10 +16,10 @@ pnpm add element-plus-formkit
 // main.ts
 import { createApp } from 'vue';
 import App from './App.vue';
-import FormKit, { setConfigure, registerModule } from 'element-plus-formkit';
+import formkit, { setConfigure, registerModule } from 'element-plus-formkit';
 
 const app = createApp(App);
-app.use(FormKit);
+app.use(formkit);
 
 app.mount('#app');
 ```
@@ -42,7 +42,7 @@ registerModule('customEditor', CustomEditor)
 Formkit 接受大量全局配置参数，如文件上传网络地址等。
 ```
 // 设置全局配置（可在安装前或安装后设置）
-import formKit, { setConfigure } from 'element-plus-formkit'
+import formkit, { setConfigure } from 'element-plus-formkit'
 import type { UploadRequesterOptions } from 'element-plus-formkit/types/formkit-types'
 import 'element-plus-formkit/dist/index.css'
 
@@ -60,7 +60,7 @@ setConfigure('upload', async (file: File, options: UploadRequesterOptions) => {
     return response
 })
 
-app.use(formKit, {
+app.use(formkit, {
   // 可选：也可在此处传递配置（将与 setFormKitConfig 合并）
   // apiTimeout: 10000
 });

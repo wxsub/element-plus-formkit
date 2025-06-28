@@ -4,7 +4,7 @@ declare module 'element-plus-formkit' {
   
   const ElementPlusFormkit: Plugin & {
     install: (app: App) => void;
-    FormKit: typeof FormKitComponent;
+    formkit: typeof FormKitComponent;
     Address: typeof import('@/modules/address.vue').default;
     Checkbox: typeof import('@/modules/checkbox.vue').default;
     Select: typeof import('@/modules/select.vue').default;
@@ -21,7 +21,7 @@ declare module 'element-plus-formkit' {
   
   export default ElementPlusFormkit;
   
-  export const FormKit: typeof FormKitComponent;
+  export const formkit: typeof FormKitComponent;
   export type Instance = InstanceType<typeof FormKitComponent>
   export const Address: any;
   export const Checkbox: any;

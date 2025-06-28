@@ -16,10 +16,10 @@ pnpm add element-plus-formkit
 // main.ts
 import { createApp } from 'vue';
 import App from './App.vue';
-import FormKit, { setConfigure, registerModule } from 'element-plus-formkit';
+import formkit, { setConfigure, registerModule } from 'element-plus-formkit';
 
 const app = createApp(App);
-app.use(FormKit);
+app.use(formkit);
 
 app.mount('#app');
 ```
@@ -39,10 +39,10 @@ registerModule('customEditor', CustomEditor)
 ```
 
 ### setConfigure
-Formkit accepts a number of global configuration parameters, e.g. file upload network, etc.
+formkit accepts a number of global configuration parameters, e.g. file upload network, etc.
 ```
 // Set global configuration (can be set before or after installation)
-import formKit, { setConfigure } from 'element-plus-formkit'
+import formkit, { setConfigure } from 'element-plus-formkit'
 import type { UploadRequesterOptions } from 'element-plus-formkit/types/formkit-types'
 import 'element-plus-formkit/dist/index.css'
 
@@ -60,7 +60,7 @@ setConfigure('upload', async (file: File, options: UploadRequesterOptions) => {
     return response
 })
 
-app.use(formKit, {
+app.use(formkit, {
   // Optional: configuration can also be passed here (will be merged with setFormKitConfig)
   // apiTimeout: 10000
 });

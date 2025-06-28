@@ -2,14 +2,14 @@
 Element-Plus-Formkit基础组件包含: {{ Array.from(new Set(FormKitConfig.map((it) => (it.type)))).join(" 、 ") }}
 
 <div>
-    <formKit v-model="dataset" :config="FormKitConfig" ref="dataSetFormRef" />
+    <formkit v-model="dataset" :config="FormKitConfig" ref="dataSetFormRef" />
     <el-button color="#626aef" @click="submit">表单校验 form validation</el-button>
 </div>
 
 ::: code-tabs
 @tab Template
 ```vue
-<FormKit v-model="dataset" :config="FormKitConfig" />
+<formkit v-model="dataset" :config="FormKitConfig" />
 ```
 
 @tab TypeScript

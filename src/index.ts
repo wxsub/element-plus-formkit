@@ -1,5 +1,5 @@
 import { App, Plugin } from 'vue';
-import formKit from '@/formkit.vue';
+import formkit from '@/formkit.vue';
 import Address from '@/modules/address.vue';
 import Checkbox from '@/modules/checkbox.vue';
 import Select from '@/modules/select.vue';
@@ -13,7 +13,7 @@ import { setConfigure, getConfigure, type configType } from '@/config';
 import { modules, registerModule, type CustomModuleRegistry } from '@/module-registry';
 
 export {
-  formKit,
+  formkit,
   Address,
   Checkbox,
   Select,
@@ -34,7 +34,7 @@ export type { configType, CustomModuleRegistry }
 
 type ElementPlusFormkitType = {
   install: Plugin;
-  formKit: typeof formKit;
+  formkit: typeof formkit;
   Address: typeof Address;
   Checkbox: typeof Checkbox;
   Select: typeof Select;
@@ -50,7 +50,7 @@ type ElementPlusFormkitType = {
 };
 
 const install: Plugin = (app: App) => {  
-  app.component('formKit', formKit);
+  app.component('formkit', formkit);
   app.component('FormkitAddress', Address);
   app.component('FormkitCheckbox', Checkbox);
   app.component('FormkitSelect', Select);
@@ -63,7 +63,7 @@ const install: Plugin = (app: App) => {
 
 const pluginObject: ElementPlusFormkitType = {
   install,
-  formKit,
+  formkit,
   Address,
   Checkbox,
   Select,
