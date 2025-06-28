@@ -28,8 +28,11 @@ jobs:
       - name: 设置 Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 18.20.8
           cache: pnpm
+
+      - name: 进入文档目录
+        run: cd pages
 
       - name: 安装依赖
         run: pnpm install --frozen-lockfile
@@ -46,4 +49,4 @@ jobs:
         with:
           # 这是文档部署到的分支名称
           branch: gh-pages
-          folder: docs/.vuepress/dist
+          folder: pages/docs/.vuepress/dist
