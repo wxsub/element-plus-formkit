@@ -38,7 +38,6 @@ class FileUploader {
 
   async action(file: File): Promise<void> {
     try {
-      console.log(this.requester)
       if (!this.requester) {
         this.onError('Upload requester not configured. Call setConfigure(\'upload\', uploader) first.')
         return
