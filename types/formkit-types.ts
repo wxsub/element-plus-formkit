@@ -37,9 +37,13 @@ export interface UploadProgress {
   total: number;
 }
 
+export type UploadProgressHandler = (progress: UploadProgress) => void;
+
+export interface UploadRequesterOptions {
+  onProgress?: UploadProgressHandler;
+}
+
 export type UploadRequester = (
   file: File, 
-  options: {
-    onProgress?: (progress: UploadProgress) => void
-  }
+  options: UploadRequesterOptions
 ) => Promise<string>;

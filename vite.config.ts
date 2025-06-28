@@ -70,7 +70,8 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
               return 'types/[name][extname]';
             }
             return 'assets/[name][extname]';
-          }
+          },
+          interop: 'auto'
         },
       },
       emptyOutDir: true,
