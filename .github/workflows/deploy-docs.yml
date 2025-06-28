@@ -1,10 +1,9 @@
 
-name: 部署文档
+name: Deployment Documentation
 
 on:
   push:
     branches:
-      # 确保这是你正在使用的分支名称
       - main
 
 permissions:
