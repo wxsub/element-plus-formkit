@@ -3,8 +3,7 @@ import { ElIcon, ElImage, ElButton, ElProgress } from 'element-plus'
 import { Folder, Close, Plus, WarningFilled, FolderDelete } from '@element-plus/icons-vue'
 import type { UploadRequester } from 'types/formkit-types'
 import Upload from '@/utils/upload.class'
-import { isString } from 'lodash'
-import { v4 as uuidv4 } from 'uuid'
+import { isString, uuidv4 } from '@/utils/util'
 
 const props = defineProps({
     modelValue: { type: [String, Array] },

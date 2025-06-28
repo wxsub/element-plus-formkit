@@ -41,20 +41,21 @@
     ]
   },
   "type": "module",
+  "peerDependencies": {
+    "element-plus": "^2.0.0",
+    "vue": "^3.0.0"
+  },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
     "@vitejs/plugin-vue": "^4.4.0",
     "@vueuse/core": "^10.1.2",
     "element-plus": "^2.3.14",
-    "lodash": "^4.17.21",
-    "uuid": "^11.0.3",
     "vue": "^3.3.4"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.6.3",
     "@commitlint/config-conventional": "^17.6.3",
     "@iconify-json/ep": "^1.1.10",
-    "@types/lodash": "^4.14.195",
     "@types/stompjs": "^2.3.5",
     "@typescript-eslint/eslint-plugin": "^5.59.6",
     "@typescript-eslint/parser": "^5.59.6",

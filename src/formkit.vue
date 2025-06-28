@@ -55,8 +55,7 @@ import { Loading } from '@element-plus/icons-vue'
 import { modules } from '@/module-registry'
 import { ElForm, ElRow, ElCol, ElFormItem, ElIcon } from 'element-plus'
 import { ElMessage } from "element-plus"
-import { v4 as uuidv4 } from 'uuid'
-import { isObject, isNumber, isArray, isBoolean, isFunction } from 'lodash'
+import { isObject, isNumber, isArray, isBoolean, isFunction, uuidv4 } from '@/utils/util'
 import { ConfigInterface, FormKitExposed } from 'types/formkit-types'
 
 const UNIQUE_KEY = ref(uuidv4()),

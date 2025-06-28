@@ -1,6 +1,6 @@
 import vue from "@vitejs/plugin-vue"
 
-import { UserConfig, ConfigEnv, loadEnv, defineConfig } from "vite"
+import { UserConfig, ConfigEnv, defineConfig } from "vite"
 
 import autoprefixer from "autoprefixer"
 
@@ -12,7 +12,12 @@ import path from "path"
 const pathSrc = path.resolve(__dirname, "src");
 export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
   return {
-    resolve: { alias: { "@": pathSrc, "types": path.resolve(__dirname, "types") } },
+    resolve: {
+      alias: {
+        "@": pathSrc,
+        "types": path.resolve(__dirname, "types")
+      }
+    },
     css: {
       preprocessorOptions: {
         scss: {
@@ -45,7 +50,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
     build: {
       lib: {
         entry: path.resolve(__dirname, 'src/index.ts'),
-        name: 'FormKit',
+        name: 'formkit',
         fileName: (format: string) => `formkit.${format}.js`,
         formats: ['es', 'umd']
       },
@@ -54,8 +59,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         output: {
           globals: {
             vue: 'Vue',
-            'element-plus': 'ElementPlus',
-            lodash: '_'
+            'element-plus': 'ElementPlus'
           },
           exports: 'named',
           assetFileNames: (assetInfo) => {
