@@ -30,7 +30,7 @@ jobs:
           cache: pnpm
 
       - name: run fix package.json script
-        run: node scripts/pages-package-setup.mjs
+        run: pnpm dev
 
       - name: cd pages
         run: cd pages
