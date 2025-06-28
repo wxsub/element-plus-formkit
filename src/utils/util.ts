@@ -23,7 +23,7 @@ export function isArray(value: any): boolean {
   return Array.isArray(value);
 }
 
-export function uuidv4() {
+export function uuidv4(): string {
   try {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
       const r = Math.random() * 16 | 0,
@@ -31,6 +31,6 @@ export function uuidv4() {
       return v.toString(16);
     });
   } catch (e) {
-    return Number(new Date())
+    return Number(new Date()).toString(36) + Math.random().toString(36).substring(2, 15);
   }
 }
