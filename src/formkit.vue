@@ -18,10 +18,9 @@
             :class="{'auto-alignment': isAutoAlignment }"
             :prop="conf.key"
             :rules="conf.rules">
-            <Suspense>
+            <Suspense v-if="conf.type">
               <template #default>
                 <component
-                  v-if="conf.type"
                   :is="loader(conf.type)"
                   :ref="`module-${conf.key}`"
                   :disabled="conf['disabled']"
@@ -41,6 +40,8 @@
                 </div>
               </template>
             </Suspense>
+            <slot :name="conf.key" :row="conf" :value="modelValue[conf.key]" :size="size" />
+            <p v-if="conf.hint" class="item-hint w-full" v-html="conf.hint"/>
           </el-form-item>
         </el-col>
         <slot name="append" />
