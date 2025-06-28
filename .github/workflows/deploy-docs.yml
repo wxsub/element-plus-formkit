@@ -38,21 +38,19 @@ jobs:
       - name: dev
         run: pnpm dev
 
-      - name: cd pages
-        run: cd pages
-
       - name: update lockfile
         run: pnpm --filter ./pages install --lockfile-only
 
-      - name: Install Dependencies
-        run: pnpm --filter ./pages install
+      - name: Install dependencies in pages
+        run: cd pages && pnpm install
         
       - name: Build Documentation
         env:
           NODE_OPTIONS: --max_old_space_size=8192
         run: |-
-          pnpm --filter ./pages run docs:build
-          > docs/.vuepress/dist/.nojekyll
+          cd pages
+          pnpm run docs:build
+          touch docs/.vuepress/dist/.nojekyll
 
       - name: deploy Documentation
         uses: JamesIves/github-pages-deploy-action@v4
