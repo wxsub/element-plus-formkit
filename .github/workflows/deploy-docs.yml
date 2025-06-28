@@ -33,17 +33,14 @@ jobs:
       - name: run fix package.json script
         run: node scripts/pages-package-setup.mjs
 
-      - name: Enter the document directory
-        run: cd pages
-
       - name: Install Dependencies
-        run: pnpm install --lockfile-only
+        run: pnpm --filter ./pages install --lockfile-only
 
       - name: Build Documentation
         env:
           NODE_OPTIONS: --max_old_space_size=8192
         run: |-
-          pnpm run docs:build
+          pnpm --filter ./pages run docs:build
           > docs/.vuepress/dist/.nojekyll
 
       - name: deploy Documentation
