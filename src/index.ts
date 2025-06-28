@@ -1,5 +1,5 @@
 import { App, Plugin } from 'vue';
-import FormKit from '@/formkit.vue';
+import formKit from '@/formkit.vue';
 import Address from '@/modules/address.vue';
 import Checkbox from '@/modules/checkbox.vue';
 import Select from '@/modules/select.vue';
@@ -13,7 +13,7 @@ import { setConfigure, getConfigure, type configType } from '@/config';
 import { modules, registerModule, type CustomModuleRegistry } from '@/module-registry';
 
 export {
-  FormKit,
+  formKit,
   Address,
   Checkbox,
   Select,
@@ -34,7 +34,7 @@ export type { configType, CustomModuleRegistry }
 
 type ElementPlusFormkitType = {
   install: Plugin;
-  FormKit: typeof FormKit;
+  formKit: typeof formKit;
   Address: typeof Address;
   Checkbox: typeof Checkbox;
   Select: typeof Select;
@@ -50,20 +50,20 @@ type ElementPlusFormkitType = {
 };
 
 const install: Plugin = (app: App) => {  
-  app.component('FormKit', FormKit);
-  app.component('FormKitAddress', Address);
-  app.component('FormKitCheckbox', Checkbox);
-  app.component('FormKitSelect', Select);
-  app.component('FormKitInputNumber', InputNumber);
-  app.component('FormKitPopover', Popover);
-  app.component('FormKitRadio', Radio);
-  app.component('FormKitRemoteSearchSelect', RemoteSearchSelect);
-  app.component('FormKitUpload', Upload);
+  app.component('formKit', formKit);
+  app.component('FormkitAddress', Address);
+  app.component('FormkitCheckbox', Checkbox);
+  app.component('FormkitSelect', Select);
+  app.component('FormkitInputNumber', InputNumber);
+  app.component('FormkitPopover', Popover);
+  app.component('FormkitRadio', Radio);
+  app.component('FormkitRemoteSearchSelect', RemoteSearchSelect);
+  app.component('FormkitUpload', Upload);
 };
 
-const ElementPlusFormkit: ElementPlusFormkitType = {
+const pluginObject: ElementPlusFormkitType = {
   install,
-  FormKit,
+  formKit,
   Address,
   Checkbox,
   Select,
@@ -80,4 +80,4 @@ const ElementPlusFormkit: ElementPlusFormkitType = {
   getModules: () => modules
 };
 
-export default ElementPlusFormkit
+export default pluginObject;

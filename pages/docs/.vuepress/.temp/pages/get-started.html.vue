@@ -1,7 +1,7 @@
 <template><div><h2 id="基础组件使用" tabindex="-1"><a class="header-anchor" href="#基础组件使用"><span>基础组件使用</span></a></h2>
 <p>Element-Plus-Formkit基础组件包含: {{ Array.from(new Set(FormKitConfig.map((it) =&gt; (it.type)))).join(&quot; 、 &quot;) }}</p>
 <div>
-    <FormKit v-model="dataset" :config="FormKitConfig" ref="dataSetFormRef" />
+    <formKit v-model="dataset" :config="FormKitConfig" ref="dataSetFormRef" />
     <el-button color="#626aef" @click="submit">表单校验 form validation</el-button>
 </div>
 <CodeTabs id="7" :data='[{"id":"Template"},{"id":"TypeScript"}]'>
