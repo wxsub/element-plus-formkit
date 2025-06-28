@@ -18,36 +18,36 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          # 如果你文档需要 Git 子模块，取消注释下一行
-          # submodules: true
 
-      - name: 安装 pnpm
+      - name: install pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 10
 
-      - name: 设置 Node.js
+      - name: set Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18.20.8
           cache: pnpm
 
-      - name: 进入文档目录
+      - name: run fix package.json script
+        run: node scripts/pages-package-setup.mjs
+
+      - name: Enter the document directory
         run: cd pages
 
-      - name: 安装依赖
-        run: pnpm install --frozen-lockfile
+      - name: Install Dependencies
+        run: pnpm install
 
-      - name: 构建文档
+      - name: Build Documentation
         env:
           NODE_OPTIONS: --max_old_space_size=8192
         run: |-
           pnpm run docs:build
           > docs/.vuepress/dist/.nojekyll
 
-      - name: 部署文档
+      - name: deploy Documentation
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          # 这是文档部署到的分支名称
           branch: ci-doc-pages
           folder: pages/docs/.vuepress/dist
