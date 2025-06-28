@@ -29,8 +29,11 @@ jobs:
           node-version: 18.20.8
           cache: pnpm
 
+      - name: update package lockfile
+        run: pnpm install --lockfile-only
+
       - name: package install
-        run: pnpm i
+        run: pnpm install
 
       - name: dev
         run: pnpm dev
