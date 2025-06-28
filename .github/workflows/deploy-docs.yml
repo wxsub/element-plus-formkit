@@ -36,9 +36,12 @@ jobs:
       - name: cd pages
         run: cd pages
 
-      - name: Install Dependencies
+      - name: update lockfile
         run: pnpm --filter ./pages install --lockfile-only
 
+      - name: Install Dependencies
+        run: pnpm --filter ./pages install
+        
       - name: Build Documentation
         env:
           NODE_OPTIONS: --max_old_space_size=8192
