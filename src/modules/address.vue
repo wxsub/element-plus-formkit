@@ -1,15 +1,30 @@
 <script setup lang="ts">
 import { ElCascader } from 'element-plus'
-import { getConfigure } from '@/config'
-
 import type { CascaderProps } from 'element-plus'
+import type { PropType } from 'vue'
+
+interface CascaderNode {
+  value: string | number;
+  label: string;
+  leaf: boolean;
+}
+
+interface RegionItem {
+  [key: string]: any
+  value?: string | number
+  label?: string
+  leaf?: boolean
+}
+
+type AddressFetchMethod = (pid: string | number, nodeLevel?: number) => Promise<RegionItem[]>
+
 const props = defineProps({
   labelKey: { type: String, default: 'name' },
   valueKey: { type: String, default: 'id' },
   level: { type: Number, default: 1 },
-  network: { type: Function, default: null },
-  cascaderProps: { type: Object, default: () => {} },
-  modelValue: { type: [String, Number, Array] }
+  cascaderProps: { type: Object as PropType<CascaderProps>, default: () => {} },
+  modelValue: { type: [String, Number, Array] },
+  fetchMethod: { type: Function as PropType<AddressFetchMethod> }
 })
 
 const emit = defineEmits(['update:modelValue']),
@@ -38,39 +53,25 @@ const CascaderProp: CascaderProps = {
   ...props.cascaderProps
 }
 
-// const fetchNetWork = () => {
-//   if (getConfigure('addressNetWork')) {
-//     if (props.network) console.warn("You have set up addressNetWork configuration information, remove the unnecessary props.network parameter")
-//     return getConfigure('addressNetWork')
-//   } else if (props.network) {
-//     return props.network
-//   } else {
-//     console.error("The parameters for the necessary network requests are missing using address, please consult the documentation for configuration.")
-//     return null
-//   }
-// }
-
-// fetch address dataset, U need redesign fetchAPI and data structure
 const fetchAddressData = (pid: any, nodeLevel = 1) => {
-  return new Promise(async (resolve, reject) => {
+  return new Promise<CascaderNode[]>(async (resolve, reject) => {
     try {
-      const network = props.network;
-      if (network) {
-        const response = typeof network === 'function' ? await network(pid, nodeLevel) : null,
-          nodes: any = [];
+      if (props.fetchMethod) {
+        const response = await props.fetchMethod(pid, nodeLevel)
         if (Array.isArray(response) && response.length > 0) {
-          response.map((item) => {
-            const area = {
-              value: item[props.valueKey],
-              label: item[props.labelKey],
-              leaf: nodeLevel >= props.level
-            }
-            nodes.push(area)
-          })
+          const nodes = response.map(item => ({
+            value: item[props.valueKey] ?? item.value,
+            label: item[props.labelKey] ?? item.label,
+            leaf: item.leaf ?? (nodeLevel >= props.level)
+          })) as CascaderNode[]
+          resolve(nodes)
+        } else {
+          resolve([])
+          console.warn('No data found for the given region.')
         }
-        resolve(nodes)
       } else {
-        return reject(new Error('Network function not available'));
+        resolve([])
+        console.warn('fetchMethod is not defined. Please provide a method to fetch address data in the props.')
       }
     } catch (e) {
       reject(e)
