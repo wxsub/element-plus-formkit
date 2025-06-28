@@ -37,7 +37,7 @@ jobs:
         run: cd pages
 
       - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Build Documentation
         env:
