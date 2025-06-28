@@ -29,7 +29,10 @@ jobs:
           node-version: 18.20.8
           cache: pnpm
 
-      - name: run fix package.json script
+      - name: package install
+        run: pnpm i
+
+      - name: dev
         run: pnpm dev
 
       - name: cd pages
