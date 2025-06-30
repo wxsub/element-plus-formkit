@@ -11,6 +11,9 @@
   <a href="https://github.com/wxsub/element-plus-formkit">
     <img src="https://img.shields.io/npm/l/element-plus-formkit" />
   </a>
+  <a href="https://www.npmjs.com/package/element-plus-formkit">
+    <img src="https://img.shields.io/npm/dm/element-plus-formkit" />
+  </a>
   <a href="https://github.com/wxsub/element-plus-formkit">
     <img src="https://img.shields.io/badge/node-%3E%3D16-lightgreen?logo=node.js&labelColor=darkgreen&color=brightgreen" />
   </a>
