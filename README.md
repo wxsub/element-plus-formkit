@@ -22,7 +22,6 @@
 
 **English** | [中文](./README.zh_CN.md)
 
-## Documentation
 To check out live examples and docs, visit [document](https://wxsub.github.io/element-plus-formkit).
 
 
