@@ -1,14 +1,31 @@
-# element-plus-formkit
+<h1 align="center">Element-plus-formkit</h1>
+
+<p align="center">
+    Based on ElementPlus form components for the combination of packaging , through the data flow method of the form data , to facilitate rapid development.
+</p>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/element-plus-formkit">
+    <img src="https://img.shields.io/npm/v/element-plus-formkit" />
+  </a>
+  <a href="https://github.com/wxsub/element-plus-formkit">
+    <img src="https://img.shields.io/npm/l/element-plus-formkit" />
+  </a>
+  <a href="https://github.com/wxsub/element-plus-formkit">
+    <img src="https://img.shields.io/badge/node-%3E%3D16-lightgreen?logo=node.js&labelColor=darkgreen&color=brightgreen" />
+  </a>
+  <br>
+</p>
 
 **English** | [中文](./README.zh_CN.md)
 
-Based on ElementPlus form components for the combination of packaging , through the data flow method of the form data , to facilitate rapid development.
+## Documentation
+To check out live examples and docs, visit [document](https://wxsub.github.io/element-plus-formkit).
 
-**Project node version no less than 18.0.0**
 
-## install
+## Install
 ```
-pnpm add element-plus-formkit
+pnpm add element-plus-formkit@latest
 ```
 
 ## Use Formkit components

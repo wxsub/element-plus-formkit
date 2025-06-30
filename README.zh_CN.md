@@ -1,14 +1,27 @@
-# element-plus-formkit
+<h1 align="center">Element-plus-formkit</h1>
+
+<p align="center">
+    基于 ElementPlus 对表单组件进行组合包装，通过数据流的方法对表单数据进行处理，便于快速开发。
+</p>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/element-plus-formkit">
+    <img src="https://img.shields.io/npm/v/element-plus-formkit" />
+  </a>
+  <a href="https://github.com/wxsub/element-plus-formkit">
+    <img src="https://img.shields.io/npm/l/element-plus-formkit" />
+  </a>
+  <a href="https://github.com/wxsub/element-plus-formkit">
+    <img src="https://img.shields.io/badge/node-%3E%3D16-lightgreen?logo=node.js&labelColor=darkgreen&color=brightgreen" />
+  </a>
+  <br>
+</p>
 
 **中文** | [English](./README.md)
 
-基于 ElementPlus 对表单组件进行组合包装，通过数据流的方法对表单数据进行处理，便于快速开发。
-
-**项目node版本不低于18.0.0**
-
 ## 安装项目
 ```
-pnpm add element-plus-formkit
+pnpm add element-plus-formkit@latest
 ```
 
 ## 使用
