@@ -22,6 +22,9 @@
 
 **中文** | [English](./README.md)
 
+## 文档
+要查看实时示例和文档，请访问[文档](https://wxsub.github.io/element-plus-formkit)。
+
 ## 安装项目
 ```
 pnpm add element-plus-formkit@latest
