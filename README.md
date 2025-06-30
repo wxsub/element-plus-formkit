@@ -22,7 +22,7 @@
 
 **English** | [中文](./README.zh_CN.md)
 
-To check out live examples and docs, visit [document](https://wxsub.github.io/element-plus-formkit/get-started.html].
+To check out live examples and docs, visit [document](https://wxsub.github.io/element-plus-formkit/get-started.html).
 
 
 ## Install
