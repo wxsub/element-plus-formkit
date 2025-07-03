@@ -9,7 +9,7 @@ const props = defineProps({
   modelValue: { type: [String, Number, Array] },
   onChoose: { type: [Function, null], default: null },
   handler: { type: [Function, null], default: null },
-  remoteMethod: { type: [Function, null], default: null }
+  requester: { type: [Function, null], default: null }
 })
 
 const emit = defineEmits(['update:modelValue']),
@@ -26,9 +26,9 @@ const dataset: any = computed({
 })
 
 const searchRemoteMethod = async (query: string) => {
-  if (query && props.remoteMethod) {
+  if (query && props.requester) {
     loading.value = true
-    const response = await props.remoteMethod(query)
+    const response = await props.requester(query)
     loading.value = false
     options.value = props.handler ? props.handler(response) : (Array.isArray(response) ? response : [])
   } else {
