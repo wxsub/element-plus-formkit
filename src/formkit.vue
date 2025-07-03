@@ -98,12 +98,12 @@ const formAttrs = computed(() => {
   return attrs
 }), setRowAttrs = computed(() => {
   const { columnGap } = props.rows || {}
-  return { gutter: columnGap || 20 }
+  return { gutter: columnGap || 10 }
 }), isAutoAlignment = computed(() => {
   return props.columns === 'auto'
 }), setSpanAttrs = computed(() => {
   const columnsValue = props.columns as number;
-  return isNumber(columnsValue) ? 24 / columnsValue : -1;
+  return isNumber(columnsValue) ? 16 / columnsValue : -1;
 }), configs: ComputedRef<ConfigInterface[]> = computed(() => {
   return props.config.filter((conf: ConfigInterface) => {
     if (conf?.visible === undefined) return conf
