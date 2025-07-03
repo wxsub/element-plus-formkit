@@ -1,63 +1,65 @@
 <template>
   <div :class="[{ 'form-label-auto': isAutoAlignment }]" class="element-plus-formkit">
-    <el-form
-      ref="FormKitRef"
-      :model="modelValue"
-      :key="UNIQUE_KEY"
-      v-bind="formAttrs"
-      :label-position="labelPosition">
-      <el-row v-bind="setRowAttrs">
-        <slot name="prepend" />
-        <el-col
-          v-for="conf in configs"
-          :key="conf.key"
-          :span="conf.span || setSpanAttrs">
-          <el-form-item
-            :label="conf.label"
-            :label-width="isAutoAlignment ? '0px' : (conf.labelWidth || `${labelWidth}px`)"
-            :class="{'auto-alignment': isAutoAlignment }"
-            :prop="conf.key"
-            :rules="conf.rules">
-            <Suspense v-if="conf.type">
-              <template #default>
-                <component
-                  :is="loader(conf.type)"
-                  :ref="`module-${conf.key}`"
-                  :disabled="conf['disabled']"
-                  v-model="modelValue[conf.key]"
-                  :options="conf.options || buckets[conf.key]"
-                  v-on="conf.events || {}"
-                  v-bind="conf.props"
-                  @change="mutation($event, conf)"
-                  :key="`module-${conf.key}-${ComponentUpdateTrigger[conf.key] || 0}`">
-                </component>
-              </template>
-              <template #fallback>
-                <div class="formkit-module-loading">
-                  <el-icon class="is-loading">
-                    <Loading />
-                  </el-icon>
-                </div>
-              </template>
-            </Suspense>
-            <slot :name="conf.key" :row="conf" :value="modelValue[conf.key]" :size="size" />
-            <p v-if="conf.hint" class="item-hint w-full" v-html="conf.hint"/>
-          </el-form-item>
-        </el-col>
-        <slot name="append" />
-      </el-row>
-    </el-form>
-    <slot :config="configs" name="content" />
+    <el-config-provider :locale="getConfigure('lang')" :size="size">
+      <el-form
+        ref="FormKitRef"
+        :model="modelValue"
+        :key="UNIQUE_KEY"
+        v-bind="formAttrs"
+        :label-position="labelPosition">
+        <el-row v-bind="setRowAttrs">
+          <slot name="prepend" />
+          <el-col
+            v-for="conf in configs"
+            :key="conf.key"
+            :span="conf.span || setSpanAttrs">
+            <el-form-item
+              :label="conf.label"
+              :label-width="isAutoAlignment ? '0px' : (conf.labelWidth || `${labelWidth}px`)"
+              :class="{'auto-alignment': isAutoAlignment }"
+              :prop="conf.key"
+              :rules="conf.rules">
+              <Suspense v-if="conf.type">
+                <template #default>
+                  <component
+                    :is="loader(conf.type)"
+                    :ref="`module-${conf.key}`"
+                    :disabled="conf['disabled']"
+                    v-model="modelValue[conf.key]"
+                    :options="conf.options || buckets[conf.key]"
+                    v-on="conf.events || {}"
+                    v-bind="conf.props"
+                    @change="mutation($event, conf)"
+                    :key="`module-${conf.key}-${ComponentUpdateTrigger[conf.key] || 0}`">
+                  </component>
+                </template>
+                <template #fallback>
+                  <div class="formkit-module-loading">
+                    <el-icon class="is-loading">
+                      <Loading />
+                    </el-icon>
+                  </div>
+                </template>
+              </Suspense>
+              <slot :name="conf.key" :row="conf" :value="modelValue[conf.key]" :size="size" />
+              <p v-if="conf.hint" class="item-hint w-full" v-html="conf.hint"/>
+            </el-form-item>
+          </el-col>
+          <slot name="append" />
+        </el-row>
+      </el-form>
+      <slot :config="configs" name="content" />
+    </el-config-provider>
   </div>
 </template>
 
 <script setup lang="ts">
 import { Loading } from '@element-plus/icons-vue'
 import { modules } from '@/module-registry'
-import { ElForm, ElRow, ElCol, ElFormItem, ElIcon } from 'element-plus'
-import { ElMessage } from "element-plus"
+import { getConfigure } from '@/config'
+import { ElForm, ElRow, ElCol, ElFormItem, ElIcon, ElConfigProvider, ElMessage } from 'element-plus'
 import { isObject, isNumber, isArray, isBoolean, isFunction, uuidv4 } from '@/utils/util'
-import { ConfigInterface, FormKitExposed } from 'types/formkit-types'
+import { ConfigInterface, FormKitExposed, ValidSize } from 'types/formkit-types'
 
 const UNIQUE_KEY = ref(uuidv4()),
     FormKitRef = ref<InstanceType<typeof ElForm> & FormKitExposed>(),
@@ -74,8 +76,12 @@ const props = defineProps({
   labelPosition: { type: String, default: 'top' }, // Form Input Alignment Rules
   labelWidth: { type: Number, default: 120 }, // Form item title width (only works when labelPosition is left, right)
   columns: { type: [Number, String], default: 1 }, // How many columns per row
-  size: { type: String, default: 'default' }, // Form Size
-  rows: { type: Object, default: () => null } // Form row item settings
+  rows: { type: Object, default: () => null }, // Form row item settings
+  size: {
+    type: String as () => ValidSize,
+    default: 'default',
+    validator: (val: string): val is ValidSize => ['', 'small', 'default', 'large'].includes(val)
+  }
 })
 
 onMounted(async () => {
@@ -91,7 +97,6 @@ onMounted(async () => {
 
 const formAttrs = computed(() => {
   const attrs = Object.create(null);
-  attrs.size = props.size;
   attrs.inline = Number(props.columns) > 1;
   if (props.disabled) attrs.disabled = props.disabled;
   if (props.rules && Object.keys(props.rules).length > 0) attrs.rules = props.rules;
@@ -103,7 +108,7 @@ const formAttrs = computed(() => {
   return props.columns === 'auto'
 }), setSpanAttrs = computed(() => {
   const columnsValue = props.columns as number;
-  return isNumber(columnsValue) ? 16 / columnsValue : -1;
+  return isNumber(columnsValue) ? 24 / columnsValue : -1;
 }), configs: ComputedRef<ConfigInterface[]> = computed(() => {
   return props.config.filter((conf: ConfigInterface) => {
     if (conf?.visible === undefined) return conf

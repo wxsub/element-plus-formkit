@@ -1,12 +1,15 @@
 import { ref, type Ref } from 'vue';
-import type { UploadRequester } from 'types/formkit-types';
+import type { UploadRequester, ElementPlusLocale } from 'types/formkit-types';
+import zhCn from 'element-plus/es/locale/lang/zh-cn';
 
 export interface configType {
   upload?: UploadRequester | null;
+  lang: ElementPlusLocale;
 }
 
 const defaultConfig: configType = {
-  upload: null
+  upload: null,
+  lang: zhCn as ElementPlusLocale
 };
 
 const globalConfig: Ref<configType> = ref(defaultConfig);

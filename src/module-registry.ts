@@ -1,9 +1,13 @@
 import { type Component } from 'vue';
 import { Modules as BuiltInModules } from '@/asyncModulesLoader';
 
-export type CustomModuleRegistry = FormkitModules
+export interface FormkitModulesInterface {
+  registerModule(type: string, component: Component): void;
+  getModule(type: string): Component | undefined;
+  getAllModules(): Record<string, Component>;
+}
 
-class FormkitModules {
+export class FormkitModules implements FormkitModulesInterface {
   private customModules: Record<string, Component> = {};
   
   registerModule(type: string, component: Component) {
@@ -27,3 +31,5 @@ export const modules = new FormkitModules();
 export function registerModule(type: string, component: Component) {
   modules.registerModule(type, component);
 }
+
+export type CustomModuleRegistry = FormkitModulesInterface;
