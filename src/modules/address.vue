@@ -24,7 +24,7 @@ const props = defineProps({
   level: { type: Number, default: 1 },
   cascaderProps: { type: Object as PropType<CascaderProps>, default: () => {} },
   modelValue: { type: [String, Number, Array] },
-  fetchMethod: { type: Function as PropType<AddressFetchMethod> }
+  requester: { type: Function as PropType<AddressFetchMethod> }
 })
 
 const emit = defineEmits(['update:modelValue']),
@@ -56,8 +56,8 @@ const CascaderProp: CascaderProps = {
 const fetchAddressData = (pid: any, nodeLevel = 1) => {
   return new Promise<CascaderNode[]>(async (resolve, reject) => {
     try {
-      if (props.fetchMethod) {
-        const response = await props.fetchMethod(pid, nodeLevel)
+      if (props.requester) {
+        const response = await props.requester(pid, nodeLevel)
         if (Array.isArray(response) && response.length > 0) {
           const nodes = response.map(item => ({
             value: item[props.valueKey] ?? item.value,
@@ -71,7 +71,7 @@ const fetchAddressData = (pid: any, nodeLevel = 1) => {
         }
       } else {
         resolve([])
-        console.warn('fetchMethod is not defined. Please provide a method to fetch address data in the props.')
+        console.warn('requester is not defined. Please provide a method to fetch address data in the props.')
       }
     } catch (e) {
       reject(e)
