@@ -1,7 +1,7 @@
 # 组件道具（props）
 
-## v-model
-组件绑定值，类型：`Object`
+## model-value / v-model
+组件绑定数据源，类型：`Object`
 
 ## config
 组件配置项，具体参数请查阅[Config Api](/config-api.md)。类型：`Array`

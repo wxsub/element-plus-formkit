@@ -111,7 +111,7 @@ app.use(formkit, {
 | labelWidth |  The length of the label, e.g. '50px'. This value is inherited by form-item as a direct child of Form. auto can be used.  |   -   |  string / number  |   ''
 | rules |  Form item validation rules, empty without validation  |   -   |  Array  |   -
 | options |  Operational items for components such as select, cascader, etc.  |   -   |  Array  |  ` options: [{ name: 'Open all day', id: 'ALL' }] `
-| request |  This form item requires a custom request for remote data loading  |   -   |  Promise  |  ` request: useAxios().get('/default/shop/category-tree') `
+| requester |  This form item requires a custom requester for remote data loading  |   -   |  Promise  |  ` requester: useAxios().get('/default/shop/category-tree') `
 | handle |  Processing remote data in conjunction with remote data loading  |   -   |  Function  |  ` handle: (response: any) => Array.isArray(response) ? response : [] `
 | props |  Parameters bound directly to the component  |   -   |  Object  |  `props: { placeholder: 'Pls input shop code', max: 10 }`
 | visible |  This form entry displays the fields that need to be associated  |   -   |  Object  |  ` visible: { key: "showid", value: 0 } `Indicates that the item is not displayed when the value of the field `showid` in the form is 0.

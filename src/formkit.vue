@@ -81,7 +81,7 @@ const props = defineProps({
 onMounted(async () => {
   try {
     for (const iterator of props.config) {
-      if (iterator?.request) Stacks.push(iterator)
+      if (iterator?.requester) Stacks.push(iterator)
     }
     if (Stacks.length > 0) await executeRequestStack()
   } catch (error) {
@@ -98,12 +98,12 @@ const formAttrs = computed(() => {
   return attrs
 }), setRowAttrs = computed(() => {
   const { columnGap } = props.rows || {}
-  return { gutter: columnGap || 20 }
+  return { gutter: columnGap || 10 }
 }), isAutoAlignment = computed(() => {
   return props.columns === 'auto'
 }), setSpanAttrs = computed(() => {
   const columnsValue = props.columns as number;
-  return isNumber(columnsValue) ? 24 / columnsValue : -1;
+  return isNumber(columnsValue) ? 16 / columnsValue : -1;
 }), configs: ComputedRef<ConfigInterface[]> = computed(() => {
   return props.config.filter((conf: ConfigInterface) => {
     if (conf?.visible === undefined) return conf
@@ -178,8 +178,8 @@ async function executeRequestStack() {
   const runner: IterableIterator<any> = Stacks[Symbol.iterator]()
   for (const iterator of runner) {
 	  try {
-      const { request, key, handle } = iterator,
-        response = Object.prototype.toString.call(request) === '[object Function]' ? await request() : await request;
+      const { requester, key, handle } = iterator,
+        response = Object.prototype.toString.call(requester) === '[object Function]' ? await requester() : await requester;
       if (isFunction(handle)) {
         buckets[key] = handle(response)
       } else {

@@ -23,7 +23,7 @@ export interface ConfigInterface {
   rules?: Array<FormItemRule>;
   events?: object;
   props?: object;
-  request?: Function | object;
+  requester?: Function | object;
   handle?: Function;
 }
 
