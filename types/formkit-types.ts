@@ -1,3 +1,6 @@
+import { Plugin } from 'vue';
+import type { Component } from 'vue';
+
 export interface FormItemRule {
   trigger?: string | string[];
   required?: boolean;
@@ -47,3 +50,12 @@ export type UploadRequester = (
   file: File, 
   options: UploadRequesterOptions
 ) => Promise<string>;
+
+export type ElementPlusFormkitPlugin = Plugin & {
+  formkit: Component;
+  Upload: Component;
+  setConfigure: (...args: any[]) => void;
+  getConfigure: (...args: any[]) => any;
+  registerModule: (...args: any[]) => void;
+  getModules: () => Record<string, Component>;
+};
