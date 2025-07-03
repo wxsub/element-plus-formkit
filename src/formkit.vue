@@ -103,7 +103,7 @@ const formAttrs = computed(() => {
   return props.columns === 'auto'
 }), setSpanAttrs = computed(() => {
   const columnsValue = props.columns as number;
-  return isNumber(columnsValue) ? 16 / columnsValue : -1;
+  return isNumber(columnsValue) ? 24 / columnsValue : -1;
 }), configs: ComputedRef<ConfigInterface[]> = computed(() => {
   return props.config.filter((conf: ConfigInterface) => {
     if (conf?.visible === undefined) return conf
