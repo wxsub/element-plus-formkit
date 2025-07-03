@@ -50,3 +50,60 @@ app.mount('#app');
 ```vue
 <formkit v-model="dataset" :config="[]" />
 ```
+
+## 浏览器直接引入
+
+直接通过浏览器的 HTML 标签导入 Element Plus Formkit，然后就可以使用全局变量 formkit 了。
+
+根据不同的 CDN 提供商有不同的引入方式， 我们在这里以 jsDelivr 举例。
+
+``` js
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/element-plus/dist/index.css" />
+<!-- Import Vue 3 -->
+<script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
+<!-- Import component library -->
+<script src="https://cdn.jsdelivr.net/npm/element-plus"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/element-plus-formkit/dist/index.css">
+<script src="https://cdn.jsdelivr.net/npm/element-plus-formkit/dist/formkit.umd.js"></script>
+```
+
+```html
+<div id="app">
+  <formkit :config="formConfig" v-model="formData"></formkit>
+</div>
+
+<script>
+  const { createApp } = Vue;
+  const app = createApp({
+    data() {
+      return {
+        formConfig: [
+          {
+            type: 'input',
+            key: 'username',
+            label: '用户名',
+            rules: [{ required: true, message: '请输入用户名' }]
+          },
+          {
+            type: 'select',
+            key: 'role',
+            label: '角色',
+            options: [
+              { name: '管理员', id: 'admin' },
+              { name: '普通用户', id: 'user' }
+            ]
+          }
+        ],
+        formData: {}
+      }
+    }
+  });
+
+  app.use(ElementPlus);
+
+  app.use(formkit.default.install);
+    
+  app.mount('#app');
+</script>
+```
