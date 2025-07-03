@@ -1,5 +1,10 @@
 import { Plugin } from 'vue';
+import { ConfigProviderProps } from 'element-plus';
 import type { Component } from 'vue';
+
+export type ValidSize = '' | 'small' | 'default' | 'large'
+
+export type ElementPlusLocale = NonNullable<ConfigProviderProps['locale']>;
 
 export interface FormItemRule {
   trigger?: string | string[];
