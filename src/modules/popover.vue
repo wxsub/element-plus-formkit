@@ -1,17 +1,24 @@
 <script setup lang="ts">
 import { ElPopover, ElEmpty, ElCascaderPanel } from 'element-plus'
+import { ArrowDown } from '@element-plus/icons-vue'
 
 const props = defineProps({
   modelValue: { default: null },
+  labelKey: { type: String, default: 'name' },
+  valueKey: { type: String, default: 'id' },
   loading: { type: Boolean, default: false },
   options: { type: Array<any>, default: () => [] }
 })
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue']), attrs = useAttrs();
 
 const popoverAttrs = computed(() => {
-  const attrs = useAttrs();
   return attrs && typeof attrs.popover === 'object' ? attrs.popover : {};
+}), cascaderPanelAttrs = computed(() => {
+  return Object.assign(attrs.props as Record<string, any> || {}, {
+    label: props.labelKey,
+    value: props.valueKey
+  })
 });
 
 const _value: any = computed({
@@ -34,32 +41,36 @@ const label = computed(() => {
 </script>
 
 <template>
-  <el-popover trigger="click" :disabled="loading" v-bind="popoverAttrs" class="formkit-module-popover">
+  <el-popover trigger="click" :disabled="loading" v-bind="popoverAttrs" :popper-style="{ padding: 0 }" width="auto">
     <div>
       <el-empty :image-size="60" v-if="options.length === 0"></el-empty>
-      <el-cascader-panel :options="options" v-bind="$attrs" v-model="_value" v-else />
+      <el-cascader-panel :options="options" :props="cascaderPanelAttrs" v-model="_value" v-else />
     </div>
-    <span :class="{ 'active': _value }" slot="reference" class="cursor-pointer">
-      <span v-if="loading" class="loading">
-        正在加载 <i class="el-icon-loading" />
+    <template #reference>
+      <span :class="{ 'module-popover-active': _value }" class="module-popover-context">
+        <span v-if="loading" class="module-popover-loading">
+          正在加载 <i class="el-icon-loading" />
+        </span>
+        <template v-else>
+          <span class="ellipsis">{{ label }}</span>
+          <el-icon><ArrowDown /></el-icon>
+        </template>
       </span>
-      <template v-else>
-        <span class="ellipsis">{{ label }}</span>
-        <i class="el-icon-arrow-down el-icon--right"></i>
-      </template>
-    </span>
+    </template>
   </el-popover>
 </template>
 
 <style lang="scss">
-.formkit-module-popover {
-  .active {
-    color: #128bed
-  }
+.module-popover-context {
+  cursor: pointer;
+}
 
-  .loading {
-    color: #ccc;
-    user-select: none
-  }
+.module-popover-active {
+  color: #128bed
+}
+
+.module-popover-loading {
+  color: #ccc;
+  user-select: none
 }
 </style>
