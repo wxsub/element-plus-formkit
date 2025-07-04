@@ -32,7 +32,7 @@ export interface ConfigInterface {
   events?: object;
   props?: object;
   requester?: Function | object;
-  handle?: Function;
+  handler?: Function;
 }
 
 export interface FormKitExposed {

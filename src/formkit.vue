@@ -183,10 +183,10 @@ async function executeRequestStack() {
   const runner: IterableIterator<any> = Stacks[Symbol.iterator]()
   for (const iterator of runner) {
 	  try {
-      const { requester, key, handle } = iterator,
+      const { requester, key, handler } = iterator,
         response = Object.prototype.toString.call(requester) === '[object Function]' ? await requester() : await requester;
-      if (isFunction(handle)) {
-        buckets[key] = handle(response)
+      if (isFunction(handler)) {
+        buckets[key] = handler(response)
       } else {
         const { data = [] } = response || {}
         buckets[key] = data

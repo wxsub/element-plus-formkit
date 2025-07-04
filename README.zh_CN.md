@@ -111,7 +111,7 @@ app.use(formkit, {
 | rules |  表单项校验规则，为空不校验  |   -   |  Array  |   -
 | options |  select、cascader等组件的操作项  |   -   |  Array  |  ` options: [{ name: '全天营业', id: 'ALL' }] `
 | requester |  该表单项需要进行远程数据加载的自定义请求  |   -   |  Promise  |  ` requester: useAxios().get('/default/shop/category-tree') `
-| handle |  配合远程数据加载，处理远程数据  |   -   |  Function  |  ` handle: (response: any) => Array.isArray(response) ? response : [] `
+| handler |  配合远程数据加载，处理远程数据  |   -   |  Function  |  ` handler: (response: any) => Array.isArray(response) ? response : [] `
 | props |  直接绑定到组件上的参数  |   -   |  Object  |  `props: { placeholder: '请输入店铺编码', max: 10 }`
 | visible |  该表单项显示需要关联的字段  |   -   |  Object  |  ` visible: { key: "showid", value: 0 } `表示表单内字段`showid`的值为0时该项不显示
 | events |  接受组件事件  |   -   |  Object  |  -

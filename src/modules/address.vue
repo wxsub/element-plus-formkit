@@ -61,8 +61,8 @@ const fetchAddressData = (pid: any, nodeLevel = 1) => {
       if (props.requester) {
         const response = await props.requester(pid, nodeLevel)
 
-        const processedResponse = typeof attrs.handle === 'function' 
-          ? attrs.handle(response) 
+        const processedResponse = typeof attrs.handler === 'function' 
+          ? attrs.handler(response) 
           : response
 
         if (Array.isArray(processedResponse) && processedResponse.length > 0) {
