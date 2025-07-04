@@ -27,6 +27,8 @@ const props = defineProps({
   requester: { type: Function as PropType<AddressFetchMethod> }
 })
 
+const attrs = useAttrs()
+
 const emit = defineEmits(['update:modelValue']),
   dataset: any = computed({
     get: () => {
@@ -58,8 +60,13 @@ const fetchAddressData = (pid: any, nodeLevel = 1) => {
     try {
       if (props.requester) {
         const response = await props.requester(pid, nodeLevel)
-        if (Array.isArray(response) && response.length > 0) {
-          const nodes = response.map(item => ({
+
+        const processedResponse = typeof attrs.handle === 'function' 
+          ? attrs.handle(response) 
+          : response
+
+        if (Array.isArray(processedResponse) && processedResponse.length > 0) {
+          const nodes =  processedResponse.map(item => ({
             value: item[props.valueKey] ?? item.value,
             label: item[props.labelKey] ?? item.label,
             leaf: item.leaf ?? (nodeLevel >= props.level)
@@ -75,6 +82,7 @@ const fetchAddressData = (pid: any, nodeLevel = 1) => {
       }
     } catch (e) {
       reject(e)
+      console.warn(e)
     }
   })
 }
