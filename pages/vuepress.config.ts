@@ -19,6 +19,10 @@ export default defineUserConfig({
         link: '/config-api'
       },
       {
+        text: '插槽(Slot)',
+        link: '/slot'
+      },
+      {
         text: '基础组件演示(Basic Demo)',
         link: '/basic-demo'
       }
