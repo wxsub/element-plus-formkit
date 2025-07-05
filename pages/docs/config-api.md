@@ -468,6 +468,38 @@ output onChooseCallback: {{ dataset.onChooseCallback }}
 Usually selectors that load data remotely are difficult to control the default data handling, because usually the backend handles the data query by accepting `item.name` but the data binding is usually `item.id`, for this reason we introduce a new parameter (`initialValue`) for this purpose, when `initialValue` is not empty, we will call the `requester` you provide as a form parameter as soon as the component is finished loading. When the `initialValue` parameter is not null, we will use `initialValue` as a formal parameter to fetch your `requester` as soon as the component finishes loading.
 
 
+### rate
+评分组件
+
+<formkit
+    :config="[
+        {
+            type: 'rate',
+            label: '评分(Rate)',
+            key: 'rate',
+            props: { 'allow-half': false, colors: ['#F7BA2A', '#F7BA2A', '#F7BA2A'], size: 'large' }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+```vue
+<formkit
+    :config="[
+        {
+            type: 'rate',
+            label: '评分(Rate)',
+            key: 'rate',
+            props: { 'allow-half': false, colors: ['#F7BA2A', '#F7BA2A', '#F7BA2A'], size: 'large' }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+```
+::: tip
+[原生ELinput API](https://element-plus.org/zh-CN/component/rate.html#api)请写入props内
+:::
+
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 
