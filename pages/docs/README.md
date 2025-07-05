@@ -1,7 +1,7 @@
 ---
 home: true
 title: Home
-heroImage: /public/logo.jpeg
+heroImage: https://raw.githubusercontent.com/wxsub/element-plus-formkit/refs/heads/main/pages/docs/public/logo.png
 actions:
   - text: 开始
     link: /get-started.html
