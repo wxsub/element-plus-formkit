@@ -1,5 +1,5 @@
 
-name: Deployment Documentation
+name: Auto Document Publishing
 
 on:
   push:
