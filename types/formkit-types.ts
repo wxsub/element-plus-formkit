@@ -1,4 +1,3 @@
-import { Plugin } from 'vue';
 import { ConfigProviderProps } from 'element-plus';
 import type { Component } from 'vue';
 
@@ -56,8 +55,7 @@ export type UploadRequester = (
   options: UploadRequesterOptions
 ) => Promise<string>;
 
-export type ElementPlusFormkitPlugin = Plugin & {
-  formkit: Component;
+export type ElementPlusFormkitPlugin = {
   Upload: Component;
   setConfigure: (...args: any[]) => void;
   getConfigure: (...args: any[]) => any;

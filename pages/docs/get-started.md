@@ -37,18 +37,22 @@ npm install element-plus-formkit@latest --save
 // main.ts
 import { createApp } from 'vue';
 import App from './App.vue';
-import formkit from 'element-plus-formkit';
 import 'element-plus-formkit/dist/index.css'
 
 const app = createApp(App);
-app.use(formkit);
 
 app.mount('#app');
 ```
-如此你便可以在您的项目中使用了。
+在您的项目中使用.
 
 ```vue
-<formkit v-model="dataset" :config="[]" />
+<template>
+  <formkit :config="formConfig" v-model="formData"></formkit>
+</template>
+
+<script setup lang="ts">
+import formkit from 'element-plus-formkit';
+</script>
 ```
 
 ## 浏览器直接引入
@@ -102,7 +106,7 @@ app.mount('#app');
 
   app.use(ElementPlus);
 
-  app.use(formkit.default.install);
+  app.component('formkit', formkit.default.install);
     
   app.mount('#app');
 </script>

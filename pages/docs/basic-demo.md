@@ -1,5 +1,7 @@
 Element-Plus-Formkit基础组件包含: {{ Array.from(new Set(FormKitConfig.map((it) => (it.type)))).join(" 、 ") }}
 
+<p>{{ dataset }}</p>
+
 <div>
     <formkit v-model="dataset" :config="FormKitConfig" ref="dataSetFormRef" />
     <el-button color="#626aef" @click="submit">表单校验 form validation</el-button>
@@ -14,6 +16,7 @@ Element-Plus-Formkit基础组件包含: {{ Array.from(new Set(FormKitConfig.map(
 @tab TypeScript
 ```ts
 <script setup>
+import formkit from 'element-plus-formkit'
 import { ref, computed } from 'vue';
 
 const dataset = ref({})
@@ -105,8 +108,8 @@ visible属性支持：Object、Array、Boolean
 :::
 
 <script setup lang="ts">
-import type { Instance } from 'element-plus-formkit'
-import { ref, computed } from 'vue';
+import formkit, { type Instance } from 'element-plus-formkit'
+import { ref, computed } from 'vue'
 
 const dataset = ref({}),
     dataSetFormRef = ref<Instance>();

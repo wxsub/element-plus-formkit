@@ -203,6 +203,7 @@ If you are using this slot because you want to replace the current item's module
 ```
 
 <script setup lang="ts">
+import formkit from 'element-plus-formkit';
 import { ref, computed } from 'vue';
 
 const dataset = ref({})

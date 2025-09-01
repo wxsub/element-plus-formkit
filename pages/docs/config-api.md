@@ -116,6 +116,7 @@ Select can also be used to dynamically fetch options through the `requester` fie
 @tab TypeScript
 ```ts
 <script setup lang="ts">
+import formkit from 'element-plus-formkit';
 import { ref, computed } from 'vue';
 
 const dataset = ref({})
@@ -501,6 +502,7 @@ Usually selectors that load data remotely are difficult to control the default d
 :::
 
 <script setup lang="ts">
+import formkit from 'element-plus-formkit';
 import { ref, computed } from 'vue';
 
 const dataset = ref({})
