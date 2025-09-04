@@ -34,17 +34,26 @@ pnpm add element-plus-formkit@latest
 // main.ts
 import { createApp } from 'vue';
 import App from './App.vue';
-import formkit, { setConfigure, registerModule } from 'element-plus-formkit';
+import 'element-plus-formkit/dist/index.css'
 
 const app = createApp(App);
-app.use(formkit);
 
 app.mount('#app');
+```
+
+在页面中使用 Formkit 组件
+
+```
+<template>
+  <FormKit :config="config" v-model="FormData" />
+</template>
 ```
 
 ### registerModule
 Formkit 允许您注册自定义组件
 ```
+import { registerModule } from 'element-plus-formkit';
+
 import CustomEditor from './components/CustomEditor.vue'
 registerModule('customEditor', CustomEditor)
 
@@ -60,7 +69,7 @@ registerModule('customEditor', CustomEditor)
 Formkit 接受大量全局配置参数，如文件上传网络地址等。
 ```
 // 设置全局配置（可在安装前或安装后设置）
-import formkit, { setConfigure } from 'element-plus-formkit'
+import { setConfigure } from 'element-plus-formkit'
 import type { UploadRequesterOptions } from 'element-plus-formkit/types/formkit-types'
 import 'element-plus-formkit/dist/index.css'
 
@@ -77,11 +86,6 @@ setConfigure('upload', async (file: File, options: UploadRequesterOptions) => {
     })
     return response
 })
-
-app.use(formkit, {
-  // 可选：也可在此处传递配置（将与 setFormKitConfig 合并）
-  // apiTimeout: 10000
-});
 ```
 **请注意，formkit 依赖于 elementplus 表单进行开发，您需要在系统中引入 elementplus。**
 
