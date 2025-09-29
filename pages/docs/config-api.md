@@ -3,6 +3,10 @@
 ## config.type
 type字段用于控制formkit加载相关的模块，字段类型：`String`,下面将介绍type相关合法值。
 
+| 类型 | 可选值 | 默认 | 
+| -------- | :----- | :----: |
+| String | 见下描述 | -
+
 The type field is used to control the module loaded by the formkit, field type: `String`, the legal values associated with type are described below.
 
 ### input
@@ -500,6 +504,141 @@ Usually selectors that load data remotely are difficult to control the default d
 ::: tip
 [原生ELinput API](https://element-plus.org/zh-CN/component/rate.html#api)请写入props内
 :::
+
+## config.props
+props字段为自定义项，注意改字段接受一个`Object`类型的数据同时它会以`v-bind`的形式被绑定到所有模块。
+
+The `props` field is a custom property. Note that this field accepts an `Object`-type data and will be bound to all modules in the form of `v-bind`.
+
+| 类型 | 可选值 | 默认 | 
+| -------- | :----- | :----: |
+| Object | 见下描述 | {}
+
+如果你需要修改原生element-plus表单组价属性可以将其直接写入`props`内，例如：
+
+希望修改[element-plus input attributes](https://element-plus.org/zh-CN/component/input#attributes)中的`clear-icon`、`placeholder`、 `maxlength`,你可以这样：
+
+If you need to modify the native element-plus form group attributes, you can directly write them into the `props` section. For example:
+
+To modify the `clear-icon`, `placeholder`, and `maxlength` attributes in [element-plus input attributes](https://element-plus.org/zh-CN/component/input#attributes), you can do it like this:
+
+<formkit
+    :config="[
+        {
+            type: 'input',
+            label: '姓名 (Name)',
+            key: 'password',
+            props: { placeholder: '请输入姓名', clearable: true, maxlength: 10 }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+```vue
+<formkit
+    :config="[
+        {
+            type: 'input',
+            label: '姓名 (Name)',
+            key: 'password',
+            props: { placeholder: '请输入姓名', clearable: true, maxlength: 10 }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+```
+
+### value-key
+
+| 类型 | 默认 | 
+| -------- | :----- |
+| String | id
+
+作为 value 唯一标识的键名，当`config.options`为数组类型时或`config.requester`返回数组类型时你可能需要指定
+
+<formkit
+    :config="[
+        {
+            type: 'select',
+            label: 'Selector Student',
+            key: 'studentid',
+            props: { placeholder: 'Pls select', clearable: true, valueKey: 'studentid' },
+            options: [
+                { name: 'Student one', studentid: 1 },
+                { name: 'Student two', studentid: 2 },
+                { name: 'Student three', studentid: 3 }
+            ]
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+output: {{ dataset.studentid }}
+
+```vue
+<formkit
+    :config="[
+        {
+            type: 'select',
+            label: 'Selector Student',
+            key: 'studentid',
+            props: { placeholder: 'Pls select', clearable: true, valueKey: 'studentid' },
+            options: [
+                { name: 'Student one', studentid: 1 },
+                { name: 'Student two', studentid: 2 },
+                { name: 'Student three', studentid: 3 }
+            ]
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+output: {{ dataset.studentid }}
+```
+
+### label-key
+
+| 类型 | 默认 | 
+| -------- | :----- |
+| String | name
+
+指定选项的数据源中节点标签为节点对象的某个属性值，当`config.options`为数组类型时或`config.requester`返回数组类型时你可能需要指定
+
+<formkit
+    :config="[
+        {
+            type: 'select',
+            label: 'Selector Student',
+            key: 'studentname',
+            props: { placeholder: 'Pls select', clearable: true, labelKey: 'studentname' },
+            options: [
+                { studentname: 'Student one', id: 1 },
+                { studentname: 'Student two', id: 2 },
+                { studentname: 'Student three', id: 3 }
+            ]
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+```vue
+<formkit
+    :config="[
+        {
+            type: 'select',
+            label: 'Selector Student',
+            key: 'studentname',
+            props: { placeholder: 'Pls select', clearable: true, labelKey: 'studentname' },
+            options: [
+                { studentname: 'Student one', id: 1 },
+                { studentname: 'Student two', id: 2 },
+                { studentname: 'Student three', id: 3 }
+            ]
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+```
 
 <script setup lang="ts">
 import formkit from 'element-plus-formkit';
