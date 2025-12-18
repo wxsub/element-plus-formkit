@@ -27,6 +27,7 @@
     ]"
 />
 ```
+配合组件实现完整的表单项校验，参考[Expose](/expose)
 
 ## disabled
 禁用整个表单。类型：`Boolean`
