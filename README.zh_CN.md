@@ -17,6 +17,9 @@
   <a href="https://github.com/wxsub/element-plus-formkit">
     <img src="https://img.shields.io/badge/node-%3E%3D16-lightgreen?logo=node.js&labelColor=darkgreen&color=brightgreen" />
   </a>
+  <a href="https://wxsub.github.io/element-plus-formkit/">
+    <img src="https://img.shields.io/badge/Docs-%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3-brightgreen?logo=readthedocs&logoColor=white" alt="Official Documentation" />
+  </a>
   <br>
 </p>
 
