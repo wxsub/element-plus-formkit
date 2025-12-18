@@ -27,7 +27,7 @@
     ]"
 />
 ```
-配合组件实现完整的表单项校验，参考[Expose](/expose)
+配合组件实现完整的表单项校验，参考[Expose](/element-plus-formkit/expose.html#validate)
 
 ## disabled
 禁用整个表单。类型：`Boolean`
