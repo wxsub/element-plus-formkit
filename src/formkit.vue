@@ -111,19 +111,24 @@ const formAttrs = computed(() => {
   return isNumber(columnsValue) ? 24 / columnsValue : -1;
 }), configs: ComputedRef<ConfigInterface[]> = computed(() => {
   return props.config.filter((conf: ConfigInterface) => {
-    if (conf?.visible === undefined) return conf
-    if (isObject(conf.visible) || isArray(conf.visible)) {
-      fixedPointClearValidate(conf)
-      if (isObject(conf.visible) && checkConfigIsVisible(conf.visible)) return conf
-      if (isArray(conf.visible)) {
-        const _visible = conf.visible
-        const isCheck = Array.isArray(_visible) && _visible.some((it: Object) => { return checkConfigIsVisible(it) })
-        if (isCheck) return conf
+    const hasVisibleProp = Object.prototype.hasOwnProperty.call(conf, 'visible');
+    if (hasVisibleProp) {
+      if (conf.visible === undefined) return false
+      if (isObject(conf.visible) || isArray(conf.visible)) {
+        fixedPointClearValidate(conf)
+        if (isObject(conf.visible) && checkConfigIsVisible(conf.visible)) return conf
+        if (isArray(conf.visible)) {
+          const _visible = conf.visible
+          const isCheck = Array.isArray(_visible) && _visible.some((it: Object) => { return checkConfigIsVisible(it) })
+          if (isCheck) return conf
+        }
+      } else if (isBoolean(conf.visible)) {
+        if (conf.visible) return conf
+      } else {
+        console.warn('visible field has been set, but it is not an [array, object, Boolean]!')
+        return conf
       }
-    } else if (isBoolean(conf.visible)) {
-      if (conf.visible) return conf
     } else {
-      console.warn('visible field has been set, but it is not an [array, object, Boolean]!')
       return conf
     }
   })

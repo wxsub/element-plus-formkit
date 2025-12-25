@@ -22,7 +22,8 @@ export const Modules: Record<string, Component> = {
   timePicker: asyncElementPlus('ElTimePicker'),
   timeSelect: asyncElementPlus('ElTimeSelect'),
   cascader: asyncElementPlus('ElCascader'),
-  rate: asyncElementPlus('ElRate')
+  rate: asyncElementPlus('ElRate'),
+  switch: asyncElementPlus('ElSwitch')
 };
 
 export default Object.keys(Modules);
