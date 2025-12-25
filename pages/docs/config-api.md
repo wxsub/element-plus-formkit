@@ -640,11 +640,140 @@ output: {{ dataset.studentid }}
 </formkit>
 ```
 
+## config.visible
+`visible`字段用于控制当前项是否可见，当然您也可以使用它完成复杂表单的联动效果。
+
+The `visible` field is used to control whether the current item is visible, and you can also use it to achieve complex form interaction effects.
+
+| 类型 Type | 说明 Explanation | 示例 Example |
+| -------- | :----- | :-----: |
+| undefined | 当前项不可见 <br> The current item is not visible. | -
+| Boolean | `true`: 当前项可见; `false`: 当前项不可见 <br><br> `true`: The current item is visible; `false`: The current item is not visible.. | `visible: true`
+| Object | 您需按照固定格式设置该类型的visible，具体见下FormKit Visible Object说明表。 <br><br> You need to set the `visible` property for this type using a specific format; please refer to the FormKit Visible Object description table below for details. | `visible: { key: 'name', value: 1 }`
+| Array | 多个`visible`Object类型的校验，只要有一个满足当前项即可见。 <br><br> For multiple `visible`Object type validations, as long as one satisfies the condition of the current item, it is considered visible. | `visible: [{ key: 'name', value: 1 }, { key: 'name', value: 2 }]`
+
+### FormKit Visible Object
+
+当`visible`为`Object`类型时，您需要指定`key`、`value`值。
+
+**key**
+
+| 类型 Type | 说明 Explanation | 
+| -------- | :----- |
+| String | Formkit组件v-model绑定值的key <br><br> The key for the value bound by `v-model` in the Formkit component.
+
+**value**
+
+| 类型 Type | 说明 Explanation | 
+| -------- | :----- |
+| Any | 当前Formkit组件v-model绑定值key的值 <br><br> The current value of the `key` property bound to `v-model` in the Formkit component.
+
+::: warning
+当`visible`为`Object`类型时，当前Formkit组件v-model绑定`key`的值等于您指定的`value`值时当前项显示，否则不显示
+
+When `visible` is of type `Object`, the current item will be displayed if the value of the `key` bound to the current Formkit component's v-model equals the value you specified; otherwise, it will not be displayed.
+:::
+
+<formkit
+    :config="visibleExampleConfig"
+    v-model="dataset">
+</formkit>
+
+::: code-tabs
+@tab html
+``` vue
+<formkit
+    :config="visibleExampleConfig"
+    v-model="dataset">
+</formkit>
+```
+
+@tab script
+``` vue
 <script setup lang="ts">
 import formkit from 'element-plus-formkit';
 import { ref, computed } from 'vue';
 
 const dataset = ref({})
+
+const visibleExampleConfig = computed(() => [
+    {
+        type: 'switch',
+        label: 'Type Boolean item Switch',
+        key: 'switchValue',
+        props: {
+            'inline-prompt': true,
+            'active-text': 'true',
+            'inactive-text': 'false'
+        }
+    },
+    { type: 'input', label: 'Type Boolean True Item', key: 'booleans', visible: dataset.value.switchValue, disabled: true },
+    {
+        type: 'radio',
+        label: 'Visible operation item selector',
+        key: 'radioValue',
+        options: [
+            { name: 'Type Array Item Visible', id: 1 },
+            { name: 'Type Array Item And ype Object Item Visible', id: 2 },
+            { name: 'not Visible', id: 3 }
+        ]
+    },
+    { type: 'input', label: 'Type Object Item', key: 'objects', visible: { key: 'radioValue', value: 2 }, disabled: true },
+    {
+        type: 'input',
+        label: 'Type Array Item',
+        key: 'arrays',
+        visible: [
+            { key: 'radioValue', value: 1 },
+            { key: 'radioValue', value: 2 }
+        ],
+        disabled: true 
+    }
+])
+</script>
+```
+:::
+
+<script setup lang="ts">
+import formkit from 'element-plus-formkit';
+import { ref, computed } from 'vue';
+
+const dataset = ref({})
+
+const visibleExampleConfig = computed(() => [
+    {
+        type: 'switch',
+        label: 'Type Boolean item Switch',
+        key: 'switchValue',
+        props: {
+            'inline-prompt': true,
+            'active-text': 'true',
+            'inactive-text': 'false'
+        }
+    },
+    { type: 'input', label: 'Type Boolean True Item', key: 'booleans', visible: dataset.value.switchValue, disabled: true },
+    {
+        type: 'radio',
+        label: 'Visible operation item selector',
+        key: 'radioValue',
+        options: [
+            { name: 'Type Array Item Visible', id: 1 },
+            { name: 'Type Array Item And ype Object Item Visible', id: 2 },
+            { name: 'not Visible', id: 3 }
+        ]
+    },
+    { type: 'input', label: 'Type Object Item', key: 'objects', visible: { key: 'radioValue', value: 2 }, disabled: true },
+    {
+        type: 'input',
+        label: 'Type Array Item',
+        key: 'arrays',
+        visible: [
+            { key: 'radioValue', value: 1 },
+            { key: 'radioValue', value: 2 }
+        ],
+        disabled: true 
+    }
+])
 
 function fetchOptions() {
     return new Promise((r, j) => {
