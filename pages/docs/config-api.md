@@ -1,5 +1,9 @@
 # 组件配置项(Component Configuration Items)
 
+以下配置项针对于config数组中的每个对象
+
+The following configuration options apply to each object in the `config` array.
+
 ## config.type
 type字段用于控制formkit加载相关的模块，字段类型：`String`,下面将介绍type相关合法值。
 
@@ -505,10 +509,64 @@ Usually selectors that load data remotely are difficult to control the default d
 [原生ELinput API](https://element-plus.org/zh-CN/component/rate.html#api)请写入props内
 :::
 
-## config.props
-props字段为自定义项，注意改字段接受一个`Object`类型的数据同时它会以`v-bind`的形式被绑定到所有模块。
+## config.label
+表单项标签，类型：`String`
+<formkit
+    :config="[
+        {
+            type: 'input',
+            label: '这是label(This is label)',
+            key: 'labelTestKey'
+        }
+    ]"
+    v-model="dataset">
+</formkit>
 
-The `props` field is a custom property. Note that this field accepts an `Object`-type data and will be bound to all modules in the form of `v-bind`.
+```vue
+<formkit
+    :config="[
+        {
+            type: 'input',
+            label: '这是label(This is label)',
+            key: 'labelTestKey'
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+```
+
+## config.key
+表单项绑定的key值，类型：`String`
+<formkit
+    :config="[
+        {
+            type: 'input',
+            key: 'testKey'
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+<p>表单项当前绑定的key为testKey的值: {{ dataset.testKey }}</p>
+<p>The form item is currently bound to the value of the key "testKey": {{ dataset.testKey }}</p>
+
+```vue
+<formkit
+    :config="[
+        {
+            type: 'input',
+            key: 'testKey'
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+<p>表单项当前绑定的key为testKey的值: {{ dataset.testKey }}</p>
+<p>The form item is currently bound to the value of the key "testKey": {{ dataset.testKey }}</p>
+```
+
+## config.props
+props字段为自定义项，注意该字段接受一个`Object`类型的数据，若`config.props`不为空formkit将使用`v-bind`将`config.props`绑定至所有模块包括您使用`registerModule`方法注册的自定义模块。
+
+The `props` field is for custom items. Note that this field accepts data of type `Object`. If `config.props` is not empty, FormKit will use `v-bind` to bind `config.props` to all modules, including custom modules you registered using the `registerModule` method.
 
 | 类型 | 可选值 | 默认 | 
 | -------- | :----- | :----: |
@@ -640,6 +698,105 @@ output: {{ dataset.studentid }}
 </formkit>
 ```
 
+## config.requester
+当前表单项拉取远程数据请求函数，仅在模块或注册的模块对象上存在options时可用，类型：`Function`
+
+The function for fetching remote data for the current form item is only available when `options` exists on the module or the registered module object. Type: `Function`
+
+::: warning
+当前函数必须返回一个`Promise`对象，否则会失效。
+
+The current function must return a `Promise` object; otherwise, it will fail.
+:::
+
+## config.handler
+处理函数，用于处理`requester`返回的数据，类型：`Function`
+
+The handler function is used to process the data returned by the `requester` function. Type: `Function`
+
+<formkit
+    :config="[
+        {
+            type: 'select',
+            label: 'Remotely fetch select option data.',
+            key: 'requesterSelect',
+            props: {
+                labelKey: 'name',
+                valueKey: 'id',
+                placeholder: 'Pls Select one item'
+            },
+            requester: () => {
+                // return useAxios().get('/default/xxx')
+                return fetchOptions()
+            },
+            handler: (response: any) => response?.items || []
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+::: code-tabs
+@tab template
+``` vue
+<formkit
+    :config="[
+        {
+            type: 'select',
+            label: 'Remotely fetch select option data.',
+            key: 'requesterSelect',
+            props: {
+                labelKey: 'name',
+                valueKey: 'id',
+                placeholder: 'Pls Select one item'
+            },
+            requester: () => {
+                // return useAxios().get('/default/xxx')
+                return fetchOptions()
+            },
+            handler: (response: any) => response?.items || []
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+```
+
+@tab script
+``` vue
+<script setup lang="ts">
+import formkit from 'element-plus-formkit';
+import { ref, computed } from 'vue';
+
+const dataset = ref({})
+
+function fetchOptions() {
+    return new Promise((r, j) => {
+        setTimeout(() => {
+           r({
+            code: 200,
+            items: [
+                { name: 'Selector item one', id: 1 },
+                { name: 'Selector item two', id: 2 },
+                { name: 'Selector item three', id: 3 }
+            ]
+           })
+        }, 2000)
+    })
+}
+</script>
+```
+:::
+
+## config.initialValue
+初始值，类型：`String`
+
+initial value. Type: `String`
+
+::: warning
+仅在`remoteSearchSelect`模块中可用，否则会失效。
+
+The `initialValue` is only available in the `remoteSearchSelect` module. Otherwise, it will fail.
+:::
+
 ## config.visible
 `visible`字段用于控制当前项是否可见，当然您也可以使用它完成复杂表单的联动效果。
 
@@ -733,6 +890,33 @@ const visibleExampleConfig = computed(() => [
 </script>
 ```
 :::
+
+## config.rules
+表单项校验规则集合，具体规则校验参数请参阅[ElementPlus 表单校验](https://element-plus.org/zh-CN/component/form.html#%E8%A1%A8%E5%8D%95%E6%A0%A1%E9%AA%8C)
+
+A collection of form item validation rules. For specific validation rule parameters, please refer to [ElementPlus Form Validation](https://element-plus.org/zh-CN/component/form.html#%E8%A1%A8%E5%8D%95%E6%A0%A1%E9%AA%8C).
+
+``` vue{7-9}
+<formkit
+    v-model="dataset"
+    :config="[
+        {
+            type: 'input',
+            label: '输入数字 (inputNumber)',
+            rules: [
+                { required: true, message: '输入数字不能为空' }
+            ],
+            key: 'input',
+            props: {
+                placeholder: '请输入数字'
+            }
+        }
+    ]"
+/>
+```
+配合组件实现完整的表单项校验，参考[Expose](/element-plus-formkit/expose.html#validate)
+
+Use components to implement complete form item validation; refer to [Expose](/element-plus-formkit/expose.html#validate).
 
 <script setup lang="ts">
 import formkit from 'element-plus-formkit';

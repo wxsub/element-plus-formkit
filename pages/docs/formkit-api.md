@@ -6,29 +6,6 @@
 ## config
 组件配置项，具体参数请查阅[Config Api](/config-api.md)。类型：`Array`
 
-## rules
-表单项校验规则集合，具体规则校验参数请参阅[ElementPlus 表单校验](https://element-plus.org/zh-CN/component/form.html#%E8%A1%A8%E5%8D%95%E6%A0%A1%E9%AA%8C)
-
-``` vue{7-9}
-<formkit
-    v-model="dataset"
-    :config="[
-        {
-            type: 'input',
-            label: '输入数字 (inputNumber)',
-            rules: [
-                { required: true, message: '输入数字不能为空' }
-            ],
-            key: 'input',
-            props: {
-                placeholder: '请输入数字'
-            }
-        }
-    ]"
-/>
-```
-配合组件实现完整的表单项校验，参考[Expose](/element-plus-formkit/expose.html#validate)
-
 ## disabled
 禁用整个表单。类型：`Boolean`
 
