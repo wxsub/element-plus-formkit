@@ -175,13 +175,14 @@ function fixedPointClearValidate(config: ConfigInterface) {
   }
 }
 function checkConfigIsVisible({ value, key }: any) {
-  if (key && value === undefined) {
-    if (props.modelValue[key]) return true
-  } else if (value === undefined && key === undefined) {
-    console.warn('Key and value field not detected, U can like this: { value, key } or { key }')
-  } else {
-    if (props.modelValue[key] === value) return true
+  if (!props.modelValue) return false
+
+  if (key !== undefined && value === undefined) {
+    return !!props.modelValue[key]
+  } else if (key !== undefined && value !== undefined) {
+    return props.modelValue[key] === value
   }
+  
   return false
 }
 async function executeRequestStack() {
