@@ -29,6 +29,10 @@ export default defineUserConfig({
       {
         text: '基础组件演示(Basic Demo)',
         link: '/basic-demo'
+      },
+      {
+        text: '拓展方法(Extension Methods)',
+        link: '/extension-methods'
       }
     ]
   }),
