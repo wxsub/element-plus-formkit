@@ -1,27 +1,23 @@
-# 组件配置项(Component Configuration Items)
-
-以下配置项针对于config数组中的每个对象
+# Component Configuration Items
 
 The following configuration options apply to each object in the `config` array.
 
 ## config.type
-type字段用于控制formkit加载相关的模块，字段类型：`String`,下面将介绍type相关合法值。
+The `type` field controls which modules Formkit loads. Field type: `String`. Valid values for `type` are described below.
 
-| 类型 | 可选值 | 默认 | 
+| Type | Valid Values | Default | 
 | -------- | :----- | :----: |
-| String | 见下描述 | -
-
-The type field is used to control the module loaded by the formkit, field type: `String`, the legal values associated with type are described below.
+| String | See below | -
 
 ### input
-输入框
+Input field
 <formkit
     :config="[
         {
             type: 'input',
-            label: '姓名 (Name)',
+            label: 'Name',
             key: 'password',
-            props: { placeholder: '请输入姓名', clearable: true }
+            props: { placeholder: 'Please enter your name.', clearable: true }
         }
     ]"
     v-model="dataset">
@@ -32,22 +28,20 @@ The type field is used to control the module loaded by the formkit, field type: 
     :config="[
         {
             type: 'input',
-            label: '姓名 (Name)',
+            label: 'Name',
             key: 'password',
-            props: { placeholder: '请输入姓名', clearable: true }
+            props: { placeholder: 'Please enter your name.', clearable: true }
         }
     ]"
     v-model="dataset">
 </formkit>
 ```
 ::: tip
-[原生ELinput API](https://element-plus.org/zh-CN/component/input.html#api)请写入props内
+[Native Element Plus Input API](https://element-plus.org/zh-CN/component/input.html#api) Please write in the props field.
 :::
 
 ### select
-select选择器, 当选项过多时，使用下拉菜单展示并选择内容。
-
-select selector, when there are too many options, use the drop-down menu to display and select the content.
+Select field, when there are too many options, a dropdown menu is used to display and select the content.
 
 <formkit
     :config="[
@@ -55,11 +49,11 @@ select selector, when there are too many options, use the drop-down menu to disp
             type: 'select',
             label: 'Selector',
             key: 'select1',
-            props: { placeholder: 'Pls select', clearable: true },
+            props: { placeholder: 'Please select.', clearable: true },
             options: [
-                { name: 'Selector item one', id: 1 },
-                { name: 'Selector item two', id: 2 },
-                { name: 'Selector item three', id: 3 }
+                { name: 'Option one', id: 1 },
+                { name: 'Option two', id: 2 },
+                { name: 'Option three', id: 3 }
             ]
         }
     ]"
@@ -73,11 +67,11 @@ select selector, when there are too many options, use the drop-down menu to disp
             type: 'select',
             label: 'Selector',
             key: 'select1',
-            props: { placeholder: 'Pls select', clearable: true },
+            props: { placeholder: 'Please select.', clearable: true },
             options: [
-                { name: 'Selector item one', id: 1 },
-                { name: 'Selector item two', id: 2 },
-                { name: 'Selector item three', id: 3 }
+                { name: 'Option one', id: 1 },
+                { name: 'Option two', id: 2 },
+                { name: 'Option three', id: 3 }
             ]
         }
     ]"
@@ -85,9 +79,7 @@ select selector, when there are too many options, use the drop-down menu to disp
 </formkit>
 ```
 
-Select也可通过`requester`字段用于动态获取options
-
-Select can also be used to dynamically fetch options through the `requester` field.
+Select also supports dynamic loading of options through the `requester` field.
 
 <formkit
     :config="[
@@ -95,7 +87,7 @@ Select can also be used to dynamically fetch options through the `requester` fie
             type: 'select',
             label: 'Selector',
             key: 'select1',
-            props: { placeholder: 'Pls select', clearable: true },
+            props: { placeholder: 'Please select.', clearable: true },
             requester: fetchOptions,
             handler: (response: any) => response?.items || []
         }
@@ -112,7 +104,7 @@ Select can also be used to dynamically fetch options through the `requester` fie
             type: 'select',
             label: 'Selector',
             key: 'select1',
-            props: { placeholder: 'Pls select', clearable: true },
+            props: { placeholder: 'Please select.', clearable: true },
             requester: fetchOptions,
             handler: (response: any) => response?.items || []
         }
@@ -135,9 +127,9 @@ function fetchOptions() {
            r({
             code: 200,
             items: [
-                { name: 'Selector item one', id: 1 },
-                { name: 'Selector item two', id: 2 },
-                { name: 'Selector item three', id: 3 }
+                { name: 'Option one', id: 1 },
+                { name: 'Option two', id: 2 },
+                { name: 'Option three', id: 3 }
             ]
            })
         }, 2000)
@@ -147,14 +139,10 @@ function fetchOptions() {
 ```
 :::
 
-`handler`作为额外的辅助字段，它会在`requester`完成后调用，用于将`requester`的返回值处理成ELselect option可执行的值，当然如果您的`requester`返回值符合ELselect option期望类型便不需要使用它。
-
-The `handler` is an additional helper field that is called after the `requester` completes, and is used to process the return value of the `requester` into a value that can be executed by the ELselect option, although it is not necessary to use it if your `requester` returns a value of the type that is expected by the ELselect option.
+`handler` serves as an additional auxiliary field. It is invoked after the completion of the `requester` to process the `requester`'s return value into a form executable by the ELselect option. Naturally, if your `requester`'s return value already conforms to the ELselect option's expected type, its use is unnecessary.
 
 ### checkbox
-在一组备选项中进行多选。
-
-Make multiple choices in a set of alternatives.
+In a group of options, multiple items can be selected.
 
 <formkit
     :config="[
@@ -163,9 +151,9 @@ Make multiple choices in a set of alternatives.
             label: 'Checkbox',
             key: 'checkbox',
             options: [
-                { name: 'Selector item one', id: 1 },
-                { name: 'Selector item two', id: 2 },
-                { name: 'Selector item three', id: 3 }
+                { name: 'Option one', id: 1 },
+                { name: 'Option two', id: 2 },
+                { name: 'Option three', id: 3 }
             ]
         }
     ]"
@@ -180,30 +168,28 @@ Make multiple choices in a set of alternatives.
             label: 'Checkbox',
             key: 'checkbox',
             options: [
-                { name: 'Selector item one', id: 1 },
-                { name: 'Selector item two', id: 2 },
-                { name: 'Selector item three', id: 3 }
+                { name: 'Option one', id: 1 },
+                { name: 'Option two', id: 2 },
+                { name: 'Option three', id: 3 }
             ]
         }
     ]"
     v-model="dataset">
 </formkit>
 ```
-`showAllCheck`属性用以表示 checkbox 的不确定状态，一般用于实现全选的效果
-
-The `showAllCheck` attribute is used to indicate the indeterminate state of the checkbox, and is generally used to achieve the effect of full check.
+`showAllCheck` property is used to represent the indeterminate state of the checkbox, generally used to implement the effect of full selection.
 
 <formkit
     :config="[
         {
             type: 'checkbox',
-            label: 'Checkbox',
+            label: 'Select All checkbox',
             key: 'checkbox',
             props: { showAllCheck: true },
             options: [
-                { name: 'Selector item one', id: 1 },
-                { name: 'Selector item two', id: 2 },
-                { name: 'Selector item three', id: 3 }
+                { name: 'Option one', id: 1 },
+                { name: 'Option two', id: 2 },
+                { name: 'Option three', id: 3 }
             ]
         }
     ]"
@@ -217,13 +203,13 @@ output: {{ dataset.checkbox }}
     :config="[
         {
             type: 'checkbox',
-            label: 'Checkbox',
+            label: 'Select All checkbox',
             key: 'checkbox',
             props: { showAllCheck: true },
             options: [
-                { name: 'Selector item one', id: 1 },
-                { name: 'Selector item two', id: 2 },
-                { name: 'Selector item three', id: 3 }
+                { name: 'Option one', id: 1 },
+                { name: 'Option two', id: 2 },
+                { name: 'Option three', id: 3 }
             ]
         }
     ]"
@@ -232,26 +218,22 @@ output: {{ dataset.checkbox }}
 ```
 
 ::: tip
-当然当您的options需要通过动态获取时，您依旧可以使用`requester`配合`handler`辅助完成，详细参考[select requester](#select)
-
-Of course, when your options need to be fetched dynamically, you can still use `requester` with the help of `handler` to accomplish this [select requester](#select)
+Of course, when your options need to be obtained dynamically, you can still use the `requester` in conjunction with the `handler` to accomplish this. For details, refer to [select requester](#select).
 :::
 
 ### radio
-在一组备选项中进行单选
-
-Make a single choice from a set of alternatives
+In a group of options, only one item can be selected.
 
 <formkit
     :config="[
         {
             type: 'radio',
-            label: 'Radio',
+            label: 'Single-selection box',
             key: 'radio',
             options: [
-                { name: 'Selector item one', id: 1 },
-                { name: 'Selector item two', id: 2 },
-                { name: 'Selector item three', id: 3 }
+                { name: 'Option one', id: 1 },
+                { name: 'Option two', id: 2 },
+                { name: 'Option three', id: 3 }
             ]
         }
     ]"
@@ -265,42 +247,40 @@ output: {{ dataset.radio }}
     :config="[
         {
             type: 'radio',
-            label: 'Radio',
+            label: 'Single-selection box',
             key: 'radio',
             options: [
-                { name: 'Selector item one', id: 1 },
-                { name: 'Selector item two', id: 2 },
-                { name: 'Selector item three', id: 3 }
+                { name: 'Option one', id: 1 },
+                { name: 'Option two', id: 2 },
+                { name: 'Option three', id: 3 }
             ]
         }
     ]"
     v-model="dataset">
 </formkit>
+
+output: {{ dataset.radio }}
 ```
 
 ::: tip
-当然当您的options需要通过动态获取时，您依旧可以使用`requester`配合`handler`辅助完成，详细参考[select requester](#select)
-
-Of course, when your options need to be fetched dynamically, you can still use `requester` with the help of `handler` to accomplish this [select requester](#select)
+Of course, when your options need to be obtained dynamically, you can still use the `requester` in conjunction with the `handler` to accomplish this. For details, refer to [select requester](#select).
 :::
 
 ### inputNumber
-数字输入框, 仅允许输入标准的数字值，可定义范围。详细api参数请参照[ElInputNumber API](https://element-plus.org/zh-CN/component/input-number.html)
-
-Numeric input box, only standard numeric values are allowed, range can be defined. Please refer to [ElInputNumber API](https://element-plus.org/zh-CN/component/input-number.html) for detailed api parameters.
+Number input box, only standard numeric values are allowed. You can define the range. For detailed API parameters, please refer to [ElInputNumber API](https://element-plus.org/zh-CN/component/input-number.html).
 
 <formkit
     :config="[
         {
             type: 'inputNumber',
-            label: 'InputNumber',
+            label: 'Stepping input box',
             key: 'inputNumber',
             props: {
                 min: 0,
                 max: 10,
                 style: { width: '100%' },
-                prefix: 'prefix',
-                suffix: 'suffix'
+                prefix: 'Prefix',
+                suffix: 'Suffix'
             }
         }
     ]"
@@ -314,46 +294,94 @@ output: {{ dataset.inputNumber }}
     :config="[
         {
             type: 'inputNumber',
-            label: 'InputNumber',
+            label: 'Stepping input box',
             key: 'inputNumber',
             props: {
                 min: 0,
                 max: 10,
                 style: { width: '100%' },
-                prefix: 'prefix',
-                suffix: 'suffix'
+                prefix: 'Prefix',
+                suffix: 'Suffix'
             }
         }
     ]"
     v-model="dataset">
 </formkit>
+
+output: {{ dataset.inputNumber }}
 ```
 ::: warning
-当您需要使用[ElInputNumber 原生API](https://element-plus.org/zh-CN/component/input-number.html)时，需要包裹`props`使用
-
-When you need to use the [ElInputNumber native API](https://element-plus.org/zh-CN/component/input-number.html), you need to wrap `props` to use the
+When you need to use the [ElInputNumber native API](https://element-plus.org/zh-CN/component/input-number.html), you need to wrap it with `props`.
 :::
 
 ### address
-具有层级的区域地址选择器, 使用此模块需要传入`requester`作为数据源
-
-Hierarchical zone address selector, using this module requires passing in `requester` as the data source.
+Has a hierarchical region address selector. Using this module requires passing in a `requester` as the data source.
 
 <formkit
     :config="[
         {
             type: 'address',
-            label: 'Address',
+            label: 'Address selector',
             key: 'address',
             props: {
                 style: { width: '50%' },
                 level: 2,
-                placeholder: 'Pls Select Address',
+                placeholder: 'Please select an address',
                 requester: (pid: number) => {
                     return fetchOptions()
                 },
                 handler: (response: any) => response?.items || []
             }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+output: {{ dataset.address }}
+
+```vue
+<formkit
+    :config="[
+        {
+            type: 'address',
+            label: 'Address selector',
+            key: 'address',
+            props: {
+                style: { width: '50%' },
+                level: 2,
+                placeholder: 'Please select an address',
+                requester: (pid: number) => {
+                    return fetchOptions()
+                },
+                handler: (response: any) => response?.items || []
+            }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+output: {{ dataset.address }}
+```
+
+::: warning
+Unlike select, checkbox, radio, etc. modules that need to dynamically get `options`, the `requester` of the `address` module needs to be wrapped with `props`.
+:::
+
+### popover
+Text pop-up layer module selector
+
+<formkit
+    :config="[
+        {
+            type: 'popover',
+            label: 'Text pop-up layer',
+            key: 'popover',
+            props: {
+                placeholder: 'Please click to select'
+            },
+            options: [
+                { name: 'Option one', id: 1 },
+                { name: 'Option two', id: 2 },
+                { name: 'Option three', id: 3 }
+            ]
         }
     ]"
     v-model="dataset">
@@ -363,77 +391,41 @@ Hierarchical zone address selector, using this module requires passing in `reque
 <formkit
     :config="[
         {
-            type: 'address',
-            label: 'Address',
-            key: 'address',
+            type: 'popover',
+            label: 'Text pop-up layer',
+            key: 'popover',
             props: {
-                style: { width: '50%' },
-                level: 2,
-                placeholder: 'Pls Select Address',
-                requester: (pid: number) => {
-                    // return useAxios().get(`/default/region/agent-regions?pid=${pid}`)
-                    return fetchOptions()
-                },
-                handler: (response: any) => response?.items || []
-            }
+                placeholder: 'Please click to select'
+            },
+            options: [
+                { name: 'Option one', id: 1 },
+                { name: 'Option two', id: 2 },
+                { name: 'Option three', id: 3 }
+            ]
         }
     ]"
     v-model="dataset">
 </formkit>
 ```
 
-::: warning
-区别于select、checkbox、radio等需要动态获取`options`的模块，`address`模块的`requester`，需要包裹`props`使用
-
-Unlike select, checkbox, radio, and other modules that need to get `options` dynamically, the `address` module has a `requester` that needs to be wrapped around `props` to be used.
-:::
-
-### popover
-文字弹出层
-
-Text Popup Layer
-
-<formkit
-    :config="[
-        {
-            type: 'popover',
-            label: 'popover',
-            key: 'popover',
-            props: {
-                placeholder: 'Pls Click To Select'
-            },
-            options: [
-                { name: 'Selector item one', id: 1 },
-                { name: 'Selector item two', id: 2 },
-                { name: 'Selector item three', id: 3 }
-            ]
-        }
-    ]"
-    v-model="dataset">
-</formkit>
-
 ::: tip
-当然当您的options需要通过动态获取时，您依旧可以使用`requester`配合`handler`辅助完成，详细参考[select requester](#select)
-
-Of course, when your options need to be fetched dynamically, you can still use `requester` with the help of `handler` to accomplish this [select requester](#select)
+Of course, when your options need to be obtained dynamically, you can still use the `requester` in conjunction with the `handler` to accomplish this. For details, refer to [select requester](#select).
 :::
 
 ### remoteSearchSelect
-具备远程查询功能的select下拉选择器
-
-Select dropdown selector with remote query functionality
+Remote query selector with dropdown functionality.
 
 <formkit
     :config="[
         {
             type: 'remoteSearchSelect',
-            label: 'Remote Search Select',
+            label: 'Remote query selector',
             key: 'remoteSearchSelect',
             props: {
                 labelKey: 'name',
                 valueKey: 'id',
                 initialValue: null,
-                placeholder: 'Click To Search Select',
+                placeholder: 'Please enter query content',
                 requester: (searchName: string) => fetchOptions(),
                 handler: (response: any) => response?.items || [],
                 onChoose: (item: any) => dataset.onChooseCallback = item
@@ -443,28 +435,25 @@ Select dropdown selector with remote query functionality
     v-model="dataset">
 </formkit>
 
-output remoteSearchSelect: {{ dataset.remoteSearchSelect }}
+Output remoteSearchSelect: {{ dataset.remoteSearchSelect }}
 
-output onChooseCallback: {{ dataset.onChooseCallback }}
+Output onChooseCallback: {{ dataset.onChooseCallback }}
 
 ```vue
 <formkit
     :config="[
         {
             type: 'remoteSearchSelect',
-            label: 'Remote Search Select',
+            label: 'Remote query selector',
             key: 'remoteSearchSelect',
             props: {
                 labelKey: 'name',
                 valueKey: 'id',
                 initialValue: null,
-                placeholder: 'Click To Search Select',
-                requester: (searchName: string) => {
-                    // return useAxios().get('/default/xxx', { params: { searchName } })
-                    return fetchOptions()
-                },
+                placeholder: 'Please enter query content',
+                requester: (searchName: string) => fetchOptions(),
                 handler: (response: any) => response?.items || [],
-                onChoose: (item: any) => dataset.value.additionalValue = item.name
+                onChoose: (item: any) => dataset.onChooseCallback = item
             }
         }
     ]"
@@ -472,19 +461,17 @@ output onChooseCallback: {{ dataset.onChooseCallback }}
 </formkit>
 ```
 
-通常对于数据进行远程加载的选择器对于默认数据处理通常难以控制，因为通常后端处理数据查询需要接受`item.name`但数据绑定通常为`item.id`，为此我们引入一个新的参数(`initialValue`)来进行控制, 当`initialValue`参数不为空时，我们会在组件完成加载后立即将`initialValue`作为形参调取您提供的`requester`
-
-Usually selectors that load data remotely are difficult to control the default data handling, because usually the backend handles the data query by accepting `item.name` but the data binding is usually `item.id`, for this reason we introduce a new parameter (`initialValue`) for this purpose, when `initialValue` is not empty, we will call the `requester` you provide as a form parameter as soon as the component is finished loading. When the `initialValue` parameter is not null, we will use `initialValue` as a formal parameter to fetch your `requester` as soon as the component finishes loading.
+Typically, selectors for remotely loading data are difficult to control for default data handling. This is because backend data queries often require `item.name`, while data binding typically uses `item.id`. To address this, we introduce a new parameter (`initialValue`) for control. When the `initialValue` parameter is non-empty, we immediately pass it as an argument to the `requester` you provide after the component finishes loading.
 
 
 ### rate
-评分组件
+Rating selector
 
 <formkit
     :config="[
         {
             type: 'rate',
-            label: '评分(Rate)',
+            label: 'Rating',
             key: 'rate',
             props: { 'allow-half': false, colors: ['#F7BA2A', '#F7BA2A', '#F7BA2A'], size: 'large' }
         }
@@ -497,7 +484,7 @@ Usually selectors that load data remotely are difficult to control the default d
     :config="[
         {
             type: 'rate',
-            label: '评分(Rate)',
+            label: 'Rating',
             key: 'rate',
             props: { 'allow-half': false, colors: ['#F7BA2A', '#F7BA2A', '#F7BA2A'], size: 'large' }
         }
@@ -506,16 +493,16 @@ Usually selectors that load data remotely are difficult to control the default d
 </formkit>
 ```
 ::: tip
-[原生ELinput API](https://element-plus.org/zh-CN/component/rate.html#api)请写入props内
+[Native Element Plus Rate API](https://element-plus.org/zh-CN/component/rate.html#api) Please write it in the `props` field.
 :::
 
 ## config.label
-表单项标签，类型：`String`
+Form item label, type: `String`
 <formkit
     :config="[
         {
             type: 'input',
-            label: '这是label(This is label)',
+            label: 'Here is the label',
             key: 'labelTestKey'
         }
     ]"
@@ -527,7 +514,7 @@ Usually selectors that load data remotely are difficult to control the default d
     :config="[
         {
             type: 'input',
-            label: '这是label(This is label)',
+            label: 'Here is the label',
             key: 'labelTestKey'
         }
     ]"
@@ -536,7 +523,7 @@ Usually selectors that load data remotely are difficult to control the default d
 ```
 
 ## config.key
-表单项绑定的key值，类型：`String`
+Form item binding key value, type: `String`
 <formkit
     :config="[
         {
@@ -546,8 +533,7 @@ Usually selectors that load data remotely are difficult to control the default d
     ]"
     v-model="dataset">
 </formkit>
-<p>表单项当前绑定的key为testKey的值: {{ dataset.testKey }}</p>
-<p>The form item is currently bound to the value of the key "testKey": {{ dataset.testKey }}</p>
+<p>Form item current binding key value for testKey: {{ dataset.testKey }}</p>
 
 ```vue
 <formkit
@@ -559,34 +545,27 @@ Usually selectors that load data remotely are difficult to control the default d
     ]"
     v-model="dataset">
 </formkit>
-<p>表单项当前绑定的key为testKey的值: {{ dataset.testKey }}</p>
-<p>The form item is currently bound to the value of the key "testKey": {{ dataset.testKey }}</p>
+<p>Form item current binding key value for testKey: {{ dataset.testKey }}</p>
 ```
 
 ## config.props
-props字段为自定义项，注意该字段接受一个`Object`类型的数据，若`config.props`不为空formkit将使用`v-bind`将`config.props`绑定至所有模块包括您使用`registerModule`方法注册的自定义模块。
+The `props` field is a custom property. Note that this field accepts data of type `Object`. If `config.props` is not empty, Formkit will use `v-bind` to bind `config.props` to all modules, including custom modules you register using the `registerModule` method.
 
-The `props` field is for custom items. Note that this field accepts data of type `Object`. If `config.props` is not empty, FormKit will use `v-bind` to bind `config.props` to all modules, including custom modules you registered using the `registerModule` method.
-
-| 类型 | 可选值 | 默认 | 
+| Type | Optional Values | Default | 
 | -------- | :----- | :----: |
-| Object | 见下描述 | {}
+| Object | See the description below | {}
 
-如果你需要修改原生element-plus表单组价属性可以将其直接写入`props`内，例如：
+If you need to modify the native element-plus form component attributes, you can directly write them in the `props` field. For example:
 
-希望修改[element-plus input attributes](https://element-plus.org/zh-CN/component/input#attributes)中的`clear-icon`、`placeholder`、 `maxlength`,你可以这样：
-
-If you need to modify the native element-plus form group attributes, you can directly write them into the `props` section. For example:
-
-To modify the `clear-icon`, `placeholder`, and `maxlength` attributes in [element-plus input attributes](https://element-plus.org/zh-CN/component/input#attributes), you can do it like this:
+To modify the `clear-icon`, `placeholder`, and `maxlength` attributes of [element-plus input attributes](https://element-plus.org/zh-CN/component/input#attributes), you can do the following:  
 
 <formkit
     :config="[
         {
             type: 'input',
-            label: '姓名 (Name)',
-            key: 'password',
-            props: { placeholder: '请输入姓名', clearable: true, maxlength: 10 }
+            label: 'Name',
+            key: 'name',
+            props: { placeholder: 'Please enter name', clearable: true, maxlength: 10 }
         }
     ]"
     v-model="dataset">
@@ -597,9 +576,9 @@ To modify the `clear-icon`, `placeholder`, and `maxlength` attributes in [elemen
     :config="[
         {
             type: 'input',
-            label: '姓名 (Name)',
-            key: 'password',
-            props: { placeholder: '请输入姓名', clearable: true, maxlength: 10 }
+            label: 'Name',
+            key: 'name',
+            props: { placeholder: 'Please enter name', clearable: true, maxlength: 10 }
         }
     ]"
     v-model="dataset">
@@ -608,71 +587,71 @@ To modify the `clear-icon`, `placeholder`, and `maxlength` attributes in [elemen
 
 ### value-key
 
-| 类型 | 默认 | 
+| Type | Default | 
 | -------- | :----- |
 | String | id
 
-作为 value 唯一标识的键名，当`config.options`为数组类型时或`config.requester`返回数组类型时你可能需要指定
+As the unique identifier key name for value, you may need to specify it when `config.options` is an array type or when the `config.requester` returns an array type.
 
 <formkit
     :config="[
         {
             type: 'select',
-            label: 'Selector Student',
+            label: 'Select Student',
             key: 'studentid',
-            props: { placeholder: 'Pls select', clearable: true, valueKey: 'studentid' },
+            props: { placeholder: 'Please select student', clearable: true, valueKey: 'studentid' },
             options: [
-                { name: 'Student one', studentid: 1 },
-                { name: 'Student two', studentid: 2 },
-                { name: 'Student three', studentid: 3 }
+                { name: 'Student One', studentid: 1 },
+                { name: 'Student Two', studentid: 2 },
+                { name: 'Student Three', studentid: 3 }
             ]
         }
     ]"
     v-model="dataset">
 </formkit>
 
-output: {{ dataset.studentid }}
+输出: {{ dataset.studentid }}
 
 ```vue
 <formkit
     :config="[
         {
             type: 'select',
-            label: 'Selector Student',
+            label: 'Select Student',
             key: 'studentid',
-            props: { placeholder: 'Pls select', clearable: true, valueKey: 'studentid' },
+            props: { placeholder: 'Please select student', clearable: true, valueKey: 'studentid' },
             options: [
-                { name: 'Student one', studentid: 1 },
-                { name: 'Student two', studentid: 2 },
-                { name: 'Student three', studentid: 3 }
+                { name: 'Student One', studentid: 1 },
+                { name: 'Student Two', studentid: 2 },
+                { name: 'Student Three', studentid: 3 }
             ]
         }
     ]"
     v-model="dataset">
 </formkit>
 
-output: {{ dataset.studentid }}
+Output: {{ dataset.studentid }}
 ```
 
 ### label-key
 
-| 类型 | 默认 | 
+| Type | Default | 
 | -------- | :----- |
 | String | name
 
-指定选项的数据源中节点标签为节点对象的某个属性值，当`config.options`为数组类型时或`config.requester`返回数组类型时你可能需要指定
+Specify the label of the option node in the data source of the option as the property value of the node object, when `config.options` is an array type or when the `config.requester` returns an array type. You may need to specify it.
 
 <formkit
     :config="[
         {
             type: 'select',
-            label: 'Selector Student',
+            label: 'Select Student Name',
             key: 'studentname',
-            props: { placeholder: 'Pls select', clearable: true, labelKey: 'studentname' },
+            props: { placeholder: 'Please select student name', clearable: true, labelKey: 'studentname' },
             options: [
-                { studentname: 'Student one', id: 1 },
-                { studentname: 'Student two', id: 2 },
-                { studentname: 'Student three', id: 3 }
+                { studentname: 'Student One', id: 1 },
+                { studentname: 'Student Two', id: 2 },
+                { studentname: 'Student Three', id: 3 }
             ]
         }
     ]"
@@ -684,13 +663,13 @@ output: {{ dataset.studentid }}
     :config="[
         {
             type: 'select',
-            label: 'Selector Student',
+            label: 'Select Student Name',
             key: 'studentname',
-            props: { placeholder: 'Pls select', clearable: true, labelKey: 'studentname' },
+            props: { placeholder: 'Please select student name', clearable: true, labelKey: 'studentname' },
             options: [
-                { studentname: 'Student one', id: 1 },
-                { studentname: 'Student two', id: 2 },
-                { studentname: 'Student three', id: 3 }
+                { studentname: 'Student One', id: 1 },
+                { studentname: 'Student Two', id: 2 },
+                { studentname: 'Student Three', id: 3 }
             ]
         }
     ]"
@@ -699,31 +678,25 @@ output: {{ dataset.studentid }}
 ```
 
 ## config.requester
-当前表单项拉取远程数据请求函数，仅在模块或注册的模块对象上存在options时可用，类型：`Function`
-
-The function for fetching remote data for the current form item is only available when `options` exists on the module or the registered module object. Type: `Function`
+The current form item remote data request function, available only when the module or registered module object exists `options`, type: `Function`
 
 ::: warning
-当前函数必须返回一个`Promise`对象，否则会失效。
-
-The current function must return a `Promise` object; otherwise, it will fail.
+The current function must return a `Promise` object, otherwise it will fail.
 :::
 
 ## config.handler
-处理函数，用于处理`requester`返回的数据，类型：`Function`
-
-The handler function is used to process the data returned by the `requester` function. Type: `Function`
+Handler function, used to process the data returned by `requester`, type: `Function`
 
 <formkit
     :config="[
         {
             type: 'select',
-            label: 'Remotely fetch select option data.',
+            label: 'Remotely retrieve radio button option data',
             key: 'requesterSelect',
             props: {
                 labelKey: 'name',
                 valueKey: 'id',
-                placeholder: 'Pls Select one item'
+                placeholder: 'Please select an option'
             },
             requester: () => {
                 // return useAxios().get('/default/xxx')
@@ -742,12 +715,12 @@ The handler function is used to process the data returned by the `requester` fun
     :config="[
         {
             type: 'select',
-            label: 'Remotely fetch select option data.',
+            label: 'Remotely retrieve radio button option data',
             key: 'requesterSelect',
             props: {
                 labelKey: 'name',
                 valueKey: 'id',
-                placeholder: 'Pls Select one item'
+                placeholder: 'Please select an option'
             },
             requester: () => {
                 // return useAxios().get('/default/xxx')
@@ -774,9 +747,9 @@ function fetchOptions() {
            r({
             code: 200,
             items: [
-                { name: 'Selector item one', id: 1 },
-                { name: 'Selector item two', id: 2 },
-                { name: 'Selector item three', id: 3 }
+                { name: 'Option One', id: 1 },
+                { name: 'Option Two', id: 2 },
+                { name: 'Option Three', id: 3 }
             ]
            })
         }, 2000)
@@ -787,48 +760,40 @@ function fetchOptions() {
 :::
 
 ## config.initialValue
-初始值，类型：`String`
-
-initial value. Type: `String`
+Initial value, type: `String`
 
 ::: warning
-仅在`remoteSearchSelect`模块中可用，否则会失效。
-
-The `initialValue` is only available in the `remoteSearchSelect` module. Otherwise, it will fail.
+Only available in the `remoteSearchSelect` module, otherwise it will fail.
 :::
 
 ## config.visible
-`visible`字段用于控制当前项是否可见，当然您也可以使用它完成复杂表单的联动效果。
+`visible` field is used to control whether the current item is visible, of course you can also use it to complete complex form linkage effects.
 
-The `visible` field is used to control whether the current item is visible, and you can also use it to achieve complex form interaction effects.
-
-| 类型 Type | 说明 Explanation | 示例 Example |
+| Type | Description | Example |
 | -------- | :----- | :-----: |
-| undefined | 当前项不可见 <br> The current item is not visible. | -
-| Boolean | `true`: 当前项可见; `false`: 当前项不可见 <br><br> `true`: The current item is visible; `false`: The current item is not visible.. | `visible: true`
-| Object | 您需按照固定格式设置该类型的visible，具体见下FormKit Visible Object说明表。 <br><br> You need to set the `visible` property for this type using a specific format; please refer to the FormKit Visible Object description table below for details. | `visible: { key: 'name', value: 1 }`
-| Array | 多个`visible`Object类型的校验，只要有一个满足当前项即可见。 <br><br> For multiple `visible`Object type validations, as long as one satisfies the condition of the current item, it is considered visible. | `visible: [{ key: 'name', value: 1 }, { key: 'name', value: 2 }]`
+| undefined | The current item is not visible | -
+| Boolean | `true`: The current item is visible; `false`: The current item is not visible | `visible: true`
+| Object | You need to set the `visible` object type in a fixed format, see the FormKit Visible Object table below for details. | `visible: { key: 'name', value: 1 }`
+| Array | Multiple `visible` Object type validations, as long as one of them is met, the current item is visible. | `visible: [{ key: 'name', value: 1 }, { key: 'name', value: 2 }]`
 
 ### FormKit Visible Object
 
-当`visible`为`Object`类型时，您需要指定`key`、`value`值。
+When the `visible` is of type `Object`, you need to specify the `key` and `value` values.
 
 **key**
 
-| 类型 Type | 说明 Explanation | 
+| Type | Description | 
 | -------- | :----- |
-| String | Formkit组件v-model绑定值的key <br><br> The key for the value bound by `v-model` in the Formkit component.
+| String | The key of the Formkit component v-model binding value.
 
 **value**
 
-| 类型 Type | 说明 Explanation | 
+| Type | Description | 
 | -------- | :----- |
-| Any | 当前Formkit组件v-model绑定值key的值 <br><br> The current value of the `key` property bound to `v-model` in the Formkit component.
+| Any | The value of the Formkit component v-model binding value key.
 
 ::: warning
-当`visible`为`Object`类型时，当前Formkit组件v-model绑定`key`的值等于您指定的`value`值时当前项显示，否则不显示
-
-When `visible` is of type `Object`, the current item will be displayed if the value of the `key` bound to the current Formkit component's v-model equals the value you specified; otherwise, it will not be displayed.
+When the `visible` is of type `Object`, the current Formkit component v-model binding `key` value is equal to the specified `value` value, then the current item is visible, otherwise it is not visible.
 :::
 
 <formkit
@@ -856,7 +821,7 @@ const dataset = ref({})
 const visibleExampleConfig = computed(() => [
     {
         type: 'switch',
-        label: 'Type Boolean item Switch',
+        label: 'Boolean-type visible item switch',
         key: 'switchValue',
         props: {
             'inline-prompt': true,
@@ -864,21 +829,21 @@ const visibleExampleConfig = computed(() => [
             'inactive-text': 'false'
         }
     },
-    { type: 'input', label: 'Type Boolean True Item', key: 'booleans', visible: dataset.value.switchValue, disabled: true },
+    { type: 'input', label: 'Boolean-type item visible when true', key: 'booleans', visible: dataset.value.switchValue, disabled: true },
     {
         type: 'radio',
-        label: 'Visible operation item selector',
+        label: 'Visible item selector',
         key: 'radioValue',
         options: [
-            { name: 'Type Array Item Visible', id: 1 },
-            { name: 'Type Array Item And ype Object Item Visible', id: 2 },
-            { name: 'not Visible', id: 3 }
+            { name: 'Array-type item visible', id: 1 },
+            { name: 'Array-type item and object-type item visible', id: 2 },
+            { name: 'Both not visible', id: 3 }
         ]
     },
-    { type: 'input', label: 'Type Object Item', key: 'objects', visible: { key: 'radioValue', value: 2 }, disabled: true },
+    { type: 'input', label: 'Object-type item visible when 2', key: 'objects', visible: { key: 'radioValue', value: 2 }, disabled: true },
     {
         type: 'input',
-        label: 'Type Array Item',
+        label: 'Array-type item visible when 1',
         key: 'arrays',
         visible: [
             { key: 'radioValue', value: 1 },
@@ -892,9 +857,7 @@ const visibleExampleConfig = computed(() => [
 :::
 
 ## config.rules
-表单项校验规则集合，具体规则校验参数请参阅[ElementPlus 表单校验](https://element-plus.org/zh-CN/component/form.html#%E8%A1%A8%E5%8D%95%E6%A0%A1%E9%AA%8C)
-
-A collection of form item validation rules. For specific validation rule parameters, please refer to [ElementPlus Form Validation](https://element-plus.org/zh-CN/component/form.html#%E8%A1%A8%E5%8D%95%E6%A0%A1%E9%AA%8C).
+Form element validation rule set. For specific validation parameters, please refer to [ElementPlus Form Validation](https://element-plus.org/zh-CN/component/form.html#%E8%A1%A8%E5%8D%95%E6%A0%A1%E9%AA%8C).
 
 ``` vue{7-9}
 <formkit
@@ -902,21 +865,19 @@ A collection of form item validation rules. For specific validation rule paramet
     :config="[
         {
             type: 'input',
-            label: '输入数字 (inputNumber)',
+            label: 'Input number',
             rules: [
-                { required: true, message: '输入数字不能为空' }
+                { required: true, message: 'Input number cannot be empty' }
             ],
             key: 'input',
             props: {
-                placeholder: '请输入数字'
+                placeholder: 'Please input number'
             }
         }
     ]"
 />
 ```
-配合组件实现完整的表单项校验，参考[Expose](/element-plus-formkit/expose.html#validate)
-
-Use components to implement complete form item validation; refer to [Expose](/element-plus-formkit/expose.html#validate).
+Combined with the component to implement complete form item validation, refer to [Expose](/element-plus-formkit/expose.html#validate)
 
 <script setup lang="ts">
 import formkit from 'element-plus-formkit';
@@ -927,7 +888,7 @@ const dataset = ref({})
 const visibleExampleConfig = computed(() => [
     {
         type: 'switch',
-        label: 'Type Boolean item Switch',
+        label: 'Boolean-type visible item switch',
         key: 'switchValue',
         props: {
             'inline-prompt': true,
@@ -935,21 +896,21 @@ const visibleExampleConfig = computed(() => [
             'inactive-text': 'false'
         }
     },
-    { type: 'input', label: 'Type Boolean True Item', key: 'booleans', visible: dataset.value.switchValue, disabled: true },
+    { type: 'input', label: 'Boolean-type item visible when true', key: 'booleans', visible: dataset.value.switchValue, disabled: true },
     {
         type: 'radio',
-        label: 'Visible operation item selector',
+        label: 'Visible item selector',
         key: 'radioValue',
         options: [
-            { name: 'Type Array Item Visible', id: 1 },
-            { name: 'Type Array Item And ype Object Item Visible', id: 2 },
-            { name: 'not Visible', id: 3 }
+            { name: 'Array-type item visible', id: 1 },
+            { name: 'Array-type item and object-type item visible', id: 2 },
+            { name: 'Both not visible', id: 3 }
         ]
     },
-    { type: 'input', label: 'Type Object Item', key: 'objects', visible: { key: 'radioValue', value: 2 }, disabled: true },
+    { type: 'input', label: 'Object-type item visible when 2', key: 'objects', visible: { key: 'radioValue', value: 2 }, disabled: true },
     {
         type: 'input',
-        label: 'Type Array Item',
+        label: 'Array-type item visible when 1',
         key: 'arrays',
         visible: [
             { key: 'radioValue', value: 1 },
@@ -965,9 +926,9 @@ function fetchOptions() {
            r({
             code: 200,
             items: [
-                { name: 'Selector item one', id: 1 },
-                { name: 'Selector item two', id: 2 },
-                { name: 'Selector item three', id: 3 }
+                { name: 'Option One', id: 1 },
+                { name: 'Option Two', id: 2 },
+                { name: 'Option Three', id: 3 }
             ]
            })
         }, 2000)

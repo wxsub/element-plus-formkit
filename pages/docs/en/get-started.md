@@ -1,4 +1,4 @@
-# 快速上手
+# Get started quickly
 <p>
   <a href="https://www.npmjs.com/package/element-plus-formkit">
     <img src="https://img.shields.io/npm/v/element-plus-formkit" />
@@ -9,10 +9,10 @@
 </p>
 
 ::: warning
-Element-plus-formkit依赖于ElementPlus，所以在安装前你需要确保提前安装[element-plus](https://element-plus.org/zh-CN/guide/installation.html)
+Element-plus-formkit depends on ElementPlus, so you need to ensure that ElementPlus is installed before installation.
 :::
 
-## 安装(Install)
+## Install
 
 ::: code-tabs
 @tab pnpm
@@ -31,8 +31,8 @@ npm install element-plus-formkit@latest --save
 ```
 :::
 
-## 使用（Use）
-您需要在您项目的主入口（通常为main.ts）,将组件注入系统
+## Use
+You need to inject the component into the system in your project's main entry (usually main.ts).
 ``` ts{4,5,8}
 // main.ts
 import { createApp } from 'vue';
@@ -43,7 +43,7 @@ const app = createApp(App);
 
 app.mount('#app');
 ```
-在您的项目中使用.
+In your project, use it like this.
 
 ```vue
 <template>
@@ -55,11 +55,11 @@ import formkit from 'element-plus-formkit';
 </script>
 ```
 
-## 浏览器直接引入
+## Browser import
 
-直接通过浏览器的 HTML 标签导入 Element Plus Formkit，然后就可以使用全局变量 formkit 了。
+You can import Element Plus Formkit directly through the browser's HTML tag, and then you can use the global variable formkit.
 
-根据不同的 CDN 提供商有不同的引入方式， 我们在这里以 jsDelivr 举例。
+Depending on the different CDN providers, there are different import methods. We take jsDelivr as an example here.
 
 ``` js
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/element-plus/dist/index.css" />
@@ -86,16 +86,16 @@ import formkit from 'element-plus-formkit';
           {
             type: 'input',
             key: 'username',
-            label: '用户名',
-            rules: [{ required: true, message: '请输入用户名' }]
+            label: 'Username',
+            rules: [{ required: true, message: 'Please enter a username' }]
           },
           {
             type: 'select',
             key: 'role',
-            label: '角色',
+            label: 'Role',
             options: [
-              { name: '管理员', id: 'admin' },
-              { name: '普通用户', id: 'user' }
+              { name: 'admin', id: 'admin' },
+              { name: 'user', id: 'user' }
             ]
           }
         ],

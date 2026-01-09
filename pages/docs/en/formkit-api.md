@@ -1,13 +1,13 @@
-# 组件道具（props）
+# Formkit Component Props
 
 ## model-value / v-model
-组件绑定数据源，类型：`Object`
+Component binds to data source, type: `Object`
 
 ## config
-组件配置项，具体参数请查阅[Config Api](/config-api.md)。类型：`Array`
+Component configuration item, please refer to [Config Api](/config-api.md) for specific parameters. Type: `Array`
 
 ## disabled
-禁用整个表单。类型：`Boolean`
+Disable the entire form. Type: `Boolean`
 
 ``` vue{3}
 <formkit
@@ -17,32 +17,32 @@
 ```
 
 ## labelPosition
-表单域标签的位置， 当设置为 left 或 right 时，则也需要设置 label-width 属性
+Position of the form item label, when set to left or right, you also need to set the label-width attribute.
 
-> 可选项：'left' | 'right' | 'top'
+> Options: 'left' | 'right' | 'top'
 
 ## labelWidth
-标签的长度，例如 '50px'。 作为 Form 直接子元素的 form-item 会继承该值。 可以使用 auto。
+Length of the form item label, for example '50px'. form-item as a direct child of Form will inherit this value. You can use auto.
 
 ## columns
-每行允许存在的表单项。
+Number of form items allowed per row.
 
 > type: [Number, String]
 
 ## size
-表单项尺寸。
+Size of the form item.
 
-> 可选项：'' | 'large' | 'default' | 'small'
+> Options: '' | 'large' | 'default' | 'small'
 
 ## rows
-表格行项目设置，类型：`Object`
+Table row item settings, type: `Object`
 
 ### rows.rowGap
-表单项水平横向间距。类型：`Number`
+Horizontal spacing between form items. Type: `Number`
 
-默认: 5
+Default: 5
 
 ### rows.columnGap
-表单项垂直纵向间距。类型：`Number`
+Vertical spacing between form items. Type: `Number`
 
-默认: 20
+Default: 20

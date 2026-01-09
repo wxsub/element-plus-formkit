@@ -1,20 +1,14 @@
 # 插槽
-
-您可以插槽来扩展您的formkit
-
 You can extend your formkit with slots!
 
 ## prepend
-
-在您的formkit配置项前插入
-
 Before your formkit configuration entry, insert the
 
 <formkit
     :config="[
         {
             type: 'input',
-            label: '姓名 (Name)',
+            label: 'Name',
             key: 'password',
             props: { placeholder: 'Please enter your name', clearable: true }
         }
@@ -32,7 +26,7 @@ Before your formkit configuration entry, insert the
     :config="[
         {
             type: 'input',
-            label: '姓名 (Name)',
+            label: 'Name',
             key: 'password',
             props: { placeholder: 'Please enter your name', clearable: true }
         }
@@ -46,16 +40,14 @@ Before your formkit configuration entry, insert the
 </formkit>
 ```
 
-## append
-在您的formkit配置项后进行追加
-
+## appen
 Append after your formkit configuration entry
 
 <formkit
     :config="[
         {
             type: 'input',
-            label: '姓名 (Name)',
+            label: 'Name',
             key: 'password',
             props: { placeholder: 'Please enter your name', clearable: true }
         }
@@ -73,7 +65,7 @@ Append after your formkit configuration entry
     :config="[
         {
             type: 'input',
-            label: '姓名 (Name)',
+            label: 'Name',
             key: 'password',
             props: { placeholder: 'Please enter your name', clearable: true }
         }
@@ -88,16 +80,13 @@ Append after your formkit configuration entry
 ```
 
 ## content
-
-使用此插槽会会在您的整个`form`表单后进行追加，区别于`append`, `content`的样式干扰会大幅减少，必要时使用
-
 Using this slot will append after your entire `form` form, unlike `append`, `content` style interference will be drastically reduced by using the
 
 <formkit
     :config="[
         {
             type: 'input',
-            label: '姓名 (Name)',
+            label: 'Name',
             key: 'password',
             props: { placeholder: 'Please enter your name', clearable: true }
         }
@@ -114,7 +103,7 @@ Using this slot will append after your entire `form` form, unlike `append`, `con
     :config="[
         {
             type: 'input',
-            label: '姓名 (Name)',
+            label: 'Name',
             key: 'password',
             props: { placeholder: 'Please enter your name', clearable: true }
         }
@@ -128,13 +117,9 @@ Using this slot will append after your entire `form` form, unlike `append`, `con
 ```
 
 ## [key]
-变量作用域插槽`[key]`, `[key]`为您的`config item`内的`key`，使用此插槽您可替换当前项的模块
-
 Variable scope slot `[key]`, `[key]` is the `key` of your `config item`, using this slot you can replace the module of the current item.
 
 ::: warning
-若您使用此插槽是希望替换当前项的模块，请移除当前项`type`，当然若您不这么做则当前项模块与您的`slot`共存
-
 If you are using this slot because you want to replace the current item's module, remove the current item `type`, but if you don't then the current item's module will coexist with your `slot`.
 :::
 
@@ -142,7 +127,7 @@ If you are using this slot because you want to replace the current item's module
     :config="[
         {
             type: 'input',
-            label: '昵称 (nickname)',
+            label: 'nickname',
             key: 'nickname',
             props: { placeholder: 'Please enter your nickname', clearable: true }
         }
@@ -157,7 +142,8 @@ If you are using this slot because you want to replace the current item's module
 <formkit
     :config="[
         {
-            label: '昵称 (nickname)',
+            type: 'input',
+            label: 'nickname',
             key: 'nickname',
             props: { placeholder: 'Please enter your nickname', clearable: true }
         }
@@ -174,7 +160,7 @@ If you are using this slot because you want to replace the current item's module
     :config="[
         {
             type: 'input',
-            label: '昵称 (nickname)',
+            label: 'nickname',
             key: 'nickname',
             props: { placeholder: 'Please enter your nickname', clearable: true }
         }
@@ -189,7 +175,7 @@ If you are using this slot because you want to replace the current item's module
 <formkit
     :config="[
         {
-            label: '昵称 (nickname)',
+            label: 'nickname',
             key: 'nickname',
             props: { placeholder: 'Please enter your nickname', clearable: true }
         }

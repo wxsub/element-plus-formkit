@@ -1,13 +1,13 @@
 ## registerModule
 
-注册自定义模块，类型：`Function`，该方法用于注册自定义模块，自定义模块的配置项请查阅[Config Api](/config-api.md)。
+Register a custom module, type: `Function`. This method is used to register custom modules. For configuration options of custom modules, please refer to the [Config API](/config-api.md).
 
-### 参数
+### Parameters
 
-- `type`：自定义模块的类型，类型：`String`
-- `config`：自定义模块的配置项，类型：`Function`
+- `type`：Custom module type, type: `String`
+- `config`：Custom module configuration item, type: `Function`
 
-### 返回值
+### Return value
 
 - `void`
 
@@ -15,7 +15,7 @@
     v-model="dataset"
     :config="[{
         type: 'customModule',
-        label: '自定义模块',
+        label: 'Custom module',
         key: 'customModule',
     }]"
 />
@@ -27,7 +27,7 @@
     v-model="dataset"
     :config="[{
         type: 'customModule',
-        label: '自定义模块',
+        label: 'Custom module',
         key: 'customModule',
     }]"
 />
@@ -49,7 +49,7 @@ registerModule("customModule", customModule)
 @tab customModule.vue
 ```vue
     <template>
-        <h2>这是customModule This is customModule</h2>
+        <h2>This is customModule</h2>
     </template>
 
     <script setup lang="ts">
@@ -65,21 +65,21 @@ registerModule("customModule", customModule)
 :::
 
 ::: tip
-当然若是您需要自定义模块的可见性，您可以在自定义模块中通过props接收visible属性，根据visible属性来判断是否显示自定义模块。同时您也可以在main.ts中完成自定义模块的注册
+Of course, if you need to customize the visibility of a module, you can receive the `visible` property via props within the custom module and determine whether to display it based on this property. You can also register the custom module in `main.ts`.
 :::
 
 ## setConfigure
 
-设置自定义模块的配置项，类型：`Function`，该方法用于设置自定义模块的配置项。
+Set the configuration item of a custom module, type: `Function`. This method is used to set the configuration item of a custom module.
 
-### 参数
+### Parameters
 
-- `type`：自定义模块的类型，类型：`String`，可选值：lang、upload。
-    - lang：语言配置项，类型：`ElementPlusLocale`
-    - upload：上传配置项，类型：`Function`
-- `config`：自定义模块的配置项，类型：`Function`
+- `type`：Custom module type, type: `String`, optional values: lang, upload.
+    - lang：Language configuration item, type: `ElementPlusLocale`
+    - upload：Upload configuration item, type: `Function`
+- `config`：Custom module configuration item, type: `Function`
 
-### 返回值
+### Return value
 
 - `void`
 
@@ -102,7 +102,7 @@ setConfigure('upload', async (file: File, options: UploadRequesterOptions) => {
 })
 ```
 
-以上代码赋予了您的Formkit组件上传文件的能力
+The above code enables your Formkit component to upload files.
 
 <script setup lang="ts">
 import formkit, { registerModule } from 'element-plus-formkit'

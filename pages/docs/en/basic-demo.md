@@ -1,10 +1,10 @@
-Element-Plus-Formkit基础组件包含: {{ Array.from(new Set(FormKitConfig.map((it) => (it.type)))).join(" 、 ") }}
+Element-Plus-Formkit Core Components Include: {{ Array.from(new Set(FormKitConfig.map((it) => (it.type)))).join(" 、 ") }}
 
 <p>{{ dataset }}</p>
 
 <div>
     <formkit v-model="dataset" :config="FormKitConfig" ref="dataSetFormRef" />
-    <el-button color="#626aef" @click="submit">表单校验 form validation</el-button>
+    <el-button color="#626aef" @click="submit">Verify immediately</el-button>
 </div>
 
 ::: code-tabs
@@ -25,26 +25,26 @@ const FormKitConfig = computed(() => {
     return [
         {
             type: 'input',
-            label: '姓名 (Name)',
+            label: 'Name',
             key: 'password',
-            props: { placeholder: '请输入姓名' }
+            props: { placeholder: 'Please enter your name' }
         },
         {
             type: 'select',
-            label: '性别 (Sex)',
+            label: 'Sex',
             key: 'sex',
-            props: { placeholder: '请选择性别' },
+            props: { placeholder: 'Please select your sex' },
             options: [
-                { name: '男 man', id: 1 },
-                { name: '女 woman', id: 2 }
+                { name: 'Man', id: 1 },
+                { name: 'Woman', id: 2 }
             ]
         },
         {
             type: 'datePicker',
-            label: '出生日期 (Birthday)',
+            label: 'Birthday',
             key: 'birthday',
             props: {
-                placeholder: '请选择出生日期',
+                placeholder: 'Please select your birthday',
                 valueFormat: "YYYY-MM-DD",
                 type: "date",
                 style: { width: '100%' }
@@ -52,50 +52,50 @@ const FormKitConfig = computed(() => {
         },
         {
             type: 'datePicker',
-            label: '身份证有效期 (I.D. validity period)',
+            label: 'I.D. validity period',
             key: 'idDate',
             props: {
-                placeholder: '请选择身份证有效期',
+                placeholder: 'Please select the validity period of your ID',
                 valueFormat: "YYYY-MM-DD",
                 type: "daterange",
-                startPlaceholder: '开始时间 Start Time',
-                endPlaceholder: '结束时间 End Time',
+                startPlaceholder: 'Start Time',
+                endPlaceholder: 'End Time',
                 style: { width: '100%' }
             }
         },
         {
             type: 'inputNumber',
-            label: '输入数字 (inputNumber)',
+            label: 'Input number',
             rules: [
-                { required: true, message: '输入数字不能为空' }
+                { required: true, message: 'Input number cannot be empty' }
             ],
             key: 'inputNumber',
             props: {
                 style: { width: '100%' },
-                placeholder: '请输入数字',
+                placeholder: 'Please enter a number',
                 min: 0
             }
         },
         {
             type: 'rate',
-            label: '等级 (Rate)',
+            label: 'Rate',
             key: 'sex'
         },
         {
             type: 'radio',
-            label: '是否显示隐藏项 (Show hidden items)',
+            label: 'Show hidden items',
             key: 'show',
             options: [
-                { name: '是 Yes', id: true },
-                { name: '否 No', id: false }
+                { name: 'Yes', id: true },
+                { name: 'No', id: false }
             ]
         },
         {
             type: 'input',
-            label: '隐藏项 (hidden item)',
+            label: 'Hidden item',
             key: 'password',
             visible: { key: 'show' },
-            props: { placeholder: '请输入隐藏项' }
+            props: { placeholder: 'Please enter a hidden item' }
         }
     ]
 })
@@ -104,44 +104,39 @@ const FormKitConfig = computed(() => {
 :::
 
 ::: tip
-visible属性支持：Object、Array、Boolean
+The [visible property](/element-plus-formkit/en/config-api.html#config-visible) supports: Object, Array, Boolean
 :::
 
-<script setup lang="ts">
-import formkit, { type Instance } from 'element-plus-formkit'
-import { ref, computed } from 'vue'
+<script setup>
+import formkit from 'element-plus-formkit'
+import { ref, computed } from 'vue';
 
-const dataset = ref({}),
-    dataSetFormRef = ref<Instance>();
-
-async function submit() {
-    await dataSetFormRef.value?.validate()
-}
+const dataset = ref({})
 
 const FormKitConfig = computed(() => {
     return [
         {
             type: 'input',
-            label: '姓名 (Name)',
+            label: 'Name',
             key: 'password',
-            props: { placeholder: '请输入姓名' }
+            props: { placeholder: 'Please enter your name' }
         },
         {
             type: 'select',
-            label: '性别 (Sex)',
+            label: 'Sex',
             key: 'sex',
-            props: { placeholder: '请选择性别' },
+            props: { placeholder: 'Please select your sex' },
             options: [
-                { name: '男 man', id: 1 },
-                { name: '女 woman', id: 2 }
+                { name: 'Man', id: 1 },
+                { name: 'Woman', id: 2 }
             ]
         },
         {
             type: 'datePicker',
-            label: '出生日期 (Birthday)',
+            label: 'Birthday',
             key: 'birthday',
             props: {
-                placeholder: '请选择出生日期',
+                placeholder: 'Please select your birthday',
                 valueFormat: "YYYY-MM-DD",
                 type: "date",
                 style: { width: '100%' }
@@ -149,50 +144,50 @@ const FormKitConfig = computed(() => {
         },
         {
             type: 'datePicker',
-            label: '身份证有效期 (I.D. validity period)',
+            label: 'I.D. validity period',
             key: 'idDate',
             props: {
-                placeholder: '请选择身份证有效期',
+                placeholder: 'Please select the validity period of your ID',
                 valueFormat: "YYYY-MM-DD",
                 type: "daterange",
-                startPlaceholder: '开始时间 Start Time',
-                endPlaceholder: '结束时间 End Time',
+                startPlaceholder: 'Start Time',
+                endPlaceholder: 'End Time',
                 style: { width: '100%' }
             }
         },
         {
             type: 'inputNumber',
-            label: '输入数字 (inputNumber)',
+            label: 'Input number',
             rules: [
-                { required: true, message: '输入数字不能为空' }
+                { required: true, message: 'Input number cannot be empty' }
             ],
             key: 'inputNumber',
             props: {
                 style: { width: '100%' },
-                placeholder: '请输入数字',
+                placeholder: 'Please enter a number',
                 min: 0
             }
         },
         {
             type: 'rate',
-            label: '等级 (Rate)',
+            label: 'Rate',
             key: 'sex'
         },
         {
             type: 'radio',
-            label: '是否显示隐藏项 (Show hidden items)',
+            label: 'Show hidden items',
             key: 'show',
             options: [
-                { name: '是 Yes', id: true },
-                { name: '否 No', id: false }
+                { name: 'Yes', id: true },
+                { name: 'No', id: false }
             ]
         },
         {
             type: 'input',
-            label: '隐藏项 (hidden item)',
+            label: 'Hidden item',
             key: 'password',
             visible: { key: 'show' },
-            props: { placeholder: '请输入隐藏项' }
+            props: { placeholder: 'Please enter a hidden item' }
         }
     ]
 })

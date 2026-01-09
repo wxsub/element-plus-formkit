@@ -49,7 +49,7 @@ registerModule("customModule", customModule)
 @tab customModule.vue
 ```vue
     <template>
-        <h2>这是customModule</h2>
+        <h2>This is customModule</h2>
     </template>
 
     <script setup lang="ts">

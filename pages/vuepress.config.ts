@@ -15,36 +15,36 @@ export default defineUserConfig({
   }),
   theme: defaultTheme({
     locales: {
-      '/zh/': {
+      '/': {
         selectLanguageName: '中文',
         sidebar: [
           {
             text: '快速开始',
-            link: '/zh/get-started'
+            link: '/get-started'
           },
           {
             text: '组件API',
-            link: '/zh/formkit-api'
+            link: '/formkit-api'
           },
           {
             text: 'Config API',
-            link: '/zh/config-api'
+            link: '/config-api'
           },
           {
             text: 'Expose',
-            link: '/zh/expose'
+            link: '/expose'
           },
           {
             text: '插槽',
-            link: '/zh/slot'
+            link: '/slot'
           },
           {
             text: '基础组件演示',
-            link: '/zh/basic-demo'
+            link: '/basic-demo'
           },
           {
             text: '拓展方法',
-            link: '/zh/extension-methods'
+            link: '/extension-methods'
           }
         ]
       },
@@ -86,7 +86,7 @@ export default defineUserConfig({
     selectLanguageAriaLabel: '选择语言'
   }),
   locales: {
-    '/zh/': {
+    '/': {
       lang: 'zh-CN',
       title: 'element-plus-formkit',
       description: '基于 ElementPlus 实现的数据驱动表单组件',
