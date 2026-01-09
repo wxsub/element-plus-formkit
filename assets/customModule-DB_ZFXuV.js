@@ -1,1 +1,0 @@
-import{d as e,c as o,o as t}from"./app-zn1mcIr_.js";const l=e({__name:"customModule",props:{value:{type:Object,default:()=>({})}},setup(s){return(c,u)=>(t(),o("h2",null,"这是customModule This is customModule"))}});export{l as default};
