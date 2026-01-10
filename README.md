@@ -1,4 +1,4 @@
-<h1 align="center" style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+<h1 align="center" style="display: flex; align-items: bottom; justify-content: center; gap: 8px;">
   <img src="https://raw.githubusercontent.com/wxsub/element-plus-formkit/refs/heads/main/pages/docs/public/logo.png" width="36" height="36" />
   Element-plus-formkit
 </h1>
