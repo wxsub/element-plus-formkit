@@ -82,6 +82,7 @@ registerModule("customModule", customModule)
 ### 返回值
 
 - `void`
+### 上传配置项的示例
 
 ```ts
 import { setConfigure } from 'element-plus-formkit'
@@ -101,8 +102,20 @@ setConfigure('upload', async (file: File, options: UploadRequesterOptions) => {
     return response
 })
 ```
+上述代码使您的Formkit组件能够上传文件。
 
-以上代码赋予了您的Formkit组件上传文件的能力
+### 多语言语言配置项的示例
+
+```ts
+import { setConfigure } from 'element-plus-formkit'
+import en from 'element-plus/es/locale/lang/en';
+
+setConfigure('lang', en)
+```
+
+::: tip
+Formkit语言包依赖于element-plus，更多语言设置请查看[element-plus locale](https://github.com/element-plus/element-plus/tree/dev/packages/locale/lang)
+:::
 
 <script setup lang="ts">
 import formkit, { registerModule } from 'element-plus-formkit'

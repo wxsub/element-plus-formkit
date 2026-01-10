@@ -198,6 +198,8 @@ In a group of options, multiple items can be selected.
 
 output: {{ dataset.checkbox }}
 
+::: code-tabs
+@tab Template
 ```vue
 <formkit
     :config="[
@@ -216,6 +218,18 @@ output: {{ dataset.checkbox }}
     v-model="dataset">
 </formkit>
 ```
+
+@tab Script
+```ts
+import formkit, { setConfigure } from 'element-plus-formkit';
+import en from 'element-plus/es/locale/lang/en';
+import { ref, computed } from 'vue';
+
+const dataset = ref({})
+
+setConfigure('lang', en);
+```
+:::
 
 ::: tip
 Of course, when your options need to be obtained dynamically, you can still use the `requester` in conjunction with the `handler` to accomplish this. For details, refer to [select requester](#select).
@@ -880,10 +894,13 @@ Form element validation rule set. For specific validation parameters, please ref
 Combined with the component to implement complete form item validation, refer to [Expose](/element-plus-formkit/expose.html#validate)
 
 <script setup lang="ts">
-import formkit from 'element-plus-formkit';
+import formkit, { setConfigure } from 'element-plus-formkit';
+import en from 'element-plus/es/locale/lang/en';
 import { ref, computed } from 'vue';
 
 const dataset = ref({})
+
+setConfigure('lang', en);
 
 const visibleExampleConfig = computed(() => [
     {

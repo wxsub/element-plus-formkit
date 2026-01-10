@@ -83,6 +83,8 @@ Set the configuration item of a custom module, type: `Function`. This method is 
 
 - `void`
 
+### Example of Uploading Configuration Items
+
 ```ts
 import { setConfigure } from 'element-plus-formkit'
 import type { UploadRequesterOptions } from 'element-plus-formkit/types/formkit-types'
@@ -101,8 +103,20 @@ setConfigure('upload', async (file: File, options: UploadRequesterOptions) => {
     return response
 })
 ```
-
 The above code enables your Formkit component to upload files.
+
+### Example of multilingual language configuration options
+
+```ts
+import { setConfigure } from 'element-plus-formkit'
+import en from 'element-plus/es/locale/lang/en';
+
+setConfigure('lang', en)
+```
+
+::: tip
+Formkit language packs depend on element-plus. For additional language settings, please refer to [element-plus locale](https://github.com/element-plus/element-plus/tree/dev/packages/locale/lang).
+:::
 
 <script setup lang="ts">
 import formkit, { registerModule } from 'element-plus-formkit'
