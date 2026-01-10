@@ -1,7 +1,6 @@
-<h1 align="center" style="display: flex; align-items: bottom; justify-content: center; gap: 8px;">
-  <img src="https://raw.githubusercontent.com/wxsub/element-plus-formkit/refs/heads/main/pages/docs/public/logo.png" width="36" height="36" />
-  Element-plus-formkit
-</h1>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/wxsub/element-plus-formkit/refs/heads/main/pages/docs/public/logo.png" width="128" height="128" />
+</p>
 
 <p align="center">
     Based on ElementPlus form components for the combination of packaging , through the data flow method of the form data , to facilitate rapid development.
