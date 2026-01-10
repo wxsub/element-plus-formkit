@@ -1,4 +1,7 @@
-<h1 align="center">Element-plus-formkit</h1>
+<h1 align="center" style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+  <img src="https://raw.githubusercontent.com/wxsub/element-plus-formkit/refs/heads/main/pages/docs/public/logo.png" width="36" height="36" />
+  Element-plus-formkit
+</h1>
 
 <p align="center">
     Based on ElementPlus form components for the combination of packaging , through the data flow method of the form data , to facilitate rapid development.
@@ -15,17 +18,17 @@
     <img src="https://img.shields.io/npm/dm/element-plus-formkit" />
   </a>
   <a href="https[.npmignore](.npmignore)://github.com/wxsub/element-plus-formkit">
-    <img src="https://img.shields.io/badge/node-%3E%3D16-lightgreen?logo=node.js&labelColor=darkgreen&color=brightgreen" />
+    <img src="https://img.shields.io/badge/node-%3E%3D18-lightgreen?logo=node.js&labelColor=darkgreen&color=brightgreen" />
   </a>
-  <a href="https://wxsub.github.io/element-plus-formkit/">
-    <img src="https://img.shields.io/badge/Docs-%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3-brightgreen?logo=readthedocs&logoColor=white" alt="Official Documentation" />
+  <a href="https://wxsub.github.io/element-plus-formkit/en/">
+    <img src="https://img.shields.io/badge/Docs-Official%20Documentation-brightgreen?logo=readthedocs&logoColor=white" alt="Official Documentation" />
   </a>
   <br>
 </p>
 
 **English** | [中文](./README.zh_CN.md)
 
-To check out live examples and docs, visit [document](https://wxsub.github.io/element-plus-formkit/get-started.html).
+To check out live examples and docs, visit [document](https://wxsub.github.io/element-plus-formkit/en/get-started.html).
 
 
 ## Install
