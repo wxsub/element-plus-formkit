@@ -1,0 +1,15 @@
+:root {
+  --vp-c-accent-bg: #3e64b3;
+  --vp-c-accent: #3e64b3;
+}
+.vp-hero-action-button.primary:hover {
+  background-color: #3e64b3;
+  color: #fff;
+  border-color: #3e64b3;
+  user-select: none;
+}
+.vp-hero-action-button:hover {
+  color: #3e64b3;
+  text-decoration: underline;
+  user-select: none;
+}
