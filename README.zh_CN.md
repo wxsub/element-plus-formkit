@@ -44,12 +44,33 @@ const app = createApp(App);
 app.mount('#app');
 ```
 
+### 基本使用
 在页面中使用 Formkit 组件
 
 ```
 <template>
   <FormKit :config="config" v-model="FormData" />
 </template>
+
+<script setup lang="ts">
+import { FormKit } from 'element-plus-formkit'
+
+const FormData = reactive({})
+
+const config = ref([
+  {
+    type: 'input',
+    key: 'name',
+    label: '姓名'
+  },
+  {
+    type: 'select',
+    key: 'class',
+    label: '班级',
+    options: []
+  }
+])
+</script>
 ```
 
 ### registerModule

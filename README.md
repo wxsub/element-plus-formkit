@@ -45,12 +45,33 @@ const app = createApp(App);
 app.mount('#app');
 ```
 
-use Formkit in template
+### Basic Usage Guide
+Using Formkit components on the page
 
 ```
 <template>
   <FormKit :config="config" v-model="FormData" />
 </template>
+
+<script setup lang="ts">
+import { FormKit } from 'element-plus-formkit'
+
+const FormData = reactive({})
+
+const config = ref([
+  {
+    type: 'input',
+    key: 'name',
+    label: 'Name'
+  },
+  {
+    type: 'select',
+    key: 'class',
+    label: 'Class',
+    options: []
+  }
+])
+</script>
 ```
 
 ### registerModule
