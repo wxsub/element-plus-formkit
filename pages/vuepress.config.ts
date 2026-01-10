@@ -14,6 +14,7 @@ export default defineUserConfig({
     }
   }),
   theme: defaultTheme({
+    logo: 'https://raw.githubusercontent.com/wxsub/element-plus-formkit/refs/heads/main/pages/docs/public/logo.png',
     locales: {
       '/': {
         selectLanguageName: '中文',
