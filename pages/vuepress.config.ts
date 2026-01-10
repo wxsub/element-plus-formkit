@@ -17,6 +17,8 @@ export default defineUserConfig({
     locales: {
       '/': {
         selectLanguageName: '中文',
+        selectLanguageText: '中文',
+        selectLanguageAriaLabel: '中文',
         sidebar: [
           {
             text: '快速开始',
@@ -50,6 +52,8 @@ export default defineUserConfig({
       },
       '/en/': {
         selectLanguageName: 'English',
+        selectLanguageText: 'English',
+        selectLanguageAriaLabel: 'English',
         sidebar: [
           {
             text: 'Quick Start',
@@ -81,9 +85,7 @@ export default defineUserConfig({
           }
         ]
       }
-    },
-    selectLanguageText: '选择语言',
-    selectLanguageAriaLabel: '选择语言'
+    }
   }),
   locales: {
     '/': {
