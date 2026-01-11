@@ -3,23 +3,38 @@ Element-Plus-Formkit基础组件包含: {{ Array.from(new Set(FormKitConfig.map(
 <p>输出：{{ dataset }}</p>
 
 <div>
-    <formkit v-model="dataset" :config="FormKitConfig" ref="dataSetFormRef" />
-    <el-button color="#626aef" @click="submit">表单校验</el-button>
+    <formkit v-model="dataset" :config="FormKitConfig" ref="FormKitRef" />
+    <el-button color="#626aef" @click="submit" :loading="loading">表单校验</el-button>
 </div>
 
 ::: code-tabs
 @tab Template
 ```vue
-<formkit v-model="dataset" :config="FormKitConfig" />
+<div>
+    <formkit v-model="dataset" :config="FormKitConfig" ref="FormKitRef" />
+    <el-button color="#626aef" @click="submit" :loading="loading">表单校验</el-button>
+</div>
 ```
 
 @tab TypeScript
 ```ts
-<script setup>
-import formkit from 'element-plus-formkit'
-import { ref, computed } from 'vue';
+<script setup lang="ts">
+import formkit, { type Instance } from 'element-plus-formkit'
+import { ref, computed } from 'vue'
 
-const dataset = ref({})
+const dataset = ref({}),
+    loading = ref(false),
+    FormKitRef = ref<Instance>();
+
+async function submit() {
+    try {
+        loading.value = true;
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        await FormKitRef.value.validate(true);
+    } finally {
+        loading.value = false;
+    }
+}
 
 const FormKitConfig = computed(() => {
     return [
@@ -112,10 +127,17 @@ import formkit, { type Instance } from 'element-plus-formkit'
 import { ref, computed } from 'vue'
 
 const dataset = ref({}),
-    dataSetFormRef = ref<Instance>();
+    loading = ref(false),
+    FormKitRef = ref<Instance>();
 
 async function submit() {
-    await dataSetFormRef.value?.validate()
+    try {
+        loading.value = true;
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        await FormKitRef.value.validate(true);
+    } finally {
+        loading.value = false;
+    }
 }
 
 const FormKitConfig = computed(() => {

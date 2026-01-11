@@ -3,23 +3,31 @@ Element-Plus-Formkit Core Components Include: {{ Array.from(new Set(FormKitConfi
 <p>{{ dataset }}</p>
 
 <div>
-    <formkit v-model="dataset" :config="FormKitConfig" ref="dataSetFormRef" />
-    <el-button color="#626aef" @click="submit">Verify immediately</el-button>
+    <formkit v-model="dataset" :config="FormKitConfig" ref="FormKitRef" />
+    <el-button color="#626aef" @click="submit" :loading="loading">Verify immediately</el-button>
 </div>
 
 ::: code-tabs
 @tab Template
 ```vue
-<formkit v-model="dataset" :config="FormKitConfig" />
+<div>
+    <formkit v-model="dataset" :config="FormKitConfig" ref="FormKitRef" />
+    <el-button color="#626aef" @click="submit" :loading="loading">Verify immediately</el-button>
+</div>
 ```
 
 @tab TypeScript
 ```ts
-<script setup>
-import formkit from 'element-plus-formkit'
+<script setup lang="ts">
+import formkit, { setConfigure, type Instance } from 'element-plus-formkit';
 import { ref, computed } from 'vue';
+import en from 'element-plus/es/locale/lang/en';
 
-const dataset = ref({})
+setConfigure('lang', en);
+
+const dataset = ref({}),
+    loading = ref(false),
+    FormKitRef = ref<Instance>();
 
 const FormKitConfig = computed(() => {
     return [
@@ -99,6 +107,16 @@ const FormKitConfig = computed(() => {
         }
     ]
 })
+
+async function submit() {
+    try {
+        loading.value = true;
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        await FormKitRef.value.validate(true);
+    } finally {
+        loading.value = false;
+    }
+}
 </script>
 ```
 :::
@@ -107,11 +125,16 @@ const FormKitConfig = computed(() => {
 The [visible property](/element-plus-formkit/en/config-api.html#config-visible) supports: Object, Array, Boolean
 :::
 
-<script setup>
-import formkit from 'element-plus-formkit'
+<script setup lang="ts">
+import formkit, { setConfigure, type Instance } from 'element-plus-formkit';
 import { ref, computed } from 'vue';
+import en from 'element-plus/es/locale/lang/en';
 
-const dataset = ref({})
+setConfigure('lang', en);
+
+const dataset = ref({}),
+    loading = ref(false),
+    FormKitRef = ref<Instance>();
 
 const FormKitConfig = computed(() => {
     return [
@@ -191,4 +214,14 @@ const FormKitConfig = computed(() => {
         }
     ]
 })
+
+async function submit() {
+    try {
+        loading.value = true;
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        await FormKitRef.value.validate(true);
+    } finally {
+        loading.value = false;
+    }
+}
 </script>

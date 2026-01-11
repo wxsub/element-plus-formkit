@@ -92,8 +92,11 @@ import { type Instance } from 'element-plus-formkit';
 
 
 <script setup lang="ts">
-import formkit, { type Instance } from 'element-plus-formkit';
+import formkit, { type Instance, setConfigure } from 'element-plus-formkit';
 import { ref, computed } from 'vue';
+import en from 'element-plus/es/locale/lang/en';
+
+setConfigure('lang', en);
 
 const dataset = ref({}), validateCompleted = ref(false);
 
