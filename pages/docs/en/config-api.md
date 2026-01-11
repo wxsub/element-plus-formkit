@@ -382,6 +382,8 @@ Unlike select, checkbox, radio, etc. modules that need to dynamically get `optio
 ### popover
 Text pop-up layer module selector
 
+[popover props parameter](https://element-plus.org/en-US/component/cascader#cascaderprops)
+
 <formkit
     :config="[
         {
@@ -389,10 +391,11 @@ Text pop-up layer module selector
             label: 'Text pop-up layer',
             key: 'popover',
             props: {
-                placeholder: 'Please click to select'
+                placeholder: 'Please click to select',
+                props: { multiple: true }
             },
             options: [
-                { name: 'Option one', id: 1 },
+                { name: 'Option one', id: 1, children: [{ name: 'Option one-1', id: 11 }] },
                 { name: 'Option two', id: 2 },
                 { name: 'Option three', id: 3 }
             ]
@@ -409,10 +412,11 @@ Text pop-up layer module selector
             label: 'Text pop-up layer',
             key: 'popover',
             props: {
-                placeholder: 'Please click to select'
+                placeholder: 'Please click to select',
+                props: { multiple: true }
             },
             options: [
-                { name: 'Option one', id: 1 },
+                { name: 'Option one', id: 1, children: [{ name: 'Option one-1', id: 11 }] },
                 { name: 'Option two', id: 2 },
                 { name: 'Option three', id: 3 }
             ]

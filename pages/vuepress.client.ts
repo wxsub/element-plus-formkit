@@ -1,6 +1,7 @@
 import { defineClientConfig } from 'vuepress/client'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
+import 'element-plus-formkit/dist/index.css'
 import './styles/theme-overrides.scss'
 
 export default defineClientConfig({

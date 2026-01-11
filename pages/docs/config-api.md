@@ -368,6 +368,8 @@ output: {{ dataset.address }}
 ### popover
 文字弹出层模块选择器
 
+[popover props参数](https://element-plus.org/en-US/component/cascader#cascaderprops)
+
 <formkit
     :config="[
         {
@@ -375,10 +377,11 @@ output: {{ dataset.address }}
             label: '文字弹出层',
             key: 'popover',
             props: {
-                placeholder: '请点击选择'
+                placeholder: '请点击选择',
+                props: { multiple: true }
             },
             options: [
-                { name: '选项一', id: 1 },
+                { name: '选项一', id: 1, children: [{ name: '选项一-1', id: 11 }] },
                 { name: '选项二', id: 2 },
                 { name: '选项三', id: 3 }
             ]
@@ -395,10 +398,11 @@ output: {{ dataset.address }}
             label: '文字弹出层',
             key: 'popover',
             props: {
-                placeholder: '请点击选择'
+                placeholder: '请点击选择',
+                props: { multiple: true }
             },
             options: [
-                { name: '选项一', id: 1 },
+                { name: '选项一', id: 1, children: [{ name: '选项一-1', id: 11 }] },
                 { name: '选项二', id: 2 },
                 { name: '选项三', id: 3 }
             ]
