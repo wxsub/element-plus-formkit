@@ -205,14 +205,15 @@ async function executeRequestStack() {
 function validate(openTips: boolean = false) {
   return new Promise(async (resolve, reject) => {
     try {
+      const isZhCN = getConfigure('lang')?.name === 'zh-cn'
 	    if (FormKitRef.value) {
         await FormKitRef.value?.validate((valid: boolean) => {
           if (valid) {
             resolve(props.modelValue)
-          } else throw '您需要将标星号的栏目填写完整后重新尝试'
+          } else throw isZhCN ? '您需要将标星号的栏目填写完整后重新尝试' : 'Please fill in all required fields'
         })
       } else {
-		    console.warn("组件加载未完成")
+		    console.warn("Component loading is not complete!")
       }
     } catch (e: any) {
       if (openTips) ElMessage.error(e)
