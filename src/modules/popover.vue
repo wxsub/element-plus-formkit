@@ -1,20 +1,22 @@
 <script setup lang="ts">
+import { getConfigure } from '@/config'
 import { ElPopover, ElEmpty, ElCascaderPanel } from 'element-plus'
 import { ArrowDown } from '@element-plus/icons-vue'
+import { TreeOption } from 'types/formkit-types'
+
+const isZhCN = getConfigure('lang')?.name === 'zh-cn'
 
 const props = defineProps({
   modelValue: { default: null },
   labelKey: { type: String, default: 'name' },
   valueKey: { type: String, default: 'id' },
   loading: { type: Boolean, default: false },
-  options: { type: Array<any>, default: () => [] }
+  options: { type: Array as () => TreeOption[], default: () => [] }
 })
 
-const emit = defineEmits(['update:modelValue']), attrs = useAttrs();
+const emit = defineEmits(['update:modelValue', 'change']), attrs = useAttrs();
 
-const popoverAttrs = computed(() => {
-  return attrs && typeof attrs.popover === 'object' ? attrs.popover : {};
-}), cascaderPanelAttrs = computed(() => {
+const cascaderPanelAttrs = computed(() => {
   return Object.assign(attrs.props as Record<string, any> || {}, {
     label: props.labelKey,
     value: props.valueKey
@@ -31,17 +33,42 @@ const _value: any = computed({
 })
 
 const label = computed(() => {
-  if (Array.isArray(props.options) && props.options.length === 0) return useAttrs().placeholder || '请选择'
-  const value = () => {
-    const value = _value.value
-    if (Array.isArray(value) && value.length >= 1) return Array.isArray(value[0]) ? `${value[0].join('/')} +${_value.value.length}` : value[0]
+  try {
+    if (Array.isArray(props.options) && props.options.length === 0) return useAttrs().placeholder || (isZhCN ? '请选择' : 'Please select')
+    return getLabelById() || useAttrs().placeholder || (isZhCN ? '请选择' : 'Please select')
+  } catch (error) {
+    console.warn(error)
+    return useAttrs().placeholder || (isZhCN ? '请选择' : 'Please select')
   }
-  return value() || useAttrs().placeholder || '请选择'
 })
+
+const getLabelById = (): string => {
+  const { options = [], valueKey = 'id', labelKey = 'name' } = props,
+    targetValue: string | number | (string | number)[] = _value.value,
+    values: (string | number)[] = Array.isArray(targetValue) ? targetValue.flat(Infinity) : [targetValue];
+
+  const flatOptions = (list: TreeOption[]): TreeOption[] => {
+    return list.reduce((prev: TreeOption[], cur: TreeOption) => {
+      prev.push(cur);
+      if (Array.isArray(cur.children) && cur.children.length) {
+        prev.push(...flatOptions(cur.children));
+      }
+      return prev
+    }, [])
+  }
+
+  const matchLabels = flatOptions(options)
+    .filter(opt => values.includes(opt[valueKey] as string | number))
+    .map(opt => opt[labelKey] as string);
+
+  return matchLabels.length 
+    ? `${matchLabels.join(' | ')}${matchLabels.length > 5 ? ` +${matchLabels.length}` : ''}` 
+    : '';
+}
 </script>
 
 <template>
-  <el-popover trigger="click" :disabled="loading" v-bind="popoverAttrs" :popper-style="{ padding: 0 }" width="auto">
+  <el-popover trigger="click" :disabled="loading" v-bind="$attrs" :popper-style="{ padding: 0 }" width="auto">
     <div>
       <el-empty :image-size="60" v-if="options.length === 0"></el-empty>
       <el-cascader-panel :options="options" :props="cascaderPanelAttrs" v-model="_value" v-else />
@@ -49,7 +76,7 @@ const label = computed(() => {
     <template #reference>
       <span :class="{ 'module-popover-active': _value }" class="module-popover-context">
         <span v-if="loading" class="module-popover-loading">
-          正在加载 <i class="el-icon-loading" />
+          {{ isZhCN ? '正在加载' : 'Loading...' }} <i class="el-icon-loading" />
         </span>
         <template v-else>
           <span class="ellipsis">{{ label }}</span>
@@ -62,11 +89,14 @@ const label = computed(() => {
 
 <style lang="scss">
 .module-popover-context {
+  display: inline-flex;
   cursor: pointer;
+  align-items: center;
+  gap: 5px;
 }
 
 .module-popover-active {
-  color: #128bed
+  color: var(--el-color-primary);
 }
 
 .module-popover-loading {

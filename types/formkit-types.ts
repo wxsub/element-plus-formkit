@@ -62,3 +62,8 @@ export type ElementPlusFormkitPlugin = {
   registerModule: (...args: any[]) => void;
   getModules: () => Record<string, Component>;
 };
+
+export interface TreeOption {
+  [key: string]: string | number | TreeOption[] | undefined;
+  children?: TreeOption[];
+}
