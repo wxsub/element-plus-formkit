@@ -4,7 +4,7 @@
 Component binds to data source, type: `Object`
 
 ## config
-Component configuration item, please refer to [Config Api](/config-api.md) for specific parameters. Type: `Array`
+Component configuration item, please refer to [Config Api](/en/config-api.md) for specific parameters. Type: `Array`
 
 ## disabled
 Disable the entire form. Type: `Boolean`

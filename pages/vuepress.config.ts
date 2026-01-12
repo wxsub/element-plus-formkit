@@ -34,6 +34,10 @@ export default defineUserConfig({
             link: '/config-api'
           },
           {
+            text: '模块',
+            link: '/modules'
+          },
+          {
             text: 'Expose',
             link: '/expose'
           },
@@ -67,6 +71,10 @@ export default defineUserConfig({
           {
             text: 'Config API',
             link: '/en/config-api'
+          },
+          {
+            text: 'Modules',
+            link: '/en/modules'
           },
           {
             text: 'Expose',
