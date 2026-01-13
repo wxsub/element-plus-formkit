@@ -2,6 +2,76 @@
 
 The form components that make up the FormKit system are listed below. If these modules are not what you expect, you can also customize the modules using [registerModule](/en/extension-methods.md#registermodule).
 
+## cascader
+
+Cascading Selectors
+
+When a dataset has a clear hierarchical structure, cascading selectors can be used to view and select items level by level.
+
+<formkit
+    :config="[
+        {
+            type: 'cascader',
+            label: 'Cascading Selectors',
+            key: 'cascaderValue',
+            options: options,
+            props: { placeholder: 'Please select data', clearable: true }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+::: code-tabs
+@tab Template
+```vue
+<formkit
+    :config="[
+        {
+            type: 'cascader',
+            label: 'Cascading Selectors',
+            key: 'cascaderValue',
+            options: options,
+            props: { placeholder: 'Please select data', clearable: true }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+```
+
+@tab TypeScript
+```ts
+<script setup lang="ts">
+import formkit from 'element-plus-formkit';
+import { ref, computed } from 'vue';
+
+const dataset = ref({})
+
+const options = ref([
+  {
+    value: 'guide',
+    label: 'Guide',
+    children: [
+      {
+        value: 'disciplines',
+        label: 'Disciplines',
+        children: [
+          { value: 'consistency', label: 'Consistency' },
+          { value: 'feedback', label: 'Feedback' },
+          { value: 'efficiency', label: 'Efficiency' },
+          { value: 'controllability', label: 'Controllability' }
+        ]
+      }
+    ]
+  }
+])
+</script>
+```
+:::
+
+::: tip
+[Native Element Plus ElCascader API](https://element-plus.org/en-US/component/cascader#cascader-attributes) Please write it in the `props` field.
+:::
+
 ## input
 Input field
 <formkit
@@ -31,6 +101,48 @@ Input field
 ```
 ::: tip
 [Native Element Plus Input API](https://element-plus.org/zh-CN/component/input.html#api) Please write in the props field.
+:::
+
+## switch
+
+Indicates switching between two mutually exclusive states, commonly used to trigger “on/off” functions.
+
+<formkit
+    :config="[
+        {
+            type: 'switch',
+            label: 'Switch',
+            key: 'switchValue',
+            props: {
+                inlinePrompt: true,
+                activeText: 'Display multiple pieces of content in full',
+                inactiveText: 'Multiple contents'
+            }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+```vue
+<formkit
+    :config="[
+        {
+            type: 'switch',
+            label: 'Switch',
+            key: 'switchValue',
+            props: {
+                inlinePrompt: true,
+                activeText: 'Display multiple pieces of content in full',
+                inactiveText: 'Multiple contents'
+            }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+```
+
+::: tip
+[Native Element Plus ElSwitch API](https://element-plus.org/en-US/component/switch#attributes) Please write it in the `props` field.
 :::
 
 ## select
@@ -474,7 +586,6 @@ Output onChooseCallback: {{ dataset.onChooseCallback }}
 
 Typically, selectors for remotely loading data are difficult to control for default data handling. This is because backend data queries often require `item.name`, while data binding typically uses `item.id`. To address this, we introduce a new parameter (`initialValue`) for control. When the `initialValue` parameter is non-empty, we immediately pass it as an argument to the `requester` you provide after the component finishes loading.
 
-
 ## rate
 Rating selector
 
@@ -507,6 +618,193 @@ Rating selector
 [Native Element Plus Rate API](https://element-plus.org/zh-CN/component/rate.html#api) Please write it in the `props` field.
 :::
 
+## datePicker
+
+Used for selecting or entering dates
+
+<formkit
+    :config="[
+        {
+            type: 'datePicker',
+            label: 'Date Picker',
+            key: 'datePickerValue',
+            props: { valueFormat: 'YYYY-MM-DD', placeholder: 'Click to select a date' }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+<p>Output: {{ dataset.datePickerValue || "-" }}</p>
+
+```vue
+<formkit
+    :config="[
+        {
+            type: 'datePicker',
+            label: 'Date Picker',
+            key: 'datePickerValue',
+            props: { valueFormat: 'YYYY-MM-DD', placeholder: 'Click to select a date' }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+<p>Output: {{ dataset.datePickerValue || "-" }}</p>
+```
+
+::: tip
+[Native ElDatePicker API](https://element-plus.org/en-US/component/cascader#cascaderpanel-api)Please write inside the props.
+:::
+
+## timePicker
+
+Time Selector
+
+Used for selecting or entering dates
+
+<formkit
+    :config="[
+        {
+            type: 'timePicker',
+            label: 'Time Selector',
+            key: 'timePickerValue',
+            props: { placeholder: 'Click to select time' }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+<p>输出：{{ dataset.timePickerValue || "-" }}</p>
+
+```vue
+<formkit
+    :config="[
+        {
+            type: 'timePicker',
+            label: 'Time Selector',
+            key: 'timePickerValue',
+            props: { placeholder: 'Click to select time' }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+<p>Output: {{ dataset.timePickerValue || "-" }}</p>
+```
+
+::: tip
+[Native ElDatePicker API](https://element-plus.org/en-US/component/time-picker#attributes)Please write inside the props.
+:::
+
+## timeSelect
+
+For selecting or entering dates
+
+The available time range is 00:00-23:59
+
+<formkit
+    :config="[
+        {
+            type: 'timeSelect',
+            label: 'Time Selection',
+            key: 'timeSelectValue',
+            props: { placeholder: 'Click To Time Selection', start: '08:30', end: '18:30' }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+<p>Output: {{ dataset.timeSelectValue || "-" }}</p>
+
+```vue
+<formkit
+    :config="[
+        {
+            type: 'timeSelect',
+            label: 'Time Selection',
+            key: 'timeSelectValue',
+            props: { placeholder: 'Click To Time Selection', start: '08:30', end: '18:30' }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+<p>Output: {{ dataset.timeSelectValue || "-" }}</p>
+```
+
+::: tip
+[Native ElTimeSelect API](https://element-plus.org/en-US/component/time-select#attributes)Please write inside the props.
+:::
+
+## upload
+
+Uploader
+
+Click to upload files.
+
+<formkit
+    :config="[
+        {
+            type: 'upload',
+            label: 'Uploader',
+            key: 'uploadValue',
+            props: {
+                limit: 4,
+                afterUpload: (response) => {
+                    return response.data
+                }
+            }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+**The use of the uploader requires configuration.[setConfigure upload](/extension-methods.md#setconfigure)**
+
+::: code-tabs
+@tab template
+```vue
+<formkit
+    :config="[
+        {
+            type: 'upload',
+            label: 'Uploader',
+            key: 'uploadValue',
+            props: {
+                limit: 4,
+                afterUpload: (response) => {
+                    return response.data
+                }
+            }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+```
+@tab typescript
+```vue
+<script setup lang="ts">
+import formkit, { setConfigure } from 'element-plus-formkit';
+import type { UploadRequesterOptions } from 'element-plus-formkit/types/formkit-types'
+import { ref, computed } from 'vue';
+
+const dataset = ref({})
+
+setConfigure('upload', async (file: File, options: UploadRequesterOptions) => {
+    const url = URL.createObjectURL(file)
+    return new Promise((r, j) => {
+        setTimeout(() => {
+           r({
+                code: 200,
+                data: url || "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
+           })
+        }, 2000)
+    })
+})
+</script>
+```
+:::
+
 <script setup lang="ts">
 import formkit, { setConfigure } from 'element-plus-formkit';
 import en from 'element-plus/es/locale/lang/en';
@@ -515,6 +813,18 @@ import { ref, computed } from 'vue';
 const dataset = ref({})
 
 setConfigure('lang', en);
+
+setConfigure('upload', async (file: File, options: UploadRequesterOptions) => {
+    const url = URL.createObjectURL(file)
+    return new Promise((r, j) => {
+        setTimeout(() => {
+           r({
+                code: 200,
+                data: url || "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
+           })
+        }, 2000)
+    })
+})
 
 function fetchOptions() {
     return new Promise((r, j) => {
@@ -530,4 +840,23 @@ function fetchOptions() {
         }, 2000)
     })
 }
+
+const options = ref([
+  {
+    value: 'guide',
+    label: 'Guide',
+    children: [
+      {
+        value: 'disciplines',
+        label: 'Disciplines',
+        children: [
+          { value: 'consistency', label: 'Consistency' },
+          { value: 'feedback', label: 'Feedback' },
+          { value: 'efficiency', label: 'Efficiency' },
+          { value: 'controllability', label: 'Controllability' }
+        ]
+      }
+    ]
+  }
+])
 </script>

@@ -2,13 +2,81 @@
 
 组成formkit系统的各个表单组件，以下模块若不是您的预期，您也可以自定义模块[registerModule](/extension-methods.md#registermodule)
 
-### input
+## cascader 级联选择器
+
+当一个数据集合有清晰的层级结构时，可通过级联选择器逐级查看并选择。
+
+<formkit
+    :config="[
+        {
+            type: 'cascader',
+            label: '级联选择器',
+            key: 'cascaderValue',
+            options: options,
+            props: { placeholder: '请选择数据', clearable: true }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+::: code-tabs
+@tab Template
+```vue
+<formkit
+    :config="[
+        {
+            type: 'cascader',
+            label: '级联选择器',
+            key: 'cascaderValue',
+            options: options,
+            props: { placeholder: '请选择数据', clearable: true }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+```
+
+@tab TypeScript
+```ts
+<script setup lang="ts">
+import formkit from 'element-plus-formkit';
+import { ref, computed } from 'vue';
+
+const dataset = ref({})
+
+const options = ref([
+  {
+    value: 'guide',
+    label: 'Guide',
+    children: [
+      {
+        value: 'disciplines',
+        label: 'Disciplines',
+        children: [
+          { value: 'consistency', label: 'Consistency' },
+          { value: 'feedback', label: 'Feedback' },
+          { value: 'efficiency', label: 'Efficiency' },
+          { value: 'controllability', label: 'Controllability' }
+        ]
+      }
+    ]
+  }
+])
+</script>
+```
+:::
+
+::: tip
+[原生ElCascader API](https://element-plus.org/zh-CN/component/cascader#cascader-attributes)请写入props内
+:::
+
+## input 输入框
 输入框
 <formkit
     :config="[
         {
             type: 'input',
-            label: '姓名 (Name)',
+            label: '姓名',
             key: 'password',
             props: { placeholder: '请输入姓名', clearable: true }
         }
@@ -21,7 +89,7 @@
     :config="[
         {
             type: 'input',
-            label: '姓名 (Name)',
+            label: '姓名',
             key: 'password',
             props: { placeholder: '请输入姓名', clearable: true }
         }
@@ -33,7 +101,49 @@
 [原生ELinput API](https://element-plus.org/zh-CN/component/input.html#api)请写入props内
 :::
 
-### select
+## switch 开关
+
+表示两种相互对立的状态间的切换，多用于触发「开/关」。
+
+<formkit
+    :config="[
+        {
+            type: 'switch',
+            label: '开关',
+            key: 'switchValue',
+            props: {
+                inlinePrompt: true,
+                activeText: '完整展示多个内容',
+                inactiveText: '多个内容'
+            }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+```vue
+<formkit
+    :config="[
+        {
+            type: 'switch',
+            label: '开关',
+            key: 'switchValue',
+            props: {
+                inlinePrompt: true,
+                activeText: '完整展示多个内容',
+                inactiveText: '多个内容'
+            }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+```
+
+::: tip
+[原生ElSwitch API](https://element-plus.org/zh-CN/component/switch#attributes)请写入props内
+:::
+
+## select 选择器
 select选择器, 当选项过多时，使用下拉菜单展示并选择内容。
 
 <formkit
@@ -134,7 +244,7 @@ function fetchOptions() {
 
 `handler`作为额外的辅助字段，它会在`requester`完成后调用，用于将`requester`的返回值处理成ELselect option可执行的值，当然如果您的`requester`返回值符合ELselect option期望类型便不需要使用它。
 
-### checkbox
+## checkbox 多选框
 在一组备选项中进行多选。
 
 <formkit
@@ -214,7 +324,7 @@ output: {{ dataset.checkbox }}
 当然当您的options需要通过动态获取时，您依旧可以使用`requester`配合`handler`辅助完成，详细参考[select requester](#select)
 :::
 
-### radio
+## radio 单选框
 在一组备选项中进行单选
 
 <formkit
@@ -259,7 +369,8 @@ output: {{ dataset.radio }}
 当然当您的options需要通过动态获取时，您依旧可以使用`requester`配合`handler`辅助完成，详细参考[select requester](#select)
 :::
 
-### inputNumber
+## inputNumber  数字输入框
+
 数字输入框, 仅允许输入标准的数字值，可定义范围。详细api参数请参照[ElInputNumber API](https://element-plus.org/zh-CN/component/input-number.html)
 
 <formkit
@@ -307,7 +418,7 @@ output: {{ dataset.inputNumber }}
 当您需要使用[ElInputNumber 原生API](https://element-plus.org/zh-CN/component/input-number.html)时，需要包裹`props`使用
 :::
 
-### address
+## address 地址选择器
 具有层级的区域地址选择器, 使用此模块需要传入`requester`作为数据源
 
 <formkit
@@ -358,7 +469,7 @@ output: {{ dataset.address }}
 区别于select、checkbox、radio等需要动态获取`options`的模块，`address`模块的`requester`，需要包裹`props`使用
 :::
 
-### popover
+## popover 文字弹出层
 文字弹出层模块选择器
 
 [popover props参数](https://element-plus.org/en-US/component/cascader#cascaderprops)
@@ -409,7 +520,7 @@ output: {{ dataset.address }}
 当然当您的options需要通过动态获取时，您依旧可以使用`requester`配合`handler`辅助完成，详细参考[select requester](#select)
 :::
 
-### remoteSearchSelect
+## remoteSearchSelect 远程查询
 具备远程查询功能的select下拉选择器
 
 <formkit
@@ -436,6 +547,8 @@ output: {{ dataset.address }}
 
 输出 onChooseCallback: {{ dataset.onChooseCallback }}
 
+::: code-tabs
+@tab Template
 ```vue
 <formkit
     :config="[
@@ -458,11 +571,37 @@ output: {{ dataset.address }}
 </formkit>
 ```
 
+@tab Script
+```vue
+<script setup lang="ts">
+import formkit from 'element-plus-formkit';
+import { ref, computed } from 'vue';
+
+const dataset = ref({})
+
+function fetchOptions() {
+    return new Promise((r, j) => {
+        setTimeout(() => {
+           r({
+            code: 200,
+            items: [
+                { name: '选择项一', id: 1 },
+                { name: '选择项二', id: 2 },
+                { name: '选择项三', id: 3 }
+            ]
+           })
+        }, 2000)
+    })
+}
+</script>
+```
+:::
+
 通常对于数据进行远程加载的选择器对于默认数据处理通常难以控制，因为通常后端处理数据查询需要接受`item.name`但数据绑定通常为`item.id`，为此我们引入一个新的参数(`initialValue`)来进行控制, 当`initialValue`参数不为空时，我们会在组件完成加载后立即将`initialValue`作为形参调取您提供的`requester`
 
 
-### rate
-评分选择器
+## rate 评分
+评分选择器，用于评分
 
 <formkit
     :config="[
@@ -490,11 +629,195 @@ output: {{ dataset.address }}
 </formkit>
 ```
 ::: tip
-[原生ELinput API](https://element-plus.org/zh-CN/component/rate.html#api)请写入props内
+[原生ELRate API](https://element-plus.org/zh-CN/component/rate.html#api)请写入props内
+:::
+
+## datePicker 日期选择器
+
+用于选择或输入日期
+
+<formkit
+    :config="[
+        {
+            type: 'datePicker',
+            label: '日期选择器',
+            key: 'datePickerValue',
+            props: { valueFormat: 'YYYY-MM-DD', placeholder: '点击选择日期' }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+<p>输出：{{ dataset.datePickerValue || "-" }}</p>
+
+```vue
+<formkit
+    :config="[
+        {
+            type: 'datePicker',
+            label: '日期选择器',
+            key: 'datePickerValue',
+            props: { valueFormat: 'YYYY-MM-DD', placeholder: '点击选择日期' }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+<p>输出：{{ dataset.datePickerValue || "-" }}</p>
+```
+
+::: tip
+[原生ElDatePicker API](https://element-plus.org/zh-CN/component/date-picker#%E5%B1%9E%E6%80%A7)请写入props内
+:::
+
+## timePicker 时间选择器
+
+用于选择或输入日期
+
+<formkit
+    :config="[
+        {
+            type: 'timePicker',
+            label: '时间选择器',
+            key: 'timePickerValue',
+            props: { placeholder: '点击选择时间' }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+<p>输出：{{ dataset.timePickerValue || "-" }}</p>
+
+```vue
+<formkit
+    :config="[
+        {
+            type: 'timePicker',
+            label: '时间选择器',
+            key: 'timePickerValue',
+            props: { placeholder: '点击选择时间' }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+<p>输出：{{ dataset.timePickerValue || "-" }}</p>
+```
+
+::: tip
+[原生ElTimePicker API](https://element-plus.org/zh-CN/component/time-picker#attributes)请写入props内
+:::
+
+## timeSelect 时间选择
+
+用于选择或输入日期
+
+可用时间范围是 00:00-23:59
+
+<formkit
+    :config="[
+        {
+            type: 'timeSelect',
+            label: '时间选择',
+            key: 'timeSelectValue',
+            props: { placeholder: '点击时间选择', start: '08:30', end: '18:30' }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+<p>输出：{{ dataset.timeSelectValue || "-" }}</p>
+
+```vue
+<formkit
+    :config="[
+        {
+            type: 'timeSelect',
+            label: '时间选择',
+            key: 'timeSelectValue',
+            props: { placeholder: '点击时间选择', start: '08:30', end: '18:30' }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+<p>输出：{{ dataset.timeSelectValue || "-" }}</p>
+```
+
+::: tip
+[原生ElTimeSelect API](https://element-plus.org/zh-CN/component/time-select#attributes)请写入props内
+:::
+
+## upload 上传器
+
+通过点击上传文件。
+
+<formkit
+    :config="[
+        {
+            type: 'upload',
+            label: '上传器',
+            key: 'uploadValue',
+            props: {
+                limit: 4,
+                afterUpload: (response) => {
+                    return response.data
+                }
+            }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+**上传器的使用，需要配置[setConfigure upload](/extension-methods.md#setconfigure)**
+
+::: code-tabs
+@tab template
+```vue
+<formkit
+    :config="[
+        {
+            type: 'upload',
+            label: '上传器',
+            key: 'uploadValue',
+            props: {
+                limit: 4,
+                afterUpload: (response) => {
+                    return response.data
+                }
+            }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+```
+@tab typescript
+```vue
+<script setup lang="ts">
+import formkit, { setConfigure } from 'element-plus-formkit';
+import type { UploadRequesterOptions } from 'element-plus-formkit/types/formkit-types'
+import { ref, computed } from 'vue';
+
+const dataset = ref({})
+
+setConfigure('upload', async (file: File, options: UploadRequesterOptions) => {
+    const url = URL.createObjectURL(file)
+    return new Promise((r, j) => {
+        setTimeout(() => {
+           r({
+                code: 200,
+                data: url || "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
+           })
+        }, 2000)
+    })
+})
+</script>
+```
 :::
 
 <script setup lang="ts">
-import formkit from 'element-plus-formkit';
+import formkit, { setConfigure } from 'element-plus-formkit';
+import type { UploadRequesterOptions } from 'element-plus-formkit/types/formkit-types'
 import { ref, computed } from 'vue';
 
 const dataset = ref({})
@@ -513,4 +836,35 @@ function fetchOptions() {
         }, 2000)
     })
 }
+
+setConfigure('upload', async (file: File, options: UploadRequesterOptions) => {
+    const url = URL.createObjectURL(file)
+    return new Promise((r, j) => {
+        setTimeout(() => {
+           r({
+                code: 200,
+                data: url || "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
+           })
+        }, 2000)
+    })
+})
+
+const options = ref([
+  {
+    value: 'guide',
+    label: 'Guide',
+    children: [
+      {
+        value: 'disciplines',
+        label: 'Disciplines',
+        children: [
+          { value: 'consistency', label: 'Consistency' },
+          { value: 'feedback', label: 'Feedback' },
+          { value: 'efficiency', label: 'Efficiency' },
+          { value: 'controllability', label: 'Controllability' }
+        ]
+      }
+    ]
+  }
+])
 </script>
