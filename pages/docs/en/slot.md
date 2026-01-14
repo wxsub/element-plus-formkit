@@ -188,6 +188,50 @@ If you are using this slot because you want to replace the current item's module
 </formkit>
 ```
 
+## Native module slots
+
+To use the native EL module [ELSelect slots](https://element-plus.org/zh-CN/component/select#select-slots) slots, you need to define your named slot name using a specific format:
+
+**[Current configuration item key]-[Native slot name]**
+
+<formkit
+    :config="[
+        {
+            label: 'Sex',
+            type: 'select',
+            key: 'sex',
+            props: { placeholder: 'Please enter your Sex.', clearable: true }
+        }
+    ]"
+    v-model="dataset">
+    <template #sex-prefix>
+        prefix content
+    </template>
+    <template #sex-empty>
+        empty content
+    </template>
+</formkit>
+
+```vue
+<formkit
+    :config="[
+        {
+            label: 'Sex',
+            type: 'select',
+            key: 'sex',
+            props: { placeholder: 'Please enter your Sex.', clearable: true }
+        }
+    ]"
+    v-model="dataset">
+    <template #sex-prefix>
+        prefix content
+    </template>
+    <template #sex-empty>
+        empty content
+    </template>
+</formkit>
+```
+
 <script setup lang="ts">
 import formkit from 'element-plus-formkit';
 import { ref, computed } from 'vue';

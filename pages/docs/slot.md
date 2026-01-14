@@ -192,6 +192,50 @@
 </formkit>
 ```
 
+## 原生模块插槽
+
+如需使用EL原生模块[ELSelect slots](https://element-plus.org/zh-CN/component/select#select-slots)插槽您需要使用特定格式定义您的具名插槽名称使用：
+
+**[当前配置项的key]-[原生插槽名称]**
+
+<formkit
+    :config="[
+        {
+            label: '性别',
+            type: 'select',
+            key: 'sex',
+            props: { placeholder: '请输入昵称', clearable: true }
+        }
+    ]"
+    v-model="dataset">
+    <template #sex-prefix>
+        prefix内容
+    </template>
+    <template #sex-empty>
+        empty内容
+    </template>
+</formkit>
+
+```vue
+<formkit
+    :config="[
+        {
+            label: '性别',
+            type: 'select',
+            key: 'sex',
+            props: { placeholder: '请输入昵称', clearable: true }
+        }
+    ]"
+    v-model="dataset">
+    <template #sex-prefix>
+        prefix内容
+    </template>
+    <template #sex-empty>
+        empty内容
+    </template>
+</formkit>
+```
+
 <script setup lang="ts">
 import formkit from 'element-plus-formkit';
 import { ref, computed } from 'vue';
