@@ -31,6 +31,12 @@
                     v-bind="conf.props"
                     @change="mutation($event, conf)"
                     :key="`module-${conf.key}-${ComponentUpdateTrigger[conf.key] || 0}`">
+                    <template 
+                      v-for="slotSuffix in getComponentSlotSuffixes(conf.key)" 
+                      #[slotSuffix]="slotProps"
+                      :key="`${conf.key}-${slotSuffix}`">
+                      <slot :name="`${conf.key}-${slotSuffix}`" v-bind="slotProps" />
+                    </template>
                   </component>
                 </template>
                 <template #fallback>
@@ -59,9 +65,10 @@ import { modules } from '@/module-registry'
 import { getConfigure } from '@/config'
 import { ElForm, ElRow, ElCol, ElFormItem, ElIcon, ElConfigProvider, ElMessage } from 'element-plus'
 import { isObject, isNumber, isArray, isBoolean, isFunction, uuidv4 } from '@/utils/util'
-import { ConfigInterface, FormKitExposed, ValidSize } from 'types/formkit-types'
+import { ConfigInterface, FormKitExposed, ValidSize, FormKitSlots } from 'types/formkit-types'
 
 const UNIQUE_KEY = ref(uuidv4()),
+    slots = useSlots(),
     FormKitRef = ref<InstanceType<typeof ElForm> & FormKitExposed>(),
 	  Stacks: Array<object> = reactive([]),
     emits = defineEmits(["update:modelValue", "update:config", "update", "enter"]);
@@ -185,6 +192,30 @@ function checkConfigIsVisible({ value, key }: any) {
   
   return false
 }
+
+const getComponentSlotSuffixes = (key: string): string[] => {
+  try {
+    if (!key || !slots || typeof key !== 'string') return [];
+  
+    const slotMap = slots as unknown as FormKitSlots
+    if (typeof slotMap !== 'object' || slotMap === null) return [];
+    
+    const allSlotNames = Object.keys(slotMap),
+      slotNamePrefix = `${key}-`;
+
+    if (slotNamePrefix.length <= 1) return [];
+
+    return allSlotNames
+      .filter((slotName): slotName is string => {
+        return typeof slotName === 'string' && slotName.startsWith(slotNamePrefix);
+      })
+      .map(slotName => slotName.slice(slotNamePrefix.length));
+  } catch (error) {
+    console.warn('[FormKit] Failed to retrieve component slot suffix: ', error)
+    return []
+  }
+}
+
 async function executeRequestStack() {
   const runner: IterableIterator<any> = Stacks[Symbol.iterator]()
   for (const iterator of runner) {

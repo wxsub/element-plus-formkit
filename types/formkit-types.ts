@@ -1,5 +1,5 @@
 import { ConfigProviderProps } from 'element-plus';
-import type { Component } from 'vue';
+import type { Component, Slot } from 'vue';
 
 export type ValidSize = '' | 'small' | 'default' | 'large'
 
@@ -62,6 +62,8 @@ export type ElementPlusFormkitPlugin = {
   registerModule: (...args: any[]) => void;
   getModules: () => Record<string, Component>;
 };
+
+export type FormKitSlots = Record<string, Slot>
 
 export interface TreeOption {
   [key: string]: string | number | TreeOption[] | undefined;
