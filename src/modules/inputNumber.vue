@@ -26,5 +26,11 @@ const dataset: any = computed({
         <template #prefix v-if="prefix">
             <span v-html="prefix" />
         </template>
+        <template
+            v-for="name in Object.keys($slots)"
+            #[name]="slotProps"
+            :key="`slot-${name}`">
+            <slot :name="name" v-bind="slotProps" />
+        </template>
     </el-input-number>
 </template>

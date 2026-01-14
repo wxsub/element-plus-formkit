@@ -7,6 +7,12 @@
                 :value="it[$attrs?.valueKey || 'id']">
             <div v-html="it[$attrs.labelKey || 'name']"/>
         </el-option>
+        <template
+            v-for="name in Object.keys($slots)"
+            #[name]="slotProps"
+            :key="`slot-${name}`">
+            <slot :name="name" v-bind="slotProps" />
+        </template>
     </el-select>
 </template>
 
