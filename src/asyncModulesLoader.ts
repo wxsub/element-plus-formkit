@@ -24,7 +24,8 @@ export const Modules: Record<string, Component> = {
   cascader: asyncElementPlus('ElCascader'),
   rate: asyncElementPlus('ElRate'),
   switch: asyncElementPlus('ElSwitch'),
-  slider: asyncElementPlus('ElSlider')
+  slider: asyncElementPlus('ElSlider'),
+  treeSelect: asyncElementPlus('ElTreeSelect')
 };
 
 export default Object.keys(Modules);

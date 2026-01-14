@@ -877,7 +877,171 @@ Output: {{ dataset.sliderValue || "-" }}
 ```
 
 ::: tip
-[原生ElSlider API](https://element-plus.org/zh-CN/component/slider#attributes)请写入props内
+[原生ElSlider API](https://element-plus.org/zh-CN/component/slider#属性)请写入props内
+:::
+
+## treeSelect 树形选择
+
+含有下拉菜单的树形选择器，结合了 el-tree 和 el-select 两个组件的功能。
+
+<formkit
+    :config="[
+        {
+            type: 'treeSelect',
+            label: '树形选择器',
+            key: 'treeSelectValue',
+            props: {
+                'render-after-expand': false,
+                style: { width: '240px' },
+                data: [
+                    {
+                        value: '1',
+                        label: 'Level one 1',
+                        children: [
+                            {
+                                value: '1-1',
+                                label: 'Level two 1-1',
+                                children: [
+                                    {
+                                        value: '1-1-1',
+                                        label: 'Level three 1-1-1'
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        value: '2',
+                        label: 'Level one 2',
+                        children: [
+                            {
+                                value: '2-1',
+                                label: 'Level two 2-1',
+                                children: [
+                                    {
+                                        value: '2-1-1',
+                                        label: 'Level three 2-1-1'
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        value: '3',
+                        label: 'Level one 3',
+                        children: [
+                            {
+                                value: '3-1',
+                                label: 'Level two 3-1',
+                                children: [
+                                    {
+                                        value: '3-1-1',
+                                        label: 'Level three 3-1-1'
+                                    }
+                                ]
+                            },
+                            {
+                                value: '3-2',
+                                label: 'Level two 3-2',
+                                children: [
+                                    {
+                                        value: '3-2-1',
+                                        label: 'Level three 3-2-1'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+<p>Output: {{ dataset.timeSelectValue || "-" }}</p>
+
+```vue
+<formkit
+    :config="[
+        {
+            type: 'treeSelect',
+            label: '树形选择器',
+            key: 'treeSelectValue',
+            props: {
+                'render-after-expand': false,
+                style: { width: '240px' },
+                data: [
+                    {
+                        value: '1',
+                        label: 'Level one 1',
+                        children: [
+                            {
+                                value: '1-1',
+                                label: 'Level two 1-1',
+                                children: [
+                                    {
+                                        value: '1-1-1',
+                                        label: 'Level three 1-1-1'
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        value: '2',
+                        label: 'Level one 2',
+                        children: [
+                            {
+                                value: '2-1',
+                                label: 'Level two 2-1',
+                                children: [
+                                    {
+                                        value: '2-1-1',
+                                        label: 'Level three 2-1-1'
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        value: '3',
+                        label: 'Level one 3',
+                        children: [
+                            {
+                                value: '3-1',
+                                label: 'Level two 3-1',
+                                children: [
+                                    {
+                                        value: '3-1-1',
+                                        label: 'Level three 3-1-1'
+                                    }
+                                ]
+                            },
+                            {
+                                value: '3-2',
+                                label: 'Level two 3-2',
+                                children: [
+                                    {
+                                        value: '3-2-1',
+                                        label: 'Level three 3-2-1'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+<p>Output: {{ dataset.timeSelectValue || "-" }}</p>
+```
+
+::: tip
+[原生ElTreeSelect API](https://element-plus.org/zh-CN/component/tree#属性)请写入props内
 :::
 
 <script setup lang="ts">

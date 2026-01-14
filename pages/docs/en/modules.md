@@ -870,6 +870,170 @@ Output: {{ dataset.sliderValue || "-" }}
 [Native ElSlider API](https://element-plus.org/en-US/component/slider#attributes)Please write inside the props.
 :::
 
+## treeSelect
+
+A tree selector with dropdown menus, combining the functionality of the el-tree and el-select components.
+
+<formkit
+    :config="[
+        {
+            type: 'treeSelect',
+            label: 'Time Selection',
+            key: 'timeSelectValue',
+            props: {
+                'render-after-expand': false,
+                style: { width: '240px' },
+                data: [
+                    {
+                        value: '1',
+                        label: 'Level one 1',
+                        children: [
+                            {
+                                value: '1-1',
+                                label: 'Level two 1-1',
+                                children: [
+                                    {
+                                        value: '1-1-1',
+                                        label: 'Level three 1-1-1'
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        value: '2',
+                        label: 'Level one 2',
+                        children: [
+                            {
+                                value: '2-1',
+                                label: 'Level two 2-1',
+                                children: [
+                                    {
+                                        value: '2-1-1',
+                                        label: 'Level three 2-1-1'
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        value: '3',
+                        label: 'Level one 3',
+                        children: [
+                            {
+                                value: '3-1',
+                                label: 'Level two 3-1',
+                                children: [
+                                    {
+                                        value: '3-1-1',
+                                        label: 'Level three 3-1-1'
+                                    }
+                                ]
+                            },
+                            {
+                                value: '3-2',
+                                label: 'Level two 3-2',
+                                children: [
+                                    {
+                                        value: '3-2-1',
+                                        label: 'Level three 3-2-1'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+<p>Output: {{ dataset.timeSelectValue || "-" }}</p>
+
+```vue
+<formkit
+    :config="[
+        {
+            type: 'treeSelect',
+            label: 'Time Selection',
+            key: 'timeSelectValue',
+            props: {
+                'render-after-expand': false,
+                style: { width: '240px' },
+                data: [
+                    {
+                        value: '1',
+                        label: 'Level one 1',
+                        children: [
+                            {
+                                value: '1-1',
+                                label: 'Level two 1-1',
+                                children: [
+                                    {
+                                        value: '1-1-1',
+                                        label: 'Level three 1-1-1'
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        value: '2',
+                        label: 'Level one 2',
+                        children: [
+                            {
+                                value: '2-1',
+                                label: 'Level two 2-1',
+                                children: [
+                                    {
+                                        value: '2-1-1',
+                                        label: 'Level three 2-1-1'
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        value: '3',
+                        label: 'Level one 3',
+                        children: [
+                            {
+                                value: '3-1',
+                                label: 'Level two 3-1',
+                                children: [
+                                    {
+                                        value: '3-1-1',
+                                        label: 'Level three 3-1-1'
+                                    }
+                                ]
+                            },
+                            {
+                                value: '3-2',
+                                label: 'Level two 3-2',
+                                children: [
+                                    {
+                                        value: '3-2-1',
+                                        label: 'Level three 3-2-1'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+<p>Output: {{ dataset.timeSelectValue || "-" }}</p>
+```
+
+::: tip
+[Native ElTreeSelect API](https://element-plus.org/en-US/component/tree#attributes)Please write inside the props.
+:::
+
 <script setup lang="ts">
 import formkit, { setConfigure } from 'element-plus-formkit';
 import en from 'element-plus/es/locale/lang/en';
