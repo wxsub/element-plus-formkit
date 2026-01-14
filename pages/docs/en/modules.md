@@ -805,6 +805,71 @@ setConfigure('upload', async (file: File, options: UploadRequesterOptions) => {
 ```
 :::
 
+## slider
+Slider selector
+
+Select within a fixed range by dragging the slider.
+
+Output: {{ dataset.sliderValue || "-" }}
+
+<formkit
+    :config="[
+        {
+            type: 'slider',
+            label: 'Slider selector',
+            key: 'sliderValue',
+            props: {
+                range: true,
+                marks: {
+                    0: '0°C',
+                    8: '8°C',
+                    37: '37°C',
+                    50: {
+                        style: {
+                        color: '#1989FA',
+                        },
+                        label: '50%',
+                    }
+                }
+            }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+<br />
+
+```vue
+<formkit
+    :config="[
+        {
+            type: 'slider',
+            label: 'Slider selector',
+            key: 'sliderValue',
+            props: {
+                range: true,
+                marks: {
+                    0: '0°C',
+                    8: '8°C',
+                    37: '37°C',
+                    50: {
+                        style: {
+                        color: '#1989FA',
+                        },
+                        label: '50%',
+                    }
+                }
+            }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+```
+
+::: tip
+[Native ElSlider API](https://element-plus.org/en-US/component/slider#attributes)Please write inside the props.
+:::
+
 <script setup lang="ts">
 import formkit, { setConfigure } from 'element-plus-formkit';
 import en from 'element-plus/es/locale/lang/en';

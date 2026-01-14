@@ -815,6 +815,71 @@ setConfigure('upload', async (file: File, options: UploadRequesterOptions) => {
 ```
 :::
 
+## slider 滑块
+滑块选择器
+
+通过拖动滑块在一个固定区间内进行选择
+
+Output: {{ dataset.sliderValue || "-" }}
+
+<formkit
+    :config="[
+        {
+            type: 'slider',
+            label: '滑块选择器',
+            key: 'sliderValue',
+            props: {
+                range: true,
+                marks: {
+                    0: '0°C',
+                    8: '8°C',
+                    37: '37°C',
+                    50: {
+                        style: {
+                        color: '#1989FA',
+                        },
+                        label: '50%',
+                    }
+                }
+            }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+<br />
+
+```vue
+<formkit
+    :config="[
+        {
+            type: 'slider',
+            label: '滑块选择器',
+            key: 'sliderValue',
+            props: {
+                range: true,
+                marks: {
+                    0: '0°C',
+                    8: '8°C',
+                    37: '37°C',
+                    50: {
+                        style: {
+                        color: '#1989FA',
+                        },
+                        label: '50%',
+                    }
+                }
+            }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+```
+
+::: tip
+[原生ElSlider API](https://element-plus.org/zh-CN/component/slider#attributes)请写入props内
+:::
+
 <script setup lang="ts">
 import formkit, { setConfigure } from 'element-plus-formkit';
 import type { UploadRequesterOptions } from 'element-plus-formkit/types/formkit-types'
