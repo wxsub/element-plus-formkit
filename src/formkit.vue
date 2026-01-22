@@ -277,7 +277,7 @@ defineExpose<FormKitExposed>({
   .el-row { row-gap: v-bind("`${props.rows?.rowGap || 5}px`") }
   .el-form-item { margin: 0; width: 100% }
   .el-form--label-top .el-form-item__label { padding: 0 }
-  .el-form-item__error { position: relative }
   .el-form-item--default { margin-bottom: 0 }
 }
 </style>
+
