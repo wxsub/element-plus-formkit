@@ -98,8 +98,8 @@ const uploading = async () => {
     }
 }
 
-const removeFile = (index: number) => {
-    fileBucket.value.splice(index, 1)
+const removeFile = (index: number | string) => {
+    fileBucket.value.splice(Number(index), 1)
     setData()
     const input = document.getElementById(uuid.value) as HTMLInputElement
     input && (input.value = '')
@@ -162,7 +162,11 @@ const getFileName = (parmas: any) => {
                     </div>
                 </div>
                 <div class="progress" v-if="it.status === 0 && it.progress < 100">
-                    <el-progress type="circle" :percentage="it.progress || 0" :width="(size / 2)" :stroke-width="3" />
+                    <el-progress type="circle" :percentage="it.progress || 0" :width="(size / 2)" :stroke-width="3">
+                        <template #default="{ percentage }">
+                            <span class="percentage-value">{{ percentage }}%</span>
+                        </template>
+                    </el-progress>
                 </div>
             </template>
             <div class="close" @click="removeFile(index)">
@@ -229,6 +233,13 @@ const getFileName = (parmas: any) => {
             align-items: center;
             justify-content: center;
             background: rgba(0, 0, 0, .78);
+            ::v-deep(.el-progress__text) {
+                min-width: 100%;
+            }
+            .percentage-value {
+                font-size: 10px;
+                color: white;
+            }
         }
         .close {
             position: absolute;
