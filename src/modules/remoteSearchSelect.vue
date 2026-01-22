@@ -25,7 +25,7 @@ const dataset: any = computed({
     }
 })
 
-const searchRemoteMethod = async (query: string) => {
+const searchRemoteMethod = async (query: any) => {
   if (query && props.requester) {
     loading.value = true
     const response = await props.requester(query)
@@ -50,7 +50,9 @@ const onChange = (value: any) => {
 }
 
 watch(() => props.initialValue, (value) => {
-  if (value) searchRemoteMethod(value)
+  if (Object.prototype.hasOwnProperty.call(props, 'initialValue')) {
+    searchRemoteMethod(value)
+  }
 }, { immediate: true })
 </script>
 
@@ -79,3 +81,4 @@ watch(() => props.initialValue, (value) => {
     </template>
   </el-select>
 </template>
+
