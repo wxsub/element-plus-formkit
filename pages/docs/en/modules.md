@@ -436,6 +436,17 @@ When you need to use the [ElInputNumber native API](https://element-plus.org/zh-
 ## address
 Has a hierarchical region address selector. Using this module requires passing in a `requester` as the data source.
 
+**Properties**
+
+| Name | Type | Description |
+| -------- | :----- | :----: |
+| level | Number | The selectable level for the address picker. Note that level starts at 0. For example: 0 => Province selection, 1 => Province and city selection
+| requester | Promise | The data retrieval method for the address selector. Note this method takes a parameter representing the value of the currently selected option.
+| cascaderProps | Object | When address uses ELCascader, cascaderProps contains parameters to pass to [ELCascader](https://element-plus.org/zh-CN/component/cascader#cascader-api).
+| handler | Function | `handler` serves as an additional auxiliary field to process data returned upon completion of `requester`
+| valueKey | String | Key name uniquely identifying the value; required when binding object-type values
+| labelKey | String | Specifies the option label as a property value of the option object
+
 <formkit
     :config="[
         {
