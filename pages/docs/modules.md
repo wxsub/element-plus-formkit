@@ -421,6 +421,17 @@ output: {{ dataset.inputNumber }}
 ## address 地址选择器
 具有层级的区域地址选择器, 使用此模块需要传入`requester`作为数据源
 
+**属性**
+
+| 名称 | 类型 | 说明 | 
+| -------- | :----- | :----: |
+| level | Number | 地址选择器可选择的层级,注意level是从0开始，例如: 0=>省份选择、1=>省份、城市选择
+| requester | Promise | 地址选择器获取数据源方法，注意此方法存在一个形参值为当前选择项的value值
+| cascaderProps | Object | address使用了ELCascader，cascaderProps为需要传递给[ELCascader](https://element-plus.org/zh-CN/component/cascader#cascader-api)的参数
+| handler | Function | `handler`作为额外的辅助字段，用于处理`requester`完成后返回的数据
+| valueKey | String | 作为 value 唯一标识的键名，绑定值为对象类型时必填
+| labelKey | String | 指定选项标签为选项对象的某个属性值
+
 <formkit
     :config="[
         {
