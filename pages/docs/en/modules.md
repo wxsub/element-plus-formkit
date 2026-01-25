@@ -343,6 +343,16 @@ Of course, when your options need to be obtained dynamically, you can still use 
 ## radio
 In a group of options, only one item can be selected.
 
+The main body of the `radio` module utilizes `ELRadio`. Through `props`, we can pass required parameters to the attributes of [ELRadio Attributes](https://element-plus.org/zh-CN/component/radio#radio-attributes).
+
+**Props-Specific Attributes**
+
+| Name | Type | Description | Default
+| ------- | :----- | :----: | :----: |
+| type | String | Radio button type. Options: button (button radio), default (standard radio) | default
+| valueKey | String | Unique identifier key for the value. Required when binding object-type values | id
+| labelKey | String | Specifies the option label as a property value from the option object | name
+
 <formkit
     :config="[
         {
@@ -436,16 +446,18 @@ When you need to use the [ElInputNumber native API](https://element-plus.org/zh-
 ## address
 Has a hierarchical region address selector. Using this module requires passing in a `requester` as the data source.
 
-**Properties**
+The `address` module core utilizes `ELCascader`. Through `props`, we can pass required parameters to the attributes of [ELCascader Attributes](https://element-plus.org/zh-CN/component/cascader#cascader-attributes).
 
-| Name | Type | Description |
-| -------- | :----- | :----: |
-| level | Number | The selectable level for the address picker. Note that level starts at 0. For example: 0 => Province selection, 1 => Province and city selection
-| requester | Promise | The data retrieval method for the address selector. Note this method takes a parameter representing the value of the currently selected option.
-| cascaderProps | Object | When address uses ELCascader, cascaderProps contains parameters to pass to [ELCascader](https://element-plus.org/zh-CN/component/cascader#cascader-api).
-| handler | Function | `handler` serves as an additional auxiliary field to process data returned upon completion of `requester`
-| valueKey | String | Key name uniquely identifying the value; required when binding object-type values
-| labelKey | String | Specifies the option label as a property value of the option object
+**Props-Specific Attributes**
+
+| Name | Type | Description | Default
+| -------- | :----- | :----: | :----: |
+| level | Number | Selectable levels for the address picker. Note: level starts at 0. Example: 0 => Province selection, 1 => Province and city selection | 1
+| requester | Promise | Method for the address picker to fetch data. Note: This method takes a parameter with the value of the currently selected item. | () => {}
+| cascaderProps | Object | When address uses ELCascader, cascaderProps contains parameters to pass to [ELCascader cascaderprops](https://element-plus.org/zh-CN/component/cascader#cascaderprops) | {}
+| handler | Function | `handler` serves as an additional auxiliary field to process data returned upon completion of `requester` | () => {}
+| valueKey | String | Key name uniquely identifying the value; required when binding an object type | id
+| labelKey | String | Specifies the option label as a property value of the option object | name
 
 <formkit
     :config="[
@@ -498,7 +510,18 @@ Unlike select, checkbox, radio, etc. modules that need to dynamically get `optio
 ## popover
 Text pop-up layer module selector
 
-[popover props parameter](https://element-plus.org/en-US/component/cascader#cascaderprops)
+The `popover` module core utilizes `ELPopover`. Through the `props` parameter, we can pass required parameters to the attributes of [ELPopover Attributes](https://element-plus.org/zh-CN/component/popover#attributes).
+
+**Props-Specific Attributes**
+
+| Name | Type | Description | Default
+| -------- | :----- | :----: | :----: |
+| props | Object | Parameters required for passing to [ELCascader cascaderpanel-api](https://element-plus.org/zh-CN/component/cascader#cascaderpanel-api) | id
+| valueKey | String | Unique identifier key for value; required when binding object-type values | id
+| labelKey | String | Specifies the option label as a property value of the option object | name
+| loading | Boolean | Indicates whether data is being fetched remotely | false
+| requester | Function | Method for dynamically fetching data items. Replaces the `options` property value during remote data retrieval. Supports all modules with an `options` property | null
+| handler | Function | `handler` serves as an auxiliary field. After `requester` completes, the module calls `handler` with its return value as an argument. The `handler` return value becomes the module's data source | null
 
 <formkit
     :config="[
@@ -548,6 +571,19 @@ Of course, when your options need to be obtained dynamically, you can still use 
 
 ## remoteSearchSelect
 Remote query selector with dropdown functionality.
+
+The `remoteSearchSelect` module body utilizes `ELSelect`. Through `props`, we can pass required parameters to the attributes of [ELSelect Attributes](https://element-plus.org/zh-CN/component/select#select-attributes).
+
+**Props-Specific Attributes**
+
+| Name | Type | Description | Default
+| -------- | :----- | :----: | :----: |
+| valueKey | String | Key uniquely identifying the value; required when binding object-type values | id
+| labelKey | String | Specifies the option label as a property value of the option object | name
+| initialValue | any | Initial value; typically used for data echo. When the module runs, it first checks if this value exists. If present, it passes this value as an argument to `props.requester` | -
+| onChoose | Function | Callback executed when an option is selected | null
+| requester | Function | Method for dynamically fetching data items | null
+| handler | Function | `handler` serves as an auxiliary field. After `requester` completes, the module calls `handler` with its return value as an argument. The final return value of `handler` becomes the module's data source | null
 
 <formkit
     :config="[

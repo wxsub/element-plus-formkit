@@ -327,6 +327,16 @@ output: {{ dataset.checkbox }}
 ## radio 单选框
 在一组备选项中进行单选
 
+`radio`模块主体使用了`ELRadio`，借助`props`我们可以将需要的参数传递给[ELRadio Attributes](https://element-plus.org/zh-CN/component/radio#radio-attributes)的参数 
+
+**Props特有属性**
+
+| 名称 | 类型 | 说明 | 默认
+| -------- | :----- | :----: | :----: |
+| type | String | 单选框形态，可选值：button（按钮radio）、default（常规radio） | default
+| valueKey | String | 作为 value 唯一标识的键名，绑定值为对象类型时必填 | id
+| labelKey | String | 指定选项标签为选项对象的某个属性值 | name
+
 <formkit
     :config="[
         {
@@ -421,16 +431,18 @@ output: {{ dataset.inputNumber }}
 ## address 地址选择器
 具有层级的区域地址选择器, 使用此模块需要传入`requester`作为数据源
 
-**属性**
+`address`模块主体使用了`ELCascader`，借助`props`我们可以将需要的参数传递给[ELCascader Attributes](https://element-plus.org/zh-CN/component/cascader#cascader-attributes)的参数 
 
-| 名称 | 类型 | 说明 | 
-| -------- | :----- | :----: |
-| level | Number | 地址选择器可选择的层级,注意level是从0开始，例如: 0=>省份选择、1=>省份、城市选择
-| requester | Promise | 地址选择器获取数据源方法，注意此方法存在一个形参值为当前选择项的value值
-| cascaderProps | Object | address使用了ELCascader，cascaderProps为需要传递给[ELCascader](https://element-plus.org/zh-CN/component/cascader#cascader-api)的参数
-| handler | Function | `handler`作为额外的辅助字段，用于处理`requester`完成后返回的数据
-| valueKey | String | 作为 value 唯一标识的键名，绑定值为对象类型时必填
-| labelKey | String | 指定选项标签为选项对象的某个属性值
+**Props特有属性**
+
+| 名称 | 类型 | 说明 | 默认
+| -------- | :----- | :----: | :----: |
+| level | Number | 地址选择器可选择的层级,注意level是从0开始，例如: 0=>省份选择、1=>省份、城市选择 | 1
+| requester | Promise | 地址选择器获取数据源方法，注意此方法存在一个形参值为当前选择项的value值 | () => {}
+| cascaderProps | Object | address使用了ELCascader，cascaderProps参数为需要传递给[ELCascader cascaderprops](https://element-plus.org/zh-CN/component/cascader#cascaderprops)的参数 | {}
+| handler | Function | `handler`作为额外的辅助字段，用于处理`requester`完成后返回的数据 | () => {}
+| valueKey | String | 作为 value 唯一标识的键名，绑定值为对象类型时必填 | id
+| labelKey | String | 指定选项标签为选项对象的某个属性值 | name
 
 <formkit
     :config="[
@@ -483,7 +495,18 @@ output: {{ dataset.address }}
 ## popover 文字弹出层
 文字弹出层模块选择器
 
-[popover props参数](https://element-plus.org/en-US/component/cascader#cascaderprops)
+`popover`模块主体使用了`ELPopover`，借助`props`参数我们可以将需要的参数传递给[ELPopover Attributes](https://element-plus.org/zh-CN/component/popover#attributes)的参数
+
+**Props特有属性**
+
+| 名称 | 类型 | 说明 | 默认
+| -------- | :----- | :----: | :----: |
+| props | Object | 需要的参数传递给[ELCascader cascaderpanel-api](https://element-plus.org/zh-CN/component/cascader#cascaderpanel-api)的参数 | id
+| valueKey | String | 作为 value 唯一标识的键名，绑定值为对象类型时必填 | id
+| labelKey | String | 指定选项标签为选项对象的某个属性值 | name
+| loading | Boolean | 是否正在从远程获取数据 | false
+| requester | Function | 动态获取数据项方法，远程获取数据动态替换`options`属性值，支持所有存在`options`属性的模块 | null
+| handler | Function | `handler`作为额外的辅助字段，模块会在`requester`完成后将返回值作为参数调用`handler`，最终将`handler`返回值作为模块数据源 | null
 
 <formkit
     :config="[
@@ -533,6 +556,19 @@ output: {{ dataset.address }}
 
 ## remoteSearchSelect 远程查询
 具备远程查询功能的select下拉选择器
+
+`remoteSearchSelect`模块主体使用了`ELSelect`，借助`props`我们可以将需要的参数传递给[ELSelect Attributes](https://element-plus.org/zh-CN/component/select#select-attributes)的参数 
+
+**Props特有属性**
+
+| 名称 | 类型 | 说明 | 默认
+| -------- | :----- | :----: | :----: |
+| valueKey | String | 作为 value 唯一标识的键名，绑定值为对象类型时必填 | id
+| labelKey | String | 指定选项标签为选项对象的某个属性值 | name
+| initialValue | any | 初始值；通常用作数据回显，当模块运行时会首先检测此值是否存在，若存在则将此值作为参数运行`props.requester` | -
+| onChoose | Function | 选中项时的回调 | null
+| requester | Function | 动态获取数据项方法 | null
+| handler | Function | `handler`作为额外的辅助字段，模块会在`requester`完成后将返回值作为参数调用`handler`，最终将`handler`返回值作为模块数据源 | null
 
 <formkit
     :config="[
