@@ -40,11 +40,7 @@
                   </component>
                 </template>
                 <template #fallback>
-                  <div class="formkit-module-loading">
-                    <el-icon class="is-loading">
-                      <Loading />
-                    </el-icon>
-                  </div>
+                  <div class="formkit-module-loading"></div>
                 </template>
               </Suspense>
               <slot :name="conf.key" :row="conf" :value="modelValue[conf.key]" :size="size" />
@@ -60,10 +56,9 @@
 </template>
 
 <script setup lang="ts">
-import { Loading } from '@element-plus/icons-vue'
 import { modules } from '@/module-registry'
 import { getConfigure } from '@/config'
-import { ElForm, ElRow, ElCol, ElFormItem, ElIcon, ElConfigProvider, ElMessage } from 'element-plus'
+import { ElForm, ElRow, ElCol, ElFormItem, ElConfigProvider, ElMessage } from 'element-plus'
 import { isObject, isNumber, isArray, isBoolean, isFunction, uuidv4 } from '@/utils/util'
 import { ConfigInterface, FormKitExposed, ValidSize, FormKitSlots } from 'types/formkit-types'
 
@@ -288,9 +283,41 @@ defineExpose<FormKitExposed>({
     .el-form-item__content { display: inline-block }
   }
   .formkit-module-loading {
-    display: inline-flex;
-    justify-content: center;
-    padding: 0 4px;
+    position: relative;
+    overflow: hidden;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    color: transparent;
+    border: none;
+    cursor: wait;
+    pointer-events: none;
+    user-select: none;
+    width: 100%;
+    min-width: 100px;
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.4),
+        transparent
+      );
+      animation: skeleton-loading 1.5s infinite linear;
+      z-index: 1;
+    }
+    @keyframes skeleton-loading {
+      0% {
+        transform: translateX(-100%);
+      }
+      100% {
+        transform: translateX(100%);
+      }
+    }
   }
 
   .el-row { row-gap: v-bind("`${props.rows?.rowGap || 5}px`") }
