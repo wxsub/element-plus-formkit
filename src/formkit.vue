@@ -94,6 +94,7 @@ const props = defineProps({
 onMounted(async () => {
   try {
     for (const iterator of props.config) {
+      if (iterator?.type && isStandaloneRequester(iterator.type)) continue;
       if (iterator?.requester) Stacks.push(iterator)
     }
     if (Stacks.length > 0) await executeRequestStack()
@@ -119,25 +120,40 @@ const formAttrs = computed(() => {
 }), configs: ComputedRef<ConfigInterface[]> = computed(() => {
   return props.config.filter((conf: ConfigInterface) => {
     const hasVisibleProp = Object.prototype.hasOwnProperty.call(conf, 'visible');
-    if (hasVisibleProp) {
-      if (conf.visible === undefined) return false
-      if (isObject(conf.visible) || isArray(conf.visible)) {
-        fixedPointClearValidate(conf)
-        if (isObject(conf.visible) && checkConfigIsVisible(conf.visible)) return conf
-        if (isArray(conf.visible)) {
-          const _visible = conf.visible
-          const isCheck = Array.isArray(_visible) && _visible.some((it: Object) => { return checkConfigIsVisible(it) })
-          if (isCheck) return conf
-        }
-      } else if (isBoolean(conf.visible)) {
-        if (conf.visible) return conf
-      } else {
-        console.warn('visible field has been set, but it is not an [array, object, Boolean]!')
-        return conf
+    if (!hasVisibleProp) return true
+
+    const { visible } = conf
+    if (visible === undefined) return false
+    
+    if (isBoolean(visible)) return visible
+
+    if (isObject(visible) || isArray(visible)) {
+      if (isObject(visible) && checkConfigIsVisible(visible)) return true
+      if (isArray(visible)) {
+        return (visible as any[]).some((it: Object) => checkConfigIsVisible(it))
       }
     } else {
-      return conf
+      console.warn('visible field has been set, but it is not an [array, object, Boolean]!')
+      return true
     }
+    return false
+  }).map((conf: ConfigInterface) => {
+    if (conf.type && isStandaloneRequester(conf.type)) {
+      const keys = ['requester', 'handler'] as const
+      const shouldClone = keys.some(key => conf[key] && !(key in (conf.props || {})))
+      
+      if (shouldClone) {
+        const newConf = { ...conf, props: { ...(conf.props || {}) } }
+        keys.forEach(key => {
+          if (newConf[key] && !(key in newConf.props)) {
+            (newConf.props as any)[key] = newConf[key]
+            delete newConf[key]
+          }
+        })
+        return newConf
+      }
+    }
+    return conf
   })
 });
 
@@ -171,6 +187,9 @@ function loader(type: string) {
       }
     })
   }
+}
+function isStandaloneRequester(type: string) {
+  return type === 'address' || type === 'remoteSearchSelect' || type === 'upload'
 }
 function mutation(event: any, config: ConfigInterface) {
   emits('update', { event, config })
