@@ -191,14 +191,14 @@ props字段为自定义项，注意该字段接受一个`Object`类型的数据�
 ```
 
 ## config.requester
-当前表单项拉取远程数据请求函数，仅在模块或注册的模块对象上存在options时可用，类型：`Function`
+当前表单项拉取远程数据请求函数，远程获取数据动态替换`options`属性值，支持所有存在`options`属性的模块，类型：`Function`
 
 ::: warning
 当前函数必须返回一个`Promise`对象，否则会失效。
 :::
 
 ## config.handler
-处理函数，用于处理`requester`返回的数据，类型：`Function`
+处理函数，用于处理`requester`返回的数据，`handler`作为额外的辅助字段，模块会在`requester`完成后将返回值作为参数调用`handler`，最终将`handler`返回值作为模块数据源，类型：`Function`
 
 <formkit
     :config="[

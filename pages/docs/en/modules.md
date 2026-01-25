@@ -249,6 +249,8 @@ function fetchOptions() {
 ## checkbox
 In a group of options, multiple items can be selected.
 
+This module can be used with the `requester` method to dynamically retrieve data items, enabling remote data retrieval to dynamically replace the `options` property values. Alternatively, a `handler` can be passed in as a data processing function.
+
 <formkit
     :config="[
         {
@@ -336,12 +338,71 @@ setConfigure('lang', en);
 ```
 :::
 
-::: tip
-Of course, when your options need to be obtained dynamically, you can still use the `requester` in conjunction with the `handler` to accomplish this. For details, refer to [select requester](#select).
+The `checkbox` module with the `requester` method for dynamically fetching data items
+
+<formkit
+    :config="[
+        {
+            type: 'checkbox',
+            label: 'Select All checkbox',
+            key: 'checkbox',
+            props: { showAllCheck: true },
+            requester: fetchOptions,
+            handler: (response: any) => response?.items || []
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+::: code-tabs
+@tab Template
+```vue
+<formkit
+    :config="[
+        {
+            type: 'checkbox',
+            label: 'Select All checkbox',
+            key: 'checkbox',
+            props: { showAllCheck: true },
+            requester: fetchOptions,
+            handler: (response: any) => response?.items || []
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+```
+
+@tab Script
+```ts
+import formkit, { setConfigure } from 'element-plus-formkit';
+import en from 'element-plus/es/locale/lang/en';
+import { ref, computed } from 'vue';
+
+const dataset = ref({})
+
+setConfigure('lang', en);
+
+function fetchOptions() {
+    return new Promise((r, j) => {
+        setTimeout(() => {
+           r({
+            code: 200,
+            items: [
+                { name: 'Option one', id: 1 },
+                { name: 'Option two', id: 2 },
+                { name: 'Option three', id: 3 }
+            ]
+           })
+        }, 2000)
+    })
+}
+```
 :::
 
 ## radio
 In a group of options, only one item can be selected.
+
+This module can be used with the `requester` method to dynamically retrieve data items, enabling remote data retrieval to dynamically replace the `options` property values. Alternatively, a `handler` can be passed in as a data processing function.
 
 The main body of the `radio` module utilizes `ELRadio`. Through `props`, we can pass required parameters to the attributes of [ELRadio Attributes](https://element-plus.org/zh-CN/component/radio#radio-attributes).
 
@@ -444,20 +505,19 @@ When you need to use the [ElInputNumber native API](https://element-plus.org/zh-
 :::
 
 ## address
-Has a hierarchical region address selector. Using this module requires passing in a `requester` as the data source.
+Hierarchical Area Address Selector
+To use this module, pass in a `requester` as the data source. Alternatively, you can pass in a `handler` as the data processing function.
 
-The `address` module core utilizes `ELCascader`. Through `props`, we can pass required parameters to the attributes of [ELCascader Attributes](https://element-plus.org/zh-CN/component/cascader#cascader-attributes).
+The core of the `address` module utilizes `ELCascader`. Using `props`, we can pass required parameters to the attributes of [ELCascader](https://element-plus.org/zh-CN/component/cascader#cascader-attributes).
 
 **Props-Specific Attributes**
 
 | Name | Type | Description | Default
 | -------- | :----- | :----: | :----: |
-| level | Number | Selectable levels for the address picker. Note: level starts at 0. Example: 0 => Province selection, 1 => Province and city selection | 1
-| requester | Promise | Method for the address picker to fetch data. Note: This method takes a parameter with the value of the currently selected item. | () => {}
+| level | Number | Hierarchical levels selectable by the address picker. Note: level starts at 0. Example: 0=>Province selection, 1=>Province and city selection | 1
 | cascaderProps | Object | When address uses ELCascader, cascaderProps contains parameters to pass to [ELCascader cascaderprops](https://element-plus.org/zh-CN/component/cascader#cascaderprops) | {}
-| handler | Function | `handler` serves as an additional auxiliary field to process data returned upon completion of `requester` | () => {}
-| valueKey | String | Key name uniquely identifying the value; required when binding an object type | id
-| labelKey | String | Specifies the option label as a property value of the option object | name
+| valueKey | String | Key name uniquely identifying the value. Required when binding an object type. | id
+| labelKey | String | Specifies the option label as a property value of the option object. | name
 
 <formkit
     :config="[
@@ -465,14 +525,14 @@ The `address` module core utilizes `ELCascader`. Through `props`, we can pass re
             type: 'address',
             label: 'Address selector',
             key: 'address',
+            requester: (pid: number) => {
+                return fetchOptions()
+            },
+            handler: (response: any) => response?.items || [],
             props: {
                 style: { width: '50%' },
                 level: 2,
-                placeholder: 'Please select an address',
-                requester: (pid: number) => {
-                    return fetchOptions()
-                },
-                handler: (response: any) => response?.items || []
+                placeholder: 'Please select an address'
             }
         }
     ]"
@@ -487,14 +547,14 @@ output: {{ dataset.address }}
             type: 'address',
             label: 'Address selector',
             key: 'address',
+            requester: (pid: number) => {
+                return fetchOptions()
+            },
+            handler: (response: any) => response?.items || [],
             props: {
                 style: { width: '50%' },
                 level: 2,
-                placeholder: 'Please select an address',
-                requester: (pid: number) => {
-                    return fetchOptions()
-                },
-                handler: (response: any) => response?.items || []
+                placeholder: 'Please select an address'
             }
         }
     ]"
@@ -503,12 +563,10 @@ output: {{ dataset.address }}
 output: {{ dataset.address }}
 ```
 
-::: warning
-Unlike select, checkbox, radio, etc. modules that need to dynamically get `options`, the `requester` of the `address` module needs to be wrapped with `props`.
-:::
-
 ## popover
-Text pop-up layer module selector
+Text pop-up layer module selector.
+
+This module can be used with the `requester` method to dynamically retrieve data items, enabling remote data retrieval to dynamically replace the `options` property values. Alternatively, a `handler` can be passed in as a data processing function.
 
 The `popover` module core utilizes `ELPopover`. Through the `props` parameter, we can pass required parameters to the attributes of [ELPopover Attributes](https://element-plus.org/zh-CN/component/popover#attributes).
 
@@ -570,7 +628,7 @@ Of course, when your options need to be obtained dynamically, you can still use 
 :::
 
 ## remoteSearchSelect
-Remote query selector with dropdown functionality.
+A select dropdown with remote query functionality. To use this module, pass in a `requester` as the remote query data source. Alternatively, you can pass in a `handler` as the data processing function.
 
 The `remoteSearchSelect` module body utilizes `ELSelect`. Through `props`, we can pass required parameters to the attributes of [ELSelect Attributes](https://element-plus.org/zh-CN/component/select#select-attributes).
 
@@ -582,8 +640,6 @@ The `remoteSearchSelect` module body utilizes `ELSelect`. Through `props`, we ca
 | labelKey | String | Specifies the option label as a property value of the option object | name
 | initialValue | any | Initial value; typically used for data echo. When the module runs, it first checks if this value exists. If present, it passes this value as an argument to `props.requester` | -
 | onChoose | Function | Callback executed when an option is selected | null
-| requester | Function | Method for dynamically fetching data items | null
-| handler | Function | `handler` serves as an auxiliary field. After `requester` completes, the module calls `handler` with its return value as an argument. The final return value of `handler` becomes the module's data source | null
 
 <formkit
     :config="[
@@ -591,13 +647,13 @@ The `remoteSearchSelect` module body utilizes `ELSelect`. Through `props`, we ca
             type: 'remoteSearchSelect',
             label: 'Remote query selector',
             key: 'remoteSearchSelect',
+            requester: (searchName: string) => fetchOptions(),
+            handler: (response: any) => response?.items || [],
             props: {
                 labelKey: 'name',
                 valueKey: 'id',
                 initialValue: null,
                 placeholder: 'Please enter query content',
-                requester: (searchName: string) => fetchOptions(),
-                handler: (response: any) => response?.items || [],
                 onChoose: (item: any) => dataset.onChooseCallback = item
             }
         }
@@ -788,6 +844,18 @@ The available time range is 00:00-23:59
 Uploader
 
 Click to upload files.
+
+**Props-Specific Properties**
+
+| Name | Type | Description | Default
+| -------- | :----- | :----: | :----: |
+| limit | Number | Upload file quantity limit | 1
+| autoUpload | Boolean | Enable auto-upload | true
+| isCustom | Boolean | Enable custom upload | false
+| beforeUpload | Function | Pre-upload callback for file preprocessing | null
+| afterUpload | Function | Post-upload callback function for subsequent processing of uploaded files | null
+| accept | String | Accepted file types, e.g., ‘.jpg,.png’. To accept a unified file type category (e.g., images), use ‘image/*’ | -
+| size | Number | Upload button size | 80
 
 <formkit
     :config="[

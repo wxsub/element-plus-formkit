@@ -247,6 +247,8 @@ function fetchOptions() {
 ## checkbox 多选框
 在一组备选项中进行多选。
 
+此模块也可搭配`requester`动态获取数据项方法，远程获取数据动态替换`options`属性值，当然也可以传入`handler`作为数据处理函数
+
 <formkit
     :config="[
         {
@@ -320,12 +322,70 @@ output: {{ dataset.checkbox }}
 </formkit>
 ```
 
-::: tip
-当然当您的options需要通过动态获取时，您依旧可以使用`requester`配合`handler`辅助完成，详细参考[select requester](#select)
+搭配`requester`动态获取数据项方法的`checkbox`模块
+
+<formkit
+    :config="[
+        {
+            type: 'checkbox',
+            label: '全选多选框',
+            key: 'checkbox',
+            props: { showAllCheck: true },
+            requester: fetchOptions,
+            handler: (response: any) => response?.items || []
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+::: code-tabs
+@tab Template
+```vue
+<formkit
+    :config="[
+        {
+            type: 'checkbox',
+            label: '全选多选框',
+            key: 'checkbox',
+            props: { showAllCheck: true },
+            requester: fetchOptions,
+            handler: (response: any) => response?.items || []
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+```
+
+@tab TypeScript
+```ts
+<script setup lang="ts">
+import formkit from 'element-plus-formkit';
+import { ref, computed } from 'vue';
+
+const dataset = ref({})
+
+function fetchOptions() {
+    return new Promise((r, j) => {
+        setTimeout(() => {
+           r({
+            code: 200,
+            items: [
+                { name: '选择项一', id: 1 },
+                { name: '选择项二', id: 2 },
+                { name: '选择项三', id: 3 }
+            ]
+           })
+        }, 2000)
+    })
+}
+</script>
+```
 :::
 
 ## radio 单选框
 在一组备选项中进行单选
+
+此模块可搭配`requester`动态获取数据项方法，远程获取数据动态替换`options`属性值，当然也可以传入`handler`作为数据处理函数
 
 `radio`模块主体使用了`ELRadio`，借助`props`我们可以将需要的参数传递给[ELRadio Attributes](https://element-plus.org/zh-CN/component/radio#radio-attributes)的参数 
 
@@ -429,18 +489,16 @@ output: {{ dataset.inputNumber }}
 :::
 
 ## address 地址选择器
-具有层级的区域地址选择器, 使用此模块需要传入`requester`作为数据源
+具有层级的区域地址选择器, 使用此模块需要传入`requester`作为数据源，当然也可以传入`handler`作为数据处理函数
 
-`address`模块主体使用了`ELCascader`，借助`props`我们可以将需要的参数传递给[ELCascader Attributes](https://element-plus.org/zh-CN/component/cascader#cascader-attributes)的参数 
+`address`模块主体使用了`ELCascader`，借助`props`我们可以将需要的参数传递给[ELCascader Attributes](https://element-plus.org/zh-CN/component/cascader#cascader-attributes)的参数
 
 **Props特有属性**
 
 | 名称 | 类型 | 说明 | 默认
 | -------- | :----- | :----: | :----: |
 | level | Number | 地址选择器可选择的层级,注意level是从0开始，例如: 0=>省份选择、1=>省份、城市选择 | 1
-| requester | Promise | 地址选择器获取数据源方法，注意此方法存在一个形参值为当前选择项的value值 | () => {}
 | cascaderProps | Object | address使用了ELCascader，cascaderProps参数为需要传递给[ELCascader cascaderprops](https://element-plus.org/zh-CN/component/cascader#cascaderprops)的参数 | {}
-| handler | Function | `handler`作为额外的辅助字段，用于处理`requester`完成后返回的数据 | () => {}
 | valueKey | String | 作为 value 唯一标识的键名，绑定值为对象类型时必填 | id
 | labelKey | String | 指定选项标签为选项对象的某个属性值 | name
 
@@ -450,14 +508,14 @@ output: {{ dataset.inputNumber }}
             type: 'address',
             label: '地址选择器',
             key: 'address',
+            requester: (pid: number) => {
+                return fetchOptions()
+            },
+            handler: (response: any) => response?.items || [],
             props: {
                 style: { width: '50%' },
                 level: 2,
-                placeholder: '请选择地址',
-                requester: (pid: number) => {
-                    return fetchOptions()
-                },
-                handler: (response: any) => response?.items || []
+                placeholder: '请选择地址'
             }
         }
     ]"
@@ -472,14 +530,14 @@ output: {{ dataset.address }}
             type: 'address',
             label: '地址选择器',
             key: 'address',
+            requester: (pid: number) => {
+                return fetchOptions()
+            },
+            handler: (response: any) => response?.items || [],
             props: {
                 style: { width: '50%' },
                 level: 2,
-                placeholder: '请选择地址',
-                requester: (pid: number) => {
-                    return fetchOptions()
-                },
-                handler: (response: any) => response?.items || []
+                placeholder: '请选择地址'
             }
         }
     ]"
@@ -488,12 +546,10 @@ output: {{ dataset.address }}
 output: {{ dataset.address }}
 ```
 
-::: warning
-区别于select、checkbox、radio等需要动态获取`options`的模块，`address`模块的`requester`，需要包裹`props`使用
-:::
-
 ## popover 文字弹出层
 文字弹出层模块选择器
+
+此模块可搭配`requester`动态获取数据项方法，远程获取数据动态替换`options`属性值，当然也可以传入`handler`作为数据处理函数
 
 `popover`模块主体使用了`ELPopover`，借助`props`参数我们可以将需要的参数传递给[ELPopover Attributes](https://element-plus.org/zh-CN/component/popover#attributes)的参数
 
@@ -505,8 +561,6 @@ output: {{ dataset.address }}
 | valueKey | String | 作为 value 唯一标识的键名，绑定值为对象类型时必填 | id
 | labelKey | String | 指定选项标签为选项对象的某个属性值 | name
 | loading | Boolean | 是否正在从远程获取数据 | false
-| requester | Function | 动态获取数据项方法，远程获取数据动态替换`options`属性值，支持所有存在`options`属性的模块 | null
-| handler | Function | `handler`作为额外的辅助字段，模块会在`requester`完成后将返回值作为参数调用`handler`，最终将`handler`返回值作为模块数据源 | null
 
 <formkit
     :config="[
@@ -555,7 +609,7 @@ output: {{ dataset.address }}
 :::
 
 ## remoteSearchSelect 远程查询
-具备远程查询功能的select下拉选择器
+具备远程查询功能的select下拉选择器, 使用此模块需要传入`requester`作为远程查询数据源，当然也可以传入`handler`作为数据处理函数
 
 `remoteSearchSelect`模块主体使用了`ELSelect`，借助`props`我们可以将需要的参数传递给[ELSelect Attributes](https://element-plus.org/zh-CN/component/select#select-attributes)的参数 
 
@@ -567,8 +621,6 @@ output: {{ dataset.address }}
 | labelKey | String | 指定选项标签为选项对象的某个属性值 | name
 | initialValue | any | 初始值；通常用作数据回显，当模块运行时会首先检测此值是否存在，若存在则将此值作为参数运行`props.requester` | -
 | onChoose | Function | 选中项时的回调 | null
-| requester | Function | 动态获取数据项方法 | null
-| handler | Function | `handler`作为额外的辅助字段，模块会在`requester`完成后将返回值作为参数调用`handler`，最终将`handler`返回值作为模块数据源 | null
 
 <formkit
     :config="[
@@ -576,13 +628,13 @@ output: {{ dataset.address }}
             type: 'remoteSearchSelect',
             label: '远程查询选择器',
             key: 'remoteSearchSelect',
+            requester: (searchName: string) => fetchOptions(),
+            handler: (response: any) => response?.items || [],
             props: {
                 labelKey: 'name',
                 valueKey: 'id',
                 initialValue: null,
                 placeholder: '请输入查询内容',
-                requester: (searchName: string) => fetchOptions(),
-                handler: (response: any) => response?.items || [],
                 onChoose: (item: any) => dataset.onChooseCallback = item
             }
         }
@@ -798,6 +850,18 @@ function fetchOptions() {
 ## upload 上传器
 
 通过点击上传文件。
+
+**Props特有属性**
+
+| 名称 | 类型 | 说明 | 默认
+| -------- | :----- | :----: | :----: |
+| limit | Number | 上传文件数量限制 | 1
+| autoUpload | Boolean | 是否自动上传 | true
+| isCustom | Boolean | 是否自定义上传 | false
+| beforeUpload | Function | 上传前的回调函数，用于对上传文件进行预处理 | null
+| afterUpload | Function | 上传后的回调函数，用于对上传文件进行后续处理 | null
+| accept | String | 接受的文件类型，例如：'.jpg,.png', 若要统一某一类文件类型，例如图片，则可以写为'image/*' | -
+| size | Number | 上传按钮的大小 | 80
 
 <formkit
     :config="[

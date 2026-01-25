@@ -191,14 +191,14 @@ Specify the label of the option node in the data source of the option as the pro
 ```
 
 ## config.requester
-The current form item remote data request function, available only when the module or registered module object exists `options`, type: `Function`
+Current form item's remote data fetching function dynamically replaces the `options` property value upon remote data retrieval. Supports all modules containing the `options` property. Type: `Function`
 
 ::: warning
 The current function must return a `Promise` object, otherwise it will fail.
 :::
 
 ## config.handler
-Handler function, used to process the data returned by `requester`, type: `Function`
+Handler function used to process data returned by the `requester`. The `handler` serves as an additional auxiliary field. After the `requester` completes, the module will invoke the `handler` with the return value as an argument. The `handler`'s return value ultimately becomes the module's data source. Type: `Function`
 
 <formkit
     :config="[
