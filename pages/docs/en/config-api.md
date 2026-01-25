@@ -272,13 +272,6 @@ function fetchOptions() {
 ```
 :::
 
-## config.initialValue
-Initial value, type: `String`
-
-::: warning
-Only available in the `remoteSearchSelect` module, otherwise it will fail.
-:::
-
 ## config.visible
 `visible` field is used to control whether the current item is visible, of course you can also use it to complete complex form linkage effects.
 

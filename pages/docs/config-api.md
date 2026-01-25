@@ -272,13 +272,6 @@ function fetchOptions() {
 ```
 :::
 
-## config.initialValue
-初始值，类型：`String`
-
-::: warning
-仅在`remoteSearchSelect`模块中可用，否则会失效。
-:::
-
 ## config.visible
 `visible`字段用于控制当前项是否可见，当然您也可以使用它完成复杂表单的联动效果。
 
