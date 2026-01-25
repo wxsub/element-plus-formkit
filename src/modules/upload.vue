@@ -8,7 +8,6 @@ import { isString, uuidv4 } from '@/utils/util'
 const props = defineProps({
     modelValue: { type: [String, Array] },
     limit: { type: Number, default: 1 },
-    requester: { type: Object as PropType<UploadRequester>, default: null },
     autoUpload: { type: Boolean, default: true },
     isCustom: { type: Boolean, default: false },
     beforeUpload: { type: Function, default: null },
