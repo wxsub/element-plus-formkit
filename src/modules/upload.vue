@@ -153,8 +153,11 @@ const getFileName = (parmas: any) => {
                         :preview-src-list="[it.path]"
                         show-progress
                         :initial-index="4"
-                        fit="cover"
-                    />
+                        fit="cover">
+                        <template #placeholder>
+                            <div class="image-slot">Loading<span class="dot">...</span></div>
+                        </template>
+                    </el-image>
                     <div class="uploadFolder w-full h-full" v-else @click="windowOpen(it.path || it.temporaryPath)">
                         <el-icon class="text-[28px]"><Folder /></el-icon>
                         <div class="w-full folder-box ellipsis-2">{{ getFileName(it.file || it.path) }}</div>
@@ -280,6 +283,20 @@ const getFileName = (parmas: any) => {
             line-height: 12px;
             margin-top: 4px;
             padding: 0 2px;
+        }
+    }
+    .image-slot {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        background: var(--el-fill-color-light);
+        color: var(--el-text-color-secondary);
+        font-size: 14px;
+        .dot {
+            animation: dot 2s infinite steps(3, start);
+            overflow: hidden;
         }
     }
     input[type="file"]{ display: none }

@@ -1,5 +1,5 @@
 <template>
-    <el-select v-model="_value" v-bind="$attrs">
+    <el-select v-model="_value" v-bind="$attrs" class="formkit-module-select">
         <el-option
                 v-for="it in options"
                 :key="it[$attrs?.valueKey || 'id']"
@@ -30,11 +30,17 @@ const $attrs = useAttrs() as { valueKey?: string; labelKey?: string };
 
 const _value: any = computed({
     get: () => {
-        const { multiple } = useAttrs() || {}
-        return props.modelValue || (multiple ? [] : null)
+        const multiple = useAttrs()?.multiple;
+        return props.modelValue ?? (multiple ? [] : null);
     },
     set: (value) => {
         emit('update:modelValue', value)
     }
 })
 </script>
+
+<style scoped lang="scss">
+.formkit-module-select {
+    min-width: 50px;
+}
+</style>
