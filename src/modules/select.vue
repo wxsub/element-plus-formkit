@@ -30,8 +30,8 @@ const $attrs = useAttrs() as { valueKey?: string; labelKey?: string };
 
 const _value: any = computed({
     get: () => {
-        const { multiple } = useAttrs() || {}
-        return props.modelValue || (multiple ? [] : null)
+        const multiple = useAttrs()?.multiple;
+        return props.modelValue ?? (multiple ? [] : null);
     },
     set: (value) => {
         emit('update:modelValue', value)
