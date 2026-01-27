@@ -1,5 +1,5 @@
 <template>
-    <el-select v-model="_value" v-bind="$attrs">
+    <el-select v-model="_value" v-bind="$attrs" class="formkit-module-select">
         <el-option
                 v-for="it in options"
                 :key="it[$attrs?.valueKey || 'id']"
@@ -38,3 +38,9 @@ const _value: any = computed({
     }
 })
 </script>
+
+<style scoped lang="scss">
+.formkit-module-select {
+    min-width: 50px;
+}
+</style>
