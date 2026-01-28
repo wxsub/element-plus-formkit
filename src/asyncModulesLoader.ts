@@ -18,6 +18,8 @@ export const Modules: Record<string, Component> = {
   upload: defineAsyncComponent(() => import('./modules/upload.vue')),
   
   input: asyncElementPlus('ElInput'),
+  inputTag: asyncElementPlus('ElInputTag'),
+  selectV2: asyncElementPlus('ElSelectV2'),
   datePicker: asyncElementPlus('ElDatePicker'),
   timePicker: asyncElementPlus('ElTimePicker'),
   timeSelect: asyncElementPlus('ElTimeSelect'),
