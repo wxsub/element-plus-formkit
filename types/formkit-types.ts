@@ -56,7 +56,6 @@ export type UploadRequester = (
 ) => Promise<string>;
 
 export type ElementPlusFormkitPlugin = {
-  Upload: Component;
   setConfigure: (...args: any[]) => void;
   getConfigure: (...args: any[]) => any;
   registerModule: (...args: any[]) => void;

@@ -39,7 +39,7 @@ const searchRemoteMethod = async (query: any) => {
 const onChange = (value: any) => {
   try {
     if (props.onChoose) {
-      const selectedOption = options.value.find((option: any) => option[props.valueKey] === value)
+      const selectedOption = Array.isArray(value) ? options.value.filter((option: any) => value.includes(option[props.valueKey])) : options.value.find((option: any) => option[props.valueKey] === value)
       if (selectedOption) {
         props.onChoose(selectedOption)
       }
