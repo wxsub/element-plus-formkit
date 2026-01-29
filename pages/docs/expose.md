@@ -29,6 +29,8 @@
     :columns="2"
 />
 
+<br />
+
 <el-button color="#626aef" @click="validate" :loading="validateCompleted">立即校验</el-button>
 
 <el-button @click="clearValidate">清除校验</el-button>
@@ -48,6 +50,8 @@
     size="large"
     :columns="2"
 />
+
+<br />
 
 <el-button color="#626aef" @click="validate" :loading="validateCompleted">立即校验</el-button>
 

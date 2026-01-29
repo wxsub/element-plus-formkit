@@ -1,5 +1,5 @@
 <template>
-    <el-select v-model="_value" v-bind="$attrs" class="formkit-module-select">
+    <el-select v-model="_value" v-bind="$attrs" class="formkit-module-select" @change="onChange" ref="Ref">
         <el-option
                 v-for="it in options"
                 :key="it[$attrs?.valueKey || 'id']"
@@ -19,9 +19,12 @@
 <script setup lang="ts">
 import { ElSelect, ElOption } from 'element-plus'
 
+const Ref = ref<InstanceType<typeof ElSelect>>()
+
 const props = defineProps({
     modelValue: { default: null },
-    options: { type: Array<any>, default: () => [] }
+    options: { type: Array<any>, default: () => [] },
+    onChoose: { type: [Function, null], default: null }
 })
 
 const emit = defineEmits(['update:modelValue']);
@@ -37,6 +40,11 @@ const _value: any = computed({
         emit('update:modelValue', value)
     }
 })
+
+function onChange(value: any) {
+    const { selectedLabel } = Ref?.value || {}
+    props.onChoose?.(value, selectedLabel, props.options)
+}
 </script>
 
 <style scoped lang="scss">

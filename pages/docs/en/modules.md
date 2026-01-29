@@ -148,6 +148,12 @@ Indicates switching between two mutually exclusive states, commonly used to trig
 ## select
 Select field, when there are too many options, a dropdown menu is used to display and select the content.
 
+**Props-Specific Attributes**
+
+| Name | Type | Description | Default
+| -------- | :----- | :----: | :----: |
+| onChoose | Function | Callback function triggered when the selected item changes. Arguments include the selected item's value, selected item's label, and all options | null
+
 <formkit
     :config="[
         {

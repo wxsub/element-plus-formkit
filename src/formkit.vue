@@ -269,7 +269,8 @@ function validate(openTips: boolean = false) {
 
 defineExpose<FormKitExposed>({
   validate,
-  clearValidate: () => FormKitRef.value?.clearValidate()
+  clearValidate: () => FormKitRef.value?.clearValidate(),
+  buckets
 })
 </script>
 
