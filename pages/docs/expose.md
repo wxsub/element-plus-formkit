@@ -92,6 +92,10 @@ import { type Instance } from 'element-plus-formkit';
 ```
 :::
 
+## buckets
+获取所有所有`requester`属性远程返回结果数据项。
+
+**返回值**: Array<{ key: string, value: any }>
 
 <script setup lang="ts">
 import formkit, { type Instance } from 'element-plus-formkit';
