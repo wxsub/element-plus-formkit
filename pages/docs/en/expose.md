@@ -31,6 +31,8 @@ Immediately remove all items that have `rules` and have been validated. If there
     :columns="2"
 />
 
+<br />
+
 <el-button color="#626aef" @click="validate" :loading="validateCompleted">validate</el-button>
 
 <el-button @click="clearValidate">clearValidate</el-button>
@@ -50,6 +52,8 @@ Immediately remove all items that have `rules` and have been validated. If there
     size="large"
     :columns="2"
 />
+
+<br />
 
 <el-button color="#626aef" @click="validate" :loading="validateCompleted">validate</el-button>
 
