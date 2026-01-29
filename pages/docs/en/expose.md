@@ -94,6 +94,10 @@ import { type Instance } from 'element-plus-formkit';
 ```
 :::
 
+## buckets
+Retrieves all remote return result items with the `requester` property.
+
+**Return Value**: Array<{ key: string, value: any }>
 
 <script setup lang="ts">
 import formkit, { type Instance, setConfigure } from 'element-plus-formkit';
