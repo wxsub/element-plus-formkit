@@ -37,6 +37,7 @@ export interface ConfigInterface {
 export interface FormKitExposed {
   validate: (openTips?: boolean) => Promise<any>;
   clearValidate: () => void;
+  buckets: Record<string, any>;
 }
 
 export interface UploadProgress {

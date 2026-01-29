@@ -152,6 +152,7 @@ const getFileName = (parmas: any) => {
                         :src="it.path || it.temporaryPath"
                         :preview-src-list="[it.path]"
                         show-progress
+                        :preview-teleported="true"
                         :initial-index="4"
                         fit="cover">
                         <template #placeholder>
