@@ -3,11 +3,11 @@
 ## validate
 Immediately validate all items with `rules` rules. If no items have `rules` rules, this method will fail.
 
-**This method provides a parameter that controls the validation of global prompt information.**
+This method provides a formal parameter that accepts a callback function when validation fails.
 
 **Return type**: Promise
 
-**Parameter type**: Boolean
+**Parameter type**: Function
 
 ## clearValidate
 Immediately remove all items that have `rules` and have been validated. If there are no `rules` or no validated items, this method will fail.
