@@ -58,7 +58,7 @@
 <script setup lang="ts">
 import { modules } from '@/module-registry'
 import { getConfigure } from '@/config'
-import { ElForm, ElRow, ElCol, ElFormItem, ElConfigProvider, ElMessage } from 'element-plus'
+import { ElForm, ElRow, ElCol, ElFormItem, ElConfigProvider, ElMessage, type FormItemProp } from 'element-plus'
 import { isObject, isNumber, isArray, isBoolean, isFunction, uuidv4 } from '@/utils/util'
 import { ConfigInterface, FormKitExposed, ValidSize, FormKitSlots } from 'types/formkit-types'
 
@@ -247,21 +247,22 @@ async function executeRequestStack() {
 	  }
   }
 }
-function validate(openTips: boolean = false) {
+function validate(faild?: (invalidFields: any[]) => void) {
   return new Promise(async (resolve, reject) => {
     try {
-      const isZhCN = getConfigure('lang')?.name === 'zh-cn'
 	    if (FormKitRef.value) {
-        await FormKitRef.value?.validate((valid: boolean) => {
+        await FormKitRef.value?.validate((valid: boolean, invalidFields) => {
           if (valid) {
             resolve(props.modelValue)
-          } else throw isZhCN ? '您需要将标星号的栏目填写完整后重新尝试' : 'Please fill in all required fields'
+          } else {
+            if (faild) faild(Array.isArray(invalidFields) ? invalidFields : [])
+            reject(invalidFields)
+          }
         })
       } else {
 		    console.warn("Component loading is not complete!")
       }
     } catch (e: any) {
-      if (openTips) ElMessage.error(e)
       reject(e)
     }
   })
@@ -270,7 +271,15 @@ function validate(openTips: boolean = false) {
 defineExpose<FormKitExposed>({
   validate,
   clearValidate: () => FormKitRef.value?.clearValidate(),
-  buckets
+  buckets,
+  validateField: async (key: string) => {
+    const result = await FormKitRef.value?.validateField(key)
+    return result ?? Promise.resolve(undefined)
+  },
+  scrollToField: (prop: FormItemProp) => FormKitRef.value?.scrollToField(prop),
+  fields: FormKitRef.value?.fields || [],
+  resetFields: (props?: FormItemProp | FormItemProp[] | undefined) => FormKitRef.value?.resetFields(props),
+  setInitialValues: (props: Record<string, any>) => FormKitRef.value?.setInitialValues(props),
 })
 </script>
 

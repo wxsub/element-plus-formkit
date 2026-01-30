@@ -12,7 +12,40 @@
 ## clearValidate
 立即清除所有存在`rules`规则且已经校验的项，如果不存在`rules`规则或不存在已经校验的项此方法将失效。
 
-**返回值**: Null
+**返回值**: void
+
+## resetFields
+重置该表单项，将其值重置为初始值，并移除校验结果。
+
+**返回值**: void
+
+**参数类型**: FormItemProp
+
+## scrollToField
+滚动到指定的字段
+
+**返回值**: void
+
+**参数类型**: FormItemProp
+
+## fields
+获取所有项的上下文信息。
+
+**返回值**: FormItemContext[]
+
+## setInitialValues
+设置表单字段的初始值。 当调用 resetFields 时，字段将重置为这些值。 只有存在于 initModel 中的字段才会被更新。
+
+**返回值**: void
+
+**参数类型**: Record<string, any>
+
+## validateField
+验证具体的某个字段。
+
+**返回值**: Promise
+
+**参数类型**: string
 
 示例：
 
@@ -26,7 +59,6 @@
     ]"
     v-model="dataset"
     size="large"
-    :columns="2"
 />
 
 <br />
@@ -34,6 +66,17 @@
 <el-button color="#626aef" @click="validate" :loading="validateCompleted">立即校验</el-button>
 
 <el-button @click="clearValidate">清除校验</el-button>
+
+<el-button color="#636363" @click="resetFields">resetFields</el-button>
+
+<br />
+<br />
+
+<el-button color="#343434" @click="getfields">获取fields</el-button>
+
+<el-button color="#999999" @click="scrollToField('title')">滚动到姓名</el-button>
+
+<el-button color="#555" @click="validateField('title')">校验姓名</el-button>
 
 ::: code-tabs
 @tab html
@@ -56,6 +99,17 @@
 <el-button color="#626aef" @click="validate" :loading="validateCompleted">立即校验</el-button>
 
 <el-button @click="clearValidate">清除校验</el-button>
+
+<el-button color="#636363" @click="resetFields">resetFields</el-button>
+
+<br />
+<br />
+
+<el-button color="#343434" @click="getfields">获取fields</el-button>
+
+<el-button color="#999999" @click="scrollToField('title')">滚动到姓名</el-button>
+
+<el-button color="#555" @click="validateField('title')">校验姓名</el-button>
 ```
 
 @tab script
@@ -79,6 +133,22 @@ async function validate() {
 
 function clearValidate() {
     FormKitRef.value.clearValidate();
+}
+
+function resetFields() {
+    FormKitRef.value.resetFields();
+}
+
+function getfields() {
+    console.log(FormKitRef.value.fields);
+}
+
+function scrollToField(key: string) {
+    FormKitRef.value.scrollToField(key);
+}
+
+function validateField(key: string) {
+    FormKitRef.value.validateField(key);
 }
 </script>
 ```
@@ -116,5 +186,21 @@ async function validate() {
 
 function clearValidate() {
     FormKitRef.value.clearValidate();
+}
+
+function resetFields() {
+    FormKitRef.value.resetFields();
+}
+
+function getfields() {
+    console.log(FormKitRef.value.fields);
+}
+
+function scrollToField(key: string) {
+    FormKitRef.value.scrollToField(key);
+}
+
+function validateField(key: string) {
+    FormKitRef.value.validateField(key);
 }
 </script>
