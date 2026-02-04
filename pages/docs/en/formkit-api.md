@@ -97,9 +97,7 @@ Position of the form item label, when set to left or right, you also need to set
 ```
 
 ## labelWidth
-Label length, type: `String | Number`
-
-When the type is Number, the px suffix is automatically appended.
+Label length, type: `Number`
 
 For example, ‘50’. Form-item elements that are direct children of the Form element inherit this value. The auto value can be used.
 

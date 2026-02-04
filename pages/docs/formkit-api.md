@@ -97,9 +97,7 @@
 ```
 
 ## labelWidth
-标签的长度，类型：`String | Number`
-
-当类型为 Number 时，会自动添加 px 后缀。
+标签的长度，类型：`Number`
 
 例如 '50'。 作为 Form 直接子元素的 form-item 会继承该值。 可以使用 auto。
 

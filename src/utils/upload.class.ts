@@ -17,6 +17,10 @@ class FileUploader {
     this.onError = () => {}
 
     this.requester = typeof window !== 'undefined' ? getConfigure('upload') || requester : null;
+
+    if (!this.requester && typeof window !== 'undefined') {
+      throw new Error('[FileUploader] Upload requester is not configured. Please provide a requester or configure it globally.')
+    }
   }
 
   setProgressListener(listener: UploadProgressListener): void {
