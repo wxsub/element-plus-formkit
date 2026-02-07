@@ -41,7 +41,8 @@ const _value: any = computed({
     }
 })
 
-function onChange(value: any) {
+async function onChange(value: any) {
+    await nextTick()
     const { selectedLabel } = Ref?.value || {}
     props.onChoose?.(value, selectedLabel, props.options)
 }
