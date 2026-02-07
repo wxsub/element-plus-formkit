@@ -1,0 +1,1 @@
+import{d as e,c as o,o as t}from"./app-Dfdb0854.js";const u=e({__name:"customModule",props:{value:{type:Object,default:()=>({})}},setup(s){return(c,a)=>(t(),o("h2",null,"This is customModule"))}});export{u as default};
