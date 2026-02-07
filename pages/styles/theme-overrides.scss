@@ -13,3 +13,8 @@
   text-decoration: underline;
   user-select: none;
 }
+
+.search-box input[type='search'] {
+  --search-input-width: 9rem;
+  padding: 0 1rem 0 2rem;
+}
