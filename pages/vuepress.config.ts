@@ -1,7 +1,15 @@
 import { viteBundler } from '@vuepress/bundler-vite'
+import { docsearchPlugin } from '@vuepress/plugin-docsearch'
+import { searchPlugin } from '@vuepress/plugin-search'
 import { defaultTheme } from '@vuepress/theme-default'
 import { defineUserConfig } from 'vuepress'
 import path from 'path'
+
+const algolia = {
+  appId: process.env.ALGOLIA_APP_ID,
+  apiKey: process.env.ALGOLIA_API_KEY,
+  indexName: process.env.ALGOLIA_INDEX_NAME
+}
 
 export default defineUserConfig({
   bundler: viteBundler({
@@ -13,6 +21,24 @@ export default defineUserConfig({
       }
     }
   }),
+  plugins: [
+    algolia.appId && algolia.apiKey && algolia.indexName
+      ? docsearchPlugin({
+          appId: algolia.appId,
+          apiKey: algolia.apiKey,
+          indexName: algolia.indexName,
+          locales: {
+            '/': { placeholder: '搜索文档' },
+            '/en/': { placeholder: 'Search docs' }
+          }
+        })
+      : searchPlugin({
+          locales: {
+            '/': { placeholder: '搜索文档' },
+            '/en/': { placeholder: 'Search docs' }
+          }
+        })
+  ],
   theme: defaultTheme({
     repo: 'wxsub/element-plus-formkit',
     logo: 'https://raw.githubusercontent.com/wxsub/element-plus-formkit/refs/heads/main/pages/docs/public/logo.png',
