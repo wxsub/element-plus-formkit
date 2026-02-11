@@ -239,8 +239,7 @@ async function executeRequestStack() {
       if (isFunction(handler)) {
         buckets[key] = handler(response)
       } else {
-        const { data = [] } = response || {}
-        buckets[key] = data
+        buckets[key] = response || []
       }
     } catch (e) {
       console.log(`FormKit executeRequestStack failed: ${e}`)
