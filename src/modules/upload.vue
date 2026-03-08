@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ElIcon, ElImage, ElButton, ElProgress } from 'element-plus'
+import { ElIcon, ElImage, ElButton, ElProgress, ElMessage, useGlobalConfig } from 'element-plus'
 import { Folder, Close, Plus, WarningFilled, FolderDelete } from '@element-plus/icons-vue'
 import Upload from '@/utils/upload.class'
 import { isString, uuidv4 } from '@/utils/util'
@@ -15,10 +15,12 @@ const props = defineProps({
         type: String,
         default: "image/*"
     },
-    size: { type: Number, default: 80 }
+    size: { type: Number, default: 80 },
+    fileSize: { type: Number, default: 0 }
 })
 
 const loading = ref(false),
+    globalConfig = useGlobalConfig(),
     uuid = ref(uuidv4()),
     fileBucket = ref<any>([]);
 
@@ -52,7 +54,11 @@ const change = (e: Event) => {
     const target = e.target as HTMLInputElement,
         files = target.files;
     if (files && files.length > 0) {
-        Array.from(files).forEach(file => {
+        Array.from(files).filter(file => {
+            const isOverSize = props.fileSize > 0 && file.size > props.fileSize * 1024 * 1024;
+            if (isOverSize) ElMessage.warning(globalConfig.value.locale?.name === 'en' ? `File ${file.name} size exceeds limit (${props.fileSize}MB)` : `文件 ${file.name} 大小超过限制 (${props.fileSize}MB)`);
+            return !isOverSize
+        }).forEach(file => {
             fileBucket.value.push({
                 file,
                 isImage: file.type.startsWith('image/'),
