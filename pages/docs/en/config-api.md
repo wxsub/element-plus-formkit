@@ -190,8 +190,45 @@ Specify the label of the option node in the data source of the option as the pro
 </formkit>
 ```
 
-## config.requester
-Current form item's remote data fetching function dynamically replaces the `options` property value upon remote data retrieval. Supports all modules containing the `options` property. Type: `Function`
+## config.events
+
+Event field, used to listen to module events, type: `Object`
+
+<formkit
+    :config="[
+        {
+            type: 'input',
+            label: 'Name',
+            key: 'password',
+            props: { placeholder: 'Please enter name', clearable: true },
+            events: {
+                'mouseenter': (event) => {
+                    console.log('Mouse enter event:', event);
+                }
+            }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+```vue
+<formkit
+    :config="[
+        {
+            type: 'input',
+            label: 'Name',
+            key: 'password',
+            props: { placeholder: 'Please enter name', clearable: true },
+            events: {
+                'mouseenter': (event) => {
+                    console.log('Mouse enter event:', event);
+                }
+            }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+```
 
 ::: warning
 The current function must return a `Promise` object, otherwise it will fail.
