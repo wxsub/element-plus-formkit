@@ -132,9 +132,11 @@ The Upload component is a module within Formkit designed for file uploads. It ca
 | beforeUpload | Function | Pre-upload callback function for preprocessing uploaded files | null
 | afterUpload | Function | Post-upload callback function for postprocessing uploaded files | null
 | accept | String | Accepted file types, e.g., ‘.jpg,.png’. To accept a unified file type category (e.g., images), use ‘image/*’ | -
-| size | Number | Upload button size | 80
+| width | Number | Upload button width | 80
+| height | Number | Upload button height | 80
+| fileSize | Number | Upload file size limit, unit MB, default value 0 means no limit | 0
 
-<upload :size="100" accept="video/*" :limit="3" :after-upload="(response) => response.data" v-model="dataset.upload" />
+<upload :width="100" :height="80" accept="video/*" :limit="3" :after-upload="(response) => response.data" v-model="dataset.upload" />
 
 ::: tip
 When using the upload component, if you've already configured upload settings (via the `setConfigure` method), you don't need to repeat the configuration. For the `setConfigure` key identical within your system, you only need to configure it once. Formkit will automatically handle the upload configuration.

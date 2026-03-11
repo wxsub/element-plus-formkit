@@ -861,7 +861,8 @@ Click to upload files.
 | beforeUpload | Function | Pre-upload callback for file preprocessing | null
 | afterUpload | Function | Post-upload callback function for subsequent processing of uploaded files | null
 | accept | String | Accepted file types, e.g., ‘.jpg,.png’. To accept a unified file type category (e.g., images), use ‘image/*’ | -
-| size | Number | Upload button size | 80
+| width | Number | Upload button width | 80
+| height | Number | Upload button height | 80
 | fileSize | Number | Upload file size limit, unit MB, default value 0 means no limit | 0
 
 <formkit
@@ -872,6 +873,8 @@ Click to upload files.
             key: 'uploadValue',
             props: {
                 limit: 4,
+                width: 100,
+                height: 80,
                 afterUpload: (response) => {
                     return response.data
                 }
@@ -894,6 +897,8 @@ Click to upload files.
             key: 'uploadValue',
             props: {
                 limit: 4,
+                width: 100,
+                height: 80,
                 afterUpload: (response) => {
                     return response.data
                 }

@@ -15,7 +15,8 @@ const props = defineProps({
         type: String,
         default: "image/*"
     },
-    size: { type: Number, default: 80 },
+    width: { type: Number, default: 80 },
+    height: { type: Number, default: 80 },
     fileSize: { type: Number, default: 0 }
 })
 
@@ -137,16 +138,21 @@ const getFileName = (parmas: any) => {
         return parmas.name;
     } else return '文件'
 }
+
+function autoCalcSize(ratio: number = 2) {
+    const calc = Math.round(Math.min(props.width, props.height) / ratio);
+    return calc > 5 ? calc : 12;
+}
 </script>
 
 <template>
     <div class="formkit-module-upload">
         <div v-for="(it, index) in fileBucket" :key="index" class="uploadPrepare">
             <div class="warning" v-if="it.status === -1">
-                <el-icon :size="(size / 2)" class="text-red"><WarningFilled /></el-icon>
+                <el-icon :size="autoCalcSize(2)" class="text-red"><WarningFilled /></el-icon>
             </div>
             <div class="warning" v-else-if="it.status === -2">
-                <el-icon :size="(size / 2.1)" class="text-warning"><FolderDelete /></el-icon>
+                <el-icon :size="autoCalcSize(2.1)" class="text-warning"><FolderDelete /></el-icon>
                 <p>文件类型不合法</p>
             </div>
             <template v-else>
@@ -165,12 +171,12 @@ const getFileName = (parmas: any) => {
                         </template>
                     </el-image>
                     <div class="uploadFolder w-full h-full" v-else @click="windowOpen(it.path || it.temporaryPath)">
-                        <el-icon class="text-[28px]"><Folder /></el-icon>
+                        <el-icon :size="autoCalcSize(3)"><Folder /></el-icon>
                         <div class="w-full folder-box ellipsis-2">{{ getFileName(it.file || it.path) }}</div>
                     </div>
                 </div>
                 <div class="progress" v-if="it.status === 0 && it.progress < 100">
-                    <el-progress type="circle" :percentage="it.progress || 0" :width="(size / 2)" :stroke-width="3">
+                    <el-progress type="circle" :percentage="it.progress || 0" :width="autoCalcSize(2)" :stroke-width="3">
                         <template #default="{ percentage }">
                             <span class="percentage-value">{{ percentage }}%</span>
                         </template>
@@ -208,8 +214,8 @@ const getFileName = (parmas: any) => {
     gap: 10px;
     .uploadPrepare {
         position: relative;
-        width: v-bind("`${size}px`");
-        height: v-bind("`${size}px`");
+        width: v-bind("`${width}px`");
+        height: v-bind("`${height}px`");
         border: 1px solid #e4e7ec;
         border-radius: 6px;
         .warning {
@@ -245,7 +251,7 @@ const getFileName = (parmas: any) => {
                 min-width: 100%;
             }
             .percentage-value {
-                font-size: 10px;
+                font-size: v-bind("`${autoCalcSize(6.2)}px`");
                 color: white;
             }
         }
@@ -265,8 +271,8 @@ const getFileName = (parmas: any) => {
             cursor: pointer;
             position: relative;
             overflow: hidden;
-            width: v-bind("`${size}px`");
-            height: v-bind("`${size}px`");
+            width: v-bind("`${width}px`");
+            height: v-bind("`${height}px`");
             background: #FAFAFA;
             border: 1px dashed #cdd0d6;
             border-radius: 6px;
