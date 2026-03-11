@@ -27,11 +27,10 @@
                     :disabled="conf['disabled']"
                     v-model="modelValue[conf.key]"
                     :options="conf.options || buckets[conf.key]"
-                    v-on="conf.events || {}"
-                    v-bind="conf.props"
+                    v-bind="{ ...conf.props, ...setEvents(conf) }"
                     @change="mutation($event, conf)"
                     :key="`module-${conf.key}-${ComponentUpdateTrigger[conf.key] || 0}`">
-                    <template 
+                    <template
                       v-for="slotSuffix in getComponentSlotSuffixes(conf.key)" 
                       #[slotSuffix]="slotProps"
                       :key="`${conf.key}-${slotSuffix}`">
@@ -189,6 +188,16 @@ function isStandaloneRequester(type: string) {
 function mutation(event: any, config: ConfigInterface) {
   emits('update', { event, config })
   fixedPointClearValidate(config)
+}
+function setEvents(conf: ConfigInterface) {
+  const events = conf.events || {}, result: any = {};
+  for (const [key, handler] of Object.entries(events)) {
+    const eventName = key.startsWith('on')
+      ? key
+      : `on${key.charAt(0).toUpperCase()}${key.slice(1).replace(/-([a-z])/g, (_, c) => c.toUpperCase())}`
+    result[eventName] = handler
+  }
+  return result
 }
 function fixedPointClearValidate(config: ConfigInterface) {
   if (Object.hasOwnProperty.call(config, 'key') && Object.hasOwnProperty.call(config, 'rules')) {

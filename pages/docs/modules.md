@@ -868,6 +868,7 @@ function fetchOptions() {
 | afterUpload | Function | 上传后的回调函数，用于对上传文件进行后续处理 | null
 | accept | String | 接受的文件类型，例如：'.jpg,.png', 若要统一某一类文件类型，例如图片，则可以写为'image/*' | -
 | size | Number | 上传按钮的大小 | 80
+| fileSize | Number | 上传文件大小限制，单位为MB, 默认值0表示不限制 | 0
 
 <formkit
     :config="[
