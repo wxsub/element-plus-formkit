@@ -190,34 +190,24 @@ select选择器, 当选项过多时，使用下拉菜单展示并选择内容。
 
 Select也可通过`requester`字段用于动态获取options
 
+<el-button @click="changeRequester" type="primary" size="small" style="margin-bottom: 10px">
+    切换Requester (当前: {{ currentRequester === fetchOptions ? '原始' : '新' }})
+</el-button>
+
 <formkit
-    :config="[
-        {
-            type: 'select',
-            label: '选择器',
-            key: 'select1',
-            props: { placeholder: '请选择', clearable: true },
-            requester: fetchOptions,
-            handler: (response: any) => response?.items || []
-        }
-    ]"
+    :config="selectConfig"
     v-model="dataset">
 </formkit>
 
 ::: code-tabs
 @tab Template
 ```vue
+<el-button @click="changeRequester" type="primary" size="small" style="margin-bottom: 10px">
+    切换Requester (当前: {{ currentRequester === fetchOptions ? '原始' : '新' }})
+</el-button>
+
 <formkit
-    :config="[
-        {
-            type: 'select',
-            label: '选择器',
-            key: 'select1',
-            props: { placeholder: '请选择', clearable: true },
-            requester: fetchOptions,
-            handler: (response: any) => response?.items || []
-        }
-    ]"
+    :config="selectConfig"
     v-model="dataset">
 </formkit>
 ```
@@ -241,8 +231,38 @@ function fetchOptions() {
                 { name: '选择项三', id: 3 }
             ]
            })
-        }, 2000)
+        }, 1000)
     })
+}
+
+function fetchOptionsNew() {
+    return new Promise((r, j) => {
+        setTimeout(() => {
+           r({
+            code: 200,
+            items: [
+                { name: '新选项 A', id: 'A' },
+                { name: '新选项 B', id: 'B' }
+            ]
+           })
+        }, 1000)
+    })
+}
+
+const currentRequester = ref(fetchOptions)
+const selectConfig = computed(() => [
+    {
+        type: 'select',
+        label: '选择器',
+        key: 'select1',
+        props: { placeholder: '请选择', clearable: true },
+        requester: currentRequester.value,
+        handler: (response: any) => response?.items || []
+    }
+])
+
+function changeRequester() {
+    currentRequester.value = currentRequester.value === fetchOptions ? fetchOptionsNew : fetchOptions
 }
 </script>
 ```
@@ -381,7 +401,7 @@ function fetchOptions() {
                 { name: '选择项三', id: 3 }
             ]
            })
-        }, 2000)
+        }, 1000)
     })
 }
 </script>
@@ -695,7 +715,7 @@ function fetchOptions() {
                 { name: '选择项三', id: 3 }
             ]
            })
-        }, 2000)
+        }, 1000)
     })
 }
 </script>
@@ -1185,8 +1205,38 @@ function fetchOptions() {
                 { name: '选择项三', id: 3 }
             ]
            })
-        }, 2000)
+        }, 1000)
     })
+}
+
+function fetchOptionsNew() {
+    return new Promise((r, j) => {
+        setTimeout(() => {
+           r({
+            code: 200,
+            items: [
+                { name: '新选项 A', id: 'A' },
+                { name: '新选项 B', id: 'B' }
+            ]
+           })
+        }, 1000)
+    })
+}
+
+const currentRequester = ref(fetchOptions)
+const selectConfig = computed(() => [
+    {
+        type: 'select',
+        label: '选择器',
+        key: 'select1',
+        props: { placeholder: '请选择', clearable: true },
+        requester: currentRequester.value,
+        handler: (response: any) => response?.items || []
+    }
+])
+
+function changeRequester() {
+    currentRequester.value = currentRequester.value === fetchOptions ? fetchOptionsNew : fetchOptions
 }
 
 setConfigure('upload', async (file: File, options: UploadRequesterOptions) => {

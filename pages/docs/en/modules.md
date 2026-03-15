@@ -192,34 +192,24 @@ Select field, when there are too many options, a dropdown menu is used to displa
 
 Select also supports dynamic loading of options through the `requester` field.
 
+<el-button @click="changeRequester" type="primary" size="small" style="margin-bottom: 10px">
+    Switch Requester (Current: {{ currentRequester === fetchOptions ? 'Original' : 'New' }})
+</el-button>
+
 <formkit
-    :config="[
-        {
-            type: 'select',
-            label: 'Selector',
-            key: 'select1',
-            props: { placeholder: 'Please select.', clearable: true },
-            requester: fetchOptions,
-            handler: (response: any) => response?.items || []
-        }
-    ]"
+    :config="selectConfig"
     v-model="dataset">
 </formkit>
 
 ::: code-tabs
 @tab Template
 ```vue
+<el-button @click="changeRequester" type="primary" size="small" style="margin-bottom: 10px">
+    Switch Requester (Current: {{ currentRequester === fetchOptions ? 'Original' : 'New' }})
+</el-button>
+
 <formkit
-    :config="[
-        {
-            type: 'select',
-            label: 'Selector',
-            key: 'select1',
-            props: { placeholder: 'Please select.', clearable: true },
-            requester: fetchOptions,
-            handler: (response: any) => response?.items || []
-        }
-    ]"
+    :config="selectConfig"
     v-model="dataset">
 </formkit>
 ```
@@ -245,6 +235,36 @@ function fetchOptions() {
            })
         }, 2000)
     })
+}
+
+function fetchOptionsNew() {
+    return new Promise((r, j) => {
+        setTimeout(() => {
+           r({
+            code: 200,
+            items: [
+                { name: 'New Option A', id: 'A' },
+                { name: 'New Option B', id: 'B' }
+            ]
+           })
+        }, 1000)
+    })
+}
+
+const currentRequester = ref(fetchOptions)
+const selectConfig = computed(() => [
+    {
+        type: 'select',
+        label: 'Select',
+        key: 'select1',
+        props: { placeholder: 'Please select', clearable: true },
+        requester: currentRequester.value,
+        handler: (response: any) => response?.items || []
+    }
+])
+
+function changeRequester() {
+    currentRequester.value = currentRequester.value === fetchOptions ? fetchOptionsNew : fetchOptions
 }
 </script>
 ```
@@ -1195,6 +1215,36 @@ function fetchOptions() {
            })
         }, 2000)
     })
+}
+
+function fetchOptionsNew() {
+    return new Promise((r, j) => {
+        setTimeout(() => {
+           r({
+            code: 200,
+            items: [
+                { name: 'New Option A', id: 'A' },
+                { name: 'New Option B', id: 'B' }
+            ]
+           })
+        }, 1000)
+    })
+}
+
+const currentRequester = ref(fetchOptions)
+const selectConfig = computed(() => [
+    {
+        type: 'select',
+        label: 'Select',
+        key: 'select1',
+        props: { placeholder: 'Please select', clearable: true },
+        requester: currentRequester.value,
+        handler: (response: any) => response?.items || []
+    }
+])
+
+function changeRequester() {
+    currentRequester.value = currentRequester.value === fetchOptions ? fetchOptionsNew : fetchOptions
 }
 
 const options = ref([
