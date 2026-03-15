@@ -64,7 +64,6 @@ import { ConfigInterface, FormKitExposed, ValidSize, FormKitSlots } from 'types/
 const UNIQUE_KEY = ref(uuidv4()),
     slots = useSlots(),
     FormKitRef = ref<InstanceType<typeof ElForm> & FormKitExposed>(),
-	  Stacks: Array<object> = reactive([]),
     emits = defineEmits(["update:modelValue", "update:config", "update", "enter"]);
 
 const ComponentUpdateTrigger = reactive<Record<string, number>>({})
@@ -85,17 +84,16 @@ const props = defineProps({
   }
 })
 
-onMounted(async () => {
-  try {
-    for (const iterator of props.config) {
-      if (iterator?.type && isStandaloneRequester(iterator.type)) continue;
-      if (iterator?.requester) Stacks.push(iterator)
-    }
-    if (Stacks.length > 0) await executeRequestStack()
-  } catch (error) {
-	  console.log(`[_initComponent method]: ${error}`)
-  }
+const requesterConfigs = computed(() => {
+  return Array.isArray(props?.config) ? props.config.filter(item => {
+    const { requester, type } = item as ConfigInterface
+    return !!requester && !isStandaloneRequester(type ?? '')
+  }) : []
 })
+
+watch(requesterConfigs, async (items) => {
+  if (items.length > 0) await executeRequestStack(items)
+}, { deep: true, immediate: true })
 
 const formAttrs = computed(() => {
   const attrs = Object.create(null);
@@ -239,8 +237,8 @@ const getComponentSlotSuffixes = (key: string): string[] => {
   }
 }
 
-async function executeRequestStack() {
-  const runner: IterableIterator<any> = Stacks[Symbol.iterator]()
+async function executeRequestStack(items: any[] = []) {
+  const runner: IterableIterator<any> = items[Symbol.iterator]()
   for (const iterator of runner) {
 	  try {
       const { requester, key, handler } = iterator,
