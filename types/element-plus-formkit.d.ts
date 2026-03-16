@@ -3,6 +3,7 @@ declare module 'element-plus-formkit' {
   import { Component } from 'vue';
   import { ElementPlusFormkitPlugin } from './formkit-types';
   import FormKitComponent from '@/formkit.vue';
+  import UploaderClass from '@/utils/upload.class';
   import * as formkitTypes from './formkit-types';
 
   const ElementPlusFormkit: ElementPlusFormkitPlugin;
@@ -11,6 +12,9 @@ declare module 'element-plus-formkit' {
   
   export const formkit: typeof FormKitComponent;
   export const Upload: Component;
+  export const Address: Component;
+  export const Uploader: typeof UploaderClass;
+  export type Uploader = UploaderClass;
   
   export const setConfigure: (key: string, value: any) => void;
   export const getConfigure: (key: string) => any;
