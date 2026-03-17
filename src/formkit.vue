@@ -299,9 +299,9 @@ defineExpose<FormKitExposed>({
     .el-form-item__content { display: inline-block }
   }
   .formkit-module-loading {
-    position: relative;
-    overflow: hidden;
-    background-color: #f5f5f5;
+    background-image: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 37%, #f0f2f5 63%);
+    background-size: 400% 100%;
+    animation: skeleton-loading 1.6s infinite ease;
     border-radius: 4px;
     color: transparent;
     border: none;
@@ -310,30 +310,11 @@ defineExpose<FormKitExposed>({
     user-select: none;
     width: 100%;
     min-width: 100px;
-    &::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.4),
-        transparent
-      );
-      animation: skeleton-loading 1.5s infinite linear;
-      z-index: 1;
-    }
-    @keyframes skeleton-loading {
-      0% {
-        transform: translateX(-100%);
-      }
-      100% {
-        transform: translateX(100%);
-      }
-    }
+    min-height: 30px;
+  }
+  @keyframes skeleton-loading {
+    0% { background-position: 100% 50% }
+    100% { background-position: 0 50% }
   }
 
   .el-row { row-gap: v-bind("`${props.rows?.rowGap || 5}px`") }
