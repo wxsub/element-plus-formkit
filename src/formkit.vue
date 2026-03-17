@@ -19,7 +19,7 @@
               :class="{'auto-alignment': isAutoAlignment }"
               :prop="conf.key"
               :rules="conf.rules">
-              <!-- <Suspense v-if="conf.type">
+              <Suspense v-if="conf.type">
                 <template #default>
                   <component
                     :is="loader(conf.type)"
@@ -41,8 +41,7 @@
                 <template #fallback>
                   <div class="formkit-module-loading"></div>
                 </template>
-              </Suspense> -->
-              <div class="formkit-module-loading"></div>
+              </Suspense>
               <slot :name="conf.key" :row="conf" :value="modelValue[conf.key]" :size="size" />
               <p v-if="conf.hint" class="item-hint w-full" v-html="conf.hint"/>
             </el-form-item>
