@@ -50,9 +50,7 @@ const onChange = (value: any) => {
 }
 
 watch(() => props.initialValue, (value) => {
-  if (Object.prototype.hasOwnProperty.call(props, 'initialValue')) {
-    searchRemoteMethod(value)
-  }
+  if (value) searchRemoteMethod(value)
 }, { immediate: true })
 </script>
 
