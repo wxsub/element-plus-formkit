@@ -190,6 +190,21 @@ Specify the label of the option node in the data source of the option as the pro
 </formkit>
 ```
 
+## config.span
+The number of columns occupied by the current form item. The default value is 24. Type: `Number`
+
+Formkit will automatically adjust the module width based on the `config.span` value. For example, when `config.span` is 12, the module width is `12/24`.
+
+If `columns` is set, the `config.span` value will default to an integer multiple of `columns`. For example, when `columns` is 2, the `config.span` value is 12, and the module width is `12/24`.
+
+::: warning The number of columns occupied by the current form item cannot exceed 24; otherwise, it will not work.
+:::
+
+## config.labelWidth
+Current form item label width, default value is 120px, type: `String`
+
+By default, FormKit will automatically adjust the label width according to [labelWidth Attribute](/formkit-api.md#labelwidth). This does not conflict with [labelWidth Attribute](/formkit-api.md#labelwidth), as FormKit prioritizes the `config.labelWidth` value.
+
 ## config.events
 
 Event field, used to listen to module events, type: `Object`
