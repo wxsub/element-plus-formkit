@@ -190,6 +190,68 @@ Specify the label of the option node in the data source of the option as the pro
 </formkit>
 ```
 
+## config.hint
+The hint message for the current form field; the default value is empty. Type: `String | HTML String`
+
+<formkit
+    :config="[
+        {
+            type: 'input',
+            label: 'Name',
+            key: 'nameHint',
+            hint: 'This is the form field hint message',
+            props: { placeholder: 'Please enter your name', clearable: true }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+```vue
+<formkit
+    :config="[
+        {
+            type: 'input',
+            label: 'Name',
+            key: 'nameHint',
+            hint: 'This is the form field hint message',
+            props: { placeholder: 'Please enter your name', clearable: true }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+```
+
+## config.disabled
+Whether the current form field is disabled; default value: false; type: `Boolean`
+
+<formkit
+    :config="[
+        {
+            type: 'input',
+            label: 'Name',
+            key: 'nameDisabled',
+            disabled: true,
+            props: { placeholder: 'Please enter your name', clearable: true }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+```vue
+<formkit
+    :config="[
+        {
+            type: 'input',
+            label: 'Name',
+            key: 'nameDisabled',
+            disabled: true,
+            props: { placeholder: 'Please enter your name', clearable: true }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+```
+
 ## config.span
 The number of columns occupied by the current form item. The default value is 24. Type: `Number`
 
@@ -199,6 +261,76 @@ If `columns` is set, the `config.span` value will default to an integer multiple
 
 ::: warning The number of columns occupied by the current form item cannot exceed 24; otherwise, it will not work.
 :::
+
+<formkit
+    :config="[
+        {
+            type: 'input',
+            label: 'Name1',
+            key: 'name1',
+            span: 8,
+            props: { placeholder: 'Please enter your name1', clearable: true }
+        },
+        {
+            type: 'input',
+            label: 'Name2',
+            key: 'name2',
+            span: 8,
+            props: { placeholder: 'Please enter your name2', clearable: true }
+        },
+        {
+            type: 'input',
+            label: 'Name3',
+            key: 'name3',
+            span: 8,
+            props: { placeholder: 'Please enter your name3', clearable: true }
+        },
+        {
+            type: 'input',
+            label: 'Name4',
+            key: 'name4',
+            span: 24,
+            props: { placeholder: 'Please enter your name4', clearable: true }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+```vue
+<formkit
+    :config="[
+        {
+            type: 'input',
+            label: 'Name1',
+            key: 'name1',
+            span: 8,
+            props: { placeholder: 'Please enter your name1', clearable: true }
+        },
+        {
+            type: 'input',
+            label: 'Name2',
+            key: 'name2',
+            span: 8,
+            props: { placeholder: 'Please enter your name2', clearable: true }
+        },
+        {
+            type: 'input',
+            label: 'Name3',
+            key: 'name3',
+            span: 8,
+            props: { placeholder: 'Please enter your name3', clearable: true }
+        },
+        {
+            type: 'input',
+            label: 'Name4',
+            key: 'name4',
+            span: 24,
+            props: { placeholder: 'Please enter your name4', clearable: true }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+```
 
 ## config.labelWidth
 Current form item label width, default value is 120px, type: `String`
