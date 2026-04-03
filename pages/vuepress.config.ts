@@ -1,6 +1,8 @@
 import { viteBundler } from '@vuepress/bundler-vite'
 import { docsearchPlugin } from '@vuepress/plugin-docsearch'
 import { searchPlugin } from '@vuepress/plugin-search'
+import { seoPlugin } from '@vuepress/plugin-seo'
+import { sitemapPlugin } from '@vuepress/plugin-sitemap'
 import { defaultTheme } from '@vuepress/theme-default'
 import { defineUserConfig } from 'vuepress'
 import path from 'path'
@@ -22,6 +24,12 @@ export default defineUserConfig({
     }
   }),
   plugins: [
+    seoPlugin({
+      hostname: 'https://wxsub.github.io'
+    }),
+    sitemapPlugin({
+      hostname: 'https://wxsub.github.io'
+    }),
     algolia.appId && algolia.apiKey && algolia.indexName
       ? docsearchPlugin({
           appId: algolia.appId,
@@ -127,17 +135,19 @@ export default defineUserConfig({
     '/': {
       lang: 'zh-CN',
       title: 'element-plus-formkit',
-      description: '基于 ElementPlus 实现的数据驱动表单组件',
+      description: 'element-plus-formkit 是基于 Vue3 和 ElementPlus 的数据驱动表单框架。通过组合封装与数据流处理，让复杂的表单及校验开发更简单快捷、高性能。',
     },
     '/en/': {
       lang: 'en-US',
       title: 'element-plus-formkit',
-      description: 'Data-driven form component based on ElementPlus implementation',
+      description: 'element-plus-formkit is a data-driven form framework based on Vue3 and ElementPlus. It simplifies complex form validation and development with high performance.',
     },
   },
   base: '/element-plus-formkit/',
   head: [
     ['link', { rel: 'icon', href: 'https://raw.githubusercontent.com/wxsub/element-plus-formkit/refs/heads/main/pages/docs/public/logo.png' }],
-    ['meta', { name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' }]
+    ['meta', { name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' }],
+    ['meta', { name: 'keywords', content: 'formkit, element-plus-formkit, element-plus, element-formkit, vue3 form, element-plus form' }],
+    ['meta', { name: 'author', content: 'wxsub' }]
   ]
 })

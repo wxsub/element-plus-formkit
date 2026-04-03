@@ -1,6 +1,13 @@
 ---
 home: true
-title: Home
+title: ⚡ 基于 Vue3 和 ElementPlus 的表单框架
+head:
+  - - meta
+    - name: keywords
+      content: formkit, element-plus-formkit, element-plus, element-formkit, vue3 form, element-plus form
+  - - meta
+    - name: description
+      content: element-plus-formkit 是基于 Vue3 和 ElementPlus 的数据驱动表单框架。通过组合封装与数据流处理，让复杂的表单及校验开发更简单快捷、高性能。
 heroImage: https://raw.githubusercontent.com/wxsub/element-plus-formkit/refs/heads/main/pages/docs/public/logo.png
 actions:
   - text: 开始
