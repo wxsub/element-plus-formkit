@@ -1,6 +1,13 @@
 ---
 home: true
-title: Home
+title: ⚡ The form framework for Vue3 and ElementPlus
+head:
+  - - meta
+    - name: keywords
+      content: formkit, element-plus-formkit, element-plus, element-formkit, vue3 form, element-plus form
+  - - meta
+    - name: description
+      content: element-plus-formkit is a data-driven form framework based on Vue3 and ElementPlus. It simplifies complex form validation and development with high performance.
 heroImage: https://raw.githubusercontent.com/wxsub/element-plus-formkit/refs/heads/main/pages/docs/public/logo.png
 actions:
   - text: Get Started
