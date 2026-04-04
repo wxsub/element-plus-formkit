@@ -29,7 +29,7 @@
                     :options="conf.options || buckets[conf.key]"
                     v-bind="{ ...conf.props, ...setEvents(conf) }"
                     @change="mutation($event, conf)"
-                    :key="`module-${conf.key}-${ComponentUpdateTrigger[conf.key] || 0}`">
+                    :key="`module-${conf.key}`">
                     <template
                       v-for="slotSuffix in getComponentSlotSuffixes(conf.key)" 
                       #[slotSuffix]="slotProps"
@@ -65,8 +65,6 @@ const UNIQUE_KEY = ref(uuidv4()),
     slots = useSlots(),
     FormKitRef = ref<InstanceType<typeof ElForm> & FormKitExposed>(),
     emits = defineEmits(["update:modelValue", "update:config", "update", "enter"]);
-
-const ComponentUpdateTrigger = reactive<Record<string, number>>({})
 
 const props = defineProps({
   modelValue: { required: true, type: Object },
@@ -152,7 +150,6 @@ const formAttrs = computed(() => {
 watchEffect(() => {
   props?.config.forEach(config => {
     if (config.key) {
-      ComponentUpdateTrigger[config.key] = ComponentUpdateTrigger[config.key] === undefined ? 0 : ComponentUpdateTrigger[config.key] + 1
       fixedPointClearValidate(config)
     }
   })
