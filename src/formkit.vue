@@ -24,7 +24,7 @@
                   <component
                     :is="loader(conf.type)"
                     :ref="`module-${conf.key}`"
-                    :disabled="conf['disabled']"
+                    :disabled="conf.disabled"
                     :modelValue="modelValue[conf.key]"
                     @update:modelValue="onFieldValueUpdate($event, conf.key)"
                     :options="conf.options || buckets[conf.key]"
@@ -32,7 +32,7 @@
                     @change="mutation($event, conf)"
                     :key="`module-${conf.key}`">
                     <template
-                      v-for="slotSuffix in getComponentSlotSuffixes(conf.key)" 
+                      v-for="slotSuffix in slotSuffixMap[conf.key] || []" 
                       #[slotSuffix]="slotProps"
                       :key="`${conf.key}-${slotSuffix}`">
                       <slot :name="`${conf.key}-${slotSuffix}`" v-bind="slotProps" />
@@ -215,28 +215,25 @@ function checkConfigIsVisible({ value, key }: any) {
   return false
 }
 
-const getComponentSlotSuffixes = (key: string): string[] => {
-  try {
-    if (!key || !slots || typeof key !== 'string') return [];
+const slotSuffixMap = computed(() => {
+  const cache: Record<string, string[]> = {},
+    slotMap = slots as unknown as FormKitSlots;
+
+  if (typeof slotMap !== 'object' || slotMap === null) return cache;
+
+  const allSlotNames = Object.keys(slotMap);
+
+  props.config.forEach(conf => {
+    if (conf.key) {
+      const prefix = `${conf.key}-`;
+      cache[conf.key] = allSlotNames
+        .filter(name => name.startsWith(prefix))
+        .map(name => name.slice(prefix.length));
+    }
+  });
   
-    const slotMap = slots as unknown as FormKitSlots
-    if (typeof slotMap !== 'object' || slotMap === null) return [];
-    
-    const allSlotNames = Object.keys(slotMap),
-      slotNamePrefix = `${key}-`;
-
-    if (slotNamePrefix.length <= 1) return [];
-
-    return allSlotNames
-      .filter((slotName): slotName is string => {
-        return typeof slotName === 'string' && slotName.startsWith(slotNamePrefix);
-      })
-      .map(slotName => slotName.slice(slotNamePrefix.length));
-  } catch (error) {
-    console.warn('[FormKit] Failed to retrieve component slot suffix: ', error)
-    return []
-  }
-}
+  return cache;
+});
 
 async function executeRequestStack(items: any[] = []) {
   if (items.length === 0) return;
