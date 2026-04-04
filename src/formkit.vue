@@ -25,7 +25,8 @@
                     :is="loader(conf.type)"
                     :ref="`module-${conf.key}`"
                     :disabled="conf['disabled']"
-                    v-model="modelValue[conf.key]"
+                    :modelValue="modelValue[conf.key]"
+                    @update:modelValue="onFieldValueUpdate($event, conf.key)"
                     :options="conf.options || buckets[conf.key]"
                     v-bind="{ ...conf.props, ...setEvents(conf) }"
                     @change="mutation($event, conf)"
@@ -179,6 +180,9 @@ function loader(type: string) {
 }
 function isStandaloneRequester(type: string) {
   return type === 'address' || type === 'remoteSearchSelect' || type === 'upload'
+}
+function onFieldValueUpdate(val: any, key: string) {
+  emits('update:modelValue', { ...props.modelValue, [key]: val })
 }
 function mutation(event: any, config: ConfigInterface) {
   emits('update', { event, config })
