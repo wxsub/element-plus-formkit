@@ -1,0 +1,1 @@
+import"./use-form-common-props-1bc6ada7-Bm3H0m88.js";import{z as r,u as t}from"./app-Ce4f9jsZ.js";const u=({from:o,replacement:m,scope:a,version:i,ref:p,type:c="API"},e)=>{r(()=>t(e),s=>{},{immediate:!0})};export{u as c};

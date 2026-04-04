@@ -1,0 +1,1 @@
+import{c as r}from"./index-326cb282-C_AgBrz4.js";import{s as i,r as n,a as c}from"./app-Ce4f9jsZ.js";function d(){const t=i(),a=n(0),o=11,u=c(()=>({minWidth:`${Math.max(a.value,o)}px`}));return r(t,()=>{var l,e;a.value=(e=(l=t.value)==null?void 0:l.getBoundingClientRect().width)!=null?e:0}),{calculatorRef:t,calculatorWidth:a,inputStyle:u}}export{d as m};
