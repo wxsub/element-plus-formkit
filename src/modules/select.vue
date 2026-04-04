@@ -29,11 +29,11 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue']);
 
-const $attrs = useAttrs() as { valueKey?: string; labelKey?: string };
+const $attrs = useAttrs() as Partial<InstanceType<typeof ElSelect>['$props']> & { labelKey?: string; };
 
 const _value: any = computed({
     get: () => {
-        const multiple = useAttrs()?.multiple;
+        const multiple = $attrs?.multiple;
         return props.modelValue ?? (multiple ? [] : null);
     },
     set: (value) => {

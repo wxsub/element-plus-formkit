@@ -34,11 +34,11 @@ const _value: any = computed({
 
 const label = computed(() => {
   try {
-    if (Array.isArray(props.options) && props.options.length === 0) return useAttrs().placeholder || (isZhCN ? '请选择' : 'Please select')
-    return getLabelById() || useAttrs().placeholder || (isZhCN ? '请选择' : 'Please select')
+    if (Array.isArray(props.options) && props.options.length === 0) return attrs.placeholder || (isZhCN ? '请选择' : 'Please select')
+    return getLabelById() || attrs.placeholder || (isZhCN ? '请选择' : 'Please select')
   } catch (error) {
     console.warn(error)
-    return useAttrs().placeholder || (isZhCN ? '请选择' : 'Please select')
+    return attrs.placeholder || (isZhCN ? '请选择' : 'Please select')
   }
 })
 

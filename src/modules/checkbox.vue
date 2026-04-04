@@ -18,7 +18,7 @@
 import { ElCheckbox, ElCheckboxGroup, type CheckboxValueType, useGlobalConfig } from 'element-plus'
 import { computed, ref, useAttrs, watchEffect } from 'vue'
 
-type ATTRS_TYPE = { valueKey: string; labelKey: string; }
+type ATTRS_TYPE = Partial<InstanceType<typeof ElCheckboxGroup>['$props']> & { valueKey?: string; labelKey?: string; styles?: any; }
 
 interface OptionItem { [key: string]: any }
 
@@ -46,6 +46,8 @@ let checkAll = ref(false),
 
 const emit = defineEmits(['update:modelValue'])
 
+const globalConfig = useGlobalConfig()
+
 const isShowAllCheck = computed(() => {
   return props.options.length > 0 && props.showAllCheck
 }), label = computed(() => {
@@ -57,7 +59,6 @@ const isShowAllCheck = computed(() => {
   })
   return label
 }), slelectAllText = computed(() => {
-  const globalConfig = useGlobalConfig()
   return globalConfig.value.locale?.name === 'en' ? 'Select All' : '全选'
 }), computedAttrs = computed<ATTRS_TYPE>(() => attrs);
 
