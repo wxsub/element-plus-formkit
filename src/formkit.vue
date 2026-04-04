@@ -58,14 +58,14 @@
 <script setup lang="ts">
 import { modules } from '@/module-registry'
 import { getConfigure } from '@/config'
-import { ElForm, ElRow, ElCol, ElFormItem, ElConfigProvider, ElMessage, type FormItemProp } from 'element-plus'
+import { ElForm, ElRow, ElCol, ElFormItem, ElConfigProvider, type FormItemProp } from 'element-plus'
 import { isObject, isNumber, isArray, isBoolean, isFunction, uuidv4 } from '@/utils/util'
 import { ConfigInterface, FormKitExposed, ValidSize, FormKitSlots } from 'types/formkit-types'
 
 const UNIQUE_KEY = ref(uuidv4()),
     slots = useSlots(),
     FormKitRef = ref<InstanceType<typeof ElForm> & FormKitExposed>(),
-    emits = defineEmits(["update:modelValue", "update:config", "update", "enter"]);
+    emits = defineEmits(["update:modelValue", "update:config", "update", "error"]);
 
 const props = defineProps({
   modelValue: { required: true, type: Object },
@@ -239,20 +239,21 @@ const getComponentSlotSuffixes = (key: string): string[] => {
 }
 
 async function executeRequestStack(items: any[] = []) {
-  const runner: IterableIterator<any> = items[Symbol.iterator]()
-  for (const iterator of runner) {
-	  try {
-      const { requester, key, handler } = iterator,
-        response = Object.prototype.toString.call(requester) === '[object Function]' ? await requester() : await requester;
-      if (isFunction(handler)) {
-        buckets[key] = handler(response)
-      } else {
-        buckets[key] = response || []
-      }
-    } catch (e) {
-      console.log(`FormKit executeRequestStack failed: ${e}`)
-	  }
-  }
+  if (items.length === 0) return;
+  const promises = items.map(async (item) => {
+    const { requester, key, handler } = item;
+    try {
+      const response = Object.prototype.toString.call(requester) === '[object Function]' 
+        ? await requester() 
+        : await requester;
+      buckets[key] = isFunction(handler) ? handler(response) : (response || []);
+    } catch (e: any) {
+      console.error(`[FormKit] Request failed for key "${key}":`, e);
+      buckets[key] = []; // Provide a fallback empty array to prevent UI crash
+      emits('error', { key, error: e, requester });
+    }
+  });
+  await Promise.allSettled(promises);
 }
 function validate(faild?: (invalidFields: any[]) => void) {
   return new Promise(async (resolve, reject) => {
