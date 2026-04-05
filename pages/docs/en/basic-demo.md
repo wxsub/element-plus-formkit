@@ -112,7 +112,7 @@ async function submit() {
     try {
         loading.value = true;
         await new Promise(resolve => setTimeout(resolve, 3000));
-        await FormKitRef.value.validate(true);
+        await FormKitRef.value.validate();
     } finally {
         loading.value = false;
     }
@@ -219,7 +219,7 @@ async function submit() {
     try {
         loading.value = true;
         await new Promise(resolve => setTimeout(resolve, 3000));
-        await FormKitRef.value.validate(true);
+        await FormKitRef.value.validate();
     } finally {
         loading.value = false;
     }

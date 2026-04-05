@@ -1,4 +1,4 @@
-import { ConfigProviderProps, type FormItemProp, FormItemContext } from 'element-plus';
+import { ConfigProviderProps, type FormItemProp, FormItemContext, FormInstance } from 'element-plus';
 import type { Component, Slot } from 'vue';
 
 export type ValidSize = '' | 'small' | 'default' | 'large'
@@ -35,8 +35,8 @@ export interface ConfigInterface {
 }
 
 export interface FormKitExposed {
-  validate: (faild?: (invalidFields: any[]) => void) => Promise<any>;
-  clearValidate: () => void;
+  validate: FormInstance['validate'];
+  clearValidate: FormInstance['clearValidate'];
   buckets: Record<string, any>;
   resetFields: (props?: FormItemProp | FormItemProp[] | undefined) => void;
   validateField: (key: string) => Promise<any>;

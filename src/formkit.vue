@@ -252,30 +252,10 @@ async function executeRequestStack(items: any[] = []) {
   });
   await Promise.allSettled(promises);
 }
-function validate(faild?: (invalidFields: any[]) => void) {
-  return new Promise(async (resolve, reject) => {
-    try {
-	    if (FormKitRef.value) {
-        await FormKitRef.value?.validate((valid: boolean, invalidFields) => {
-          if (valid) {
-            resolve(props.modelValue)
-          } else {
-            if (faild) faild(Array.isArray(invalidFields) ? invalidFields : [])
-            reject(invalidFields)
-          }
-        })
-      } else {
-		    console.warn("Component loading is not complete!")
-      }
-    } catch (e: any) {
-      reject(e)
-    }
-  })
-}
 
 defineExpose<FormKitExposed>({
-  validate,
-  clearValidate: () => FormKitRef.value?.clearValidate(),
+  validate: (...args) => FormKitRef.value!.validate(...args),
+  clearValidate: (...args) => FormKitRef.value!.clearValidate(...args),
   buckets,
   validateField: async (key: string) => {
     const result = await FormKitRef.value?.validateField(key)

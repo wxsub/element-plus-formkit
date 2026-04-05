@@ -117,7 +117,7 @@ const FormKitRef = ref<Instance>()
 async function validate() {
     try {
         validateCompleted.value = true;
-        await FormKitRef.value.validate(true);
+        await FormKitRef.value.validate();
     } finally {
         validateCompleted.value = false;
     }
@@ -157,7 +157,7 @@ const FormKitRef = ref<Instance>()
 async function validate() {
     try {
         validateCompleted.value = true;
-        await FormKitRef.value.validate(true);
+        await FormKitRef.value.validate();
     } finally {
         validateCompleted.value = false;
     }
