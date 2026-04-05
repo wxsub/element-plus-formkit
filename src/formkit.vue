@@ -61,6 +61,7 @@ import { getConfigure } from '@/config'
 import { ElForm, ElRow, ElCol, ElFormItem, ElConfigProvider, type FormItemProp } from 'element-plus'
 import { isObject, isNumber, isArray, isBoolean, isFunction, uuidv4 } from '@/utils/util'
 import { ConfigInterface, FormKitExposed, ValidSize, FormKitSlots } from 'types/formkit-types'
+import { h } from 'vue'
 
 const UNIQUE_KEY = ref(uuidv4()),
     slots = useSlots(),
@@ -164,18 +165,21 @@ function loader(type: string) {
     if (module) {
       return module;
     } else {
-      return defineAsyncComponent(async () => {
-        return {
-          template: `<p>Unable to find module: ${String(type)}</p>`
-        };
-      });
-    }
-  } catch (e) {
-    return defineAsyncComponent(async () => {
       return {
-        template: `<h5>${String(type)} load faild!</h5><p>reson: ${e}</p>`
+        setup() {
+          return () => h('p', `Unable to find module: ${String(type)}`);
+        }
+      };
+    }
+  } catch (e: any) {
+    return {
+      setup() {
+        return () => h('div', [
+          h('h5', `${String(type)} load failed!`),
+          h('p', `reason: ${e.message || String(e)}`)
+        ]);
       }
-    })
+    };
   }
 }
 function isStandaloneRequester(type: string) {
