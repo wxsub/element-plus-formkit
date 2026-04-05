@@ -297,15 +297,15 @@ Size of the form item.
 </formkit>
 ```
 
-## rows
-Table row item settings, type: `Object`
+## gap
+Form item gap settings, type: `Object`
 
-### rows.rowGap
+### gap.row
 Horizontal spacing between form items. Type: `Number`
 
-Default: 5
+Default: 12
 
-### rows.columnGap
+### gap.col
 Vertical spacing between form items. Type: `Number`
 
 Default: 20
@@ -332,9 +332,9 @@ Default: 20
         }
     ]"
     :columns="2"
-    :rows="{
-        rowGap: 50,
-        columnGap: 50
+    :gap="{
+        row: 100,
+        col: 50
     }"
     v-model="dataset">
 </formkit>
@@ -362,9 +362,9 @@ Default: 20
         }
     ]"
     :columns="2"
-    :rows="{
-        rowGap: 50,
-        columnGap: 50
+    :gap="{
+        row: 100,
+        col: 50
     }"
     v-model="dataset">
 </formkit>

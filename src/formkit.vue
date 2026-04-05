@@ -7,7 +7,7 @@
         :key="UNIQUE_KEY"
         v-bind="formAttrs"
         :label-position="labelPosition">
-        <el-row v-bind="setRowAttrs">
+        <el-row v-bind="{ gutter: props.gap?.col || 10 }">
           <slot name="prepend" />
           <el-col
             v-for="conf in configs"
@@ -76,7 +76,7 @@ const props = defineProps({
   labelPosition: { type: String, default: 'top' }, // Form Input Alignment Rules
   labelWidth: { type: Number, default: 120 }, // Form item title width (only works when labelPosition is left, right)
   columns: { type: [Number, String], default: 1 }, // How many columns per row
-  rows: { type: Object, default: () => null }, // Form row item settings
+  gap: { type: Object, default: () => null }, // Form item gap settings
   size: {
     type: String as () => ValidSize,
     default: 'default',
@@ -101,9 +101,6 @@ const formAttrs = computed(() => {
   if (props.disabled) attrs.disabled = props.disabled;
   if (props.rules && Object.keys(props.rules).length > 0) attrs.rules = props.rules;
   return attrs
-}), setRowAttrs = computed(() => {
-  const { columnGap } = props.rows || {}
-  return { gutter: columnGap || 10 }
 }), isAutoAlignment = computed(() => {
   return props.columns === 'auto'
 }), setSpanAttrs = computed(() => {
@@ -301,7 +298,7 @@ defineExpose<FormKitExposed>({
   }
 
   :global {
-    .el-row { row-gap: v-bind("`${props.rows?.rowGap || 12}px`") }
+    .el-row { row-gap: v-bind("`${props.gap?.row || 12}px`") }
     .el-form-item { margin: 0; width: 100% }
     .el-form--label-top .el-form-item__label { padding: 0 }
     .el-form-item--default { margin-bottom: 0 }
