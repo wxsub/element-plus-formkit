@@ -1,5 +1,5 @@
 <template>
-  <div :class="[{ 'form-label-auto': isAutoAlignment }]" class="element-plus-formkit">
+  <div :class="[isAutoAlignment ? $style['form-label-auto'] : '', $style['element-plus-formkit']]">
     <el-config-provider :locale="getConfigure('lang')" :size="size">
       <el-form
         ref="FormKitRef"
@@ -16,7 +16,7 @@
             <el-form-item
               :label="conf.label"
               :label-width="isAutoAlignment ? '0px' : (conf.labelWidth || `${labelWidth}px`)"
-              :class="{'auto-alignment': isAutoAlignment }"
+              :class="isAutoAlignment ? $style['auto-alignment'] : ''"
               :prop="conf.key"
               :rules="conf.rules">
               <Suspense v-if="conf.type">
@@ -40,11 +40,11 @@
                   </component>
                 </template>
                 <template #fallback>
-                  <div class="formkit-module-loading"></div>
+                  <div :class="$style['formkit-module-loading']"></div>
                 </template>
               </Suspense>
               <slot :name="conf.key" :row="conf" :value="modelValue[conf.key]" :size="size" />
-              <p v-if="conf.hint" class="item-hint w-full" v-html="conf.hint"/>
+              <p v-if="conf.hint" :class="[$style['item-hint'], 'w-full']" v-html="conf.hint"/>
             </el-form-item>
           </el-col>
           <slot name="append" />
@@ -272,14 +272,14 @@ defineExpose<FormKitExposed>({
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" module>
 .element-plus-formkit {
   .item-hint { margin: 0; color: #888888; font-weight: 300; font-size: 12px; line-height: 24px }
   .formKit-list-item { display: inline-block; width: 100% }
   .auto-alignment { margin-bottom: 0 }
   .form-kit-row {
     flex-wrap: wrap;
-    .el-form-item__content { display: inline-block }
+    :global(.el-form-item__content) { display: inline-block }
   }
   .formkit-module-loading {
     background-image: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 37%, #f0f2f5 63%);
@@ -300,10 +300,12 @@ defineExpose<FormKitExposed>({
     100% { background-position: 0 50% }
   }
 
-  .el-row { row-gap: v-bind("`${props.rows?.rowGap || 5}px`") }
-  .el-form-item { margin: 0; width: 100% }
-  .el-form--label-top .el-form-item__label { padding: 0 }
-  .el-form-item--default { margin-bottom: 0 }
+  :global {
+    .el-row { row-gap: v-bind("`${props.rows?.rowGap || 12}px`") }
+    .el-form-item { margin: 0; width: 100% }
+    .el-form--label-top .el-form-item__label { padding: 0 }
+    .el-form-item--default { margin-bottom: 0 }
+  }
 }
 </style>
 
