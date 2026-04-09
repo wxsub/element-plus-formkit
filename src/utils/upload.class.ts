@@ -36,8 +36,18 @@ class FileUploader {
   }
 
   isValidFileType(file: File, typePatterns: string): boolean {
-    const Types = typePatterns.split(', ') || []
-    return Types.some((pattern: string) => (new RegExp(pattern)).test(file.type))
+    const types = typePatterns?.toLowerCase().match(/[^,\s]+/g)
+    if (!types?.length) return true
+
+    const fileName = file?.name?.toLowerCase() ?? ''
+    const fileType = file?.type?.toLowerCase() ?? ''
+
+    return types.some(pattern => {
+      if (pattern.startsWith('.')) return fileName.endsWith(pattern)
+      if (pattern.endsWith('/*')) return fileType.startsWith(pattern.slice(0, -2))
+      if (fileType === pattern) return true
+      try { return new RegExp(pattern, 'i').test(fileType) } catch { return false }
+    })
   }
 
   async action(file: File): Promise<void> {
