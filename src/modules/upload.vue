@@ -143,15 +143,21 @@ function autoCalcSize(ratio: number = 2) {
     const calc = Math.round(Math.min(props.width, props.height) / ratio);
     return calc > 5 ? calc : 12;
 }
+
+const uploadStyle = computed(() => ({
+    '--upload-width': `${props.width}px`,
+    '--upload-height': `${props.height}px`,
+    '--upload-font-size': `${autoCalcSize(6.2)}px`
+}))
 </script>
 
 <template>
-    <div class="formkit-module-upload">
-        <div v-for="(it, index) in fileBucket" :key="index" class="uploadPrepare">
-            <div class="warning" v-if="it.status === -1">
+    <div :class="$style['formkit-module-upload']" :style="uploadStyle">
+        <div v-for="(it, index) in fileBucket" :key="index" :class="$style.uploadPrepare">
+            <div :class="$style.warning" v-if="it.status === -1">
                 <el-icon :size="autoCalcSize(2)" class="text-red"><WarningFilled /></el-icon>
             </div>
-            <div class="warning" v-else-if="it.status === -2">
+            <div :class="$style.warning" v-else-if="it.status === -2">
                 <el-icon :size="autoCalcSize(2.1)" class="text-warning"><FolderDelete /></el-icon>
                 <p>文件类型不合法</p>
             </div>
@@ -167,29 +173,29 @@ function autoCalcSize(ratio: number = 2) {
                         :initial-index="4"
                         fit="cover">
                         <template #placeholder>
-                            <div class="image-slot">Loading<span class="dot">...</span></div>
+                            <div :class="$style['image-slot']">Loading<span :class="$style.dot">...</span></div>
                         </template>
                     </el-image>
-                    <div class="uploadFolder w-full h-full" v-else @click="windowOpen(it.path || it.temporaryPath)">
+                    <div class="w-full h-full" :class="$style.uploadFolder" v-else @click="windowOpen(it.path || it.temporaryPath)">
                         <el-icon :size="autoCalcSize(3)"><Folder /></el-icon>
-                        <div class="w-full folder-box ellipsis-2">{{ getFileName(it.file || it.path) }}</div>
+                        <div class="w-full ellipsis-2" :class="$style['folder-box']">{{ getFileName(it.file || it.path) }}</div>
                     </div>
                 </div>
-                <div class="progress" v-if="it.status === 0 && it.progress < 100">
+                <div :class="$style.progress" v-if="it.status === 0 && it.progress < 100">
                     <el-progress type="circle" :percentage="it.progress || 0" :width="autoCalcSize(2)" :stroke-width="3">
                         <template #default="{ percentage }">
-                            <span class="percentage-value">{{ percentage }}%</span>
+                            <span :class="$style['percentage-value']">{{ percentage }}%</span>
                         </template>
                     </el-progress>
                 </div>
             </template>
-            <div class="close" @click="removeFile(index)">
+            <div :class="$style.close" @click="removeFile(index)">
                 <el-button circle size="small" plain>
                     <el-icon><Close /></el-icon>
                 </el-button>
             </div>
         </div>
-        <div class="uploadContanier" v-if="!disabled">
+        <div :class="$style.uploadContanier" v-if="!disabled">
             <input
                 type="file"
                 :id="uuid"
@@ -200,22 +206,22 @@ function autoCalcSize(ratio: number = 2) {
             <label :for="uuid" v-if="isCustom">
                 <slot />
             </label>
-            <label :for="uuid" class="label" v-else>
+            <label :for="uuid" :class="$style.label" v-else>
                 <el-icon><Plus /></el-icon>
             </label>
         </div>
     </div>
 </template>
 
-<style scoped lang="scss">
+<style module lang="scss">
 .formkit-module-upload {
     display: inline-flex;
     flex-wrap: wrap;
     gap: 10px;
     .uploadPrepare {
         position: relative;
-        width: v-bind("`${width}px`");
-        height: v-bind("`${height}px`");
+        width: var(--upload-width);
+        height: var(--upload-height);
         border: 1px solid #e4e7ec;
         border-radius: 6px;
         .warning {
@@ -247,11 +253,11 @@ function autoCalcSize(ratio: number = 2) {
             align-items: center;
             justify-content: center;
             background: rgba(0, 0, 0, .78);
-            ::v-deep(.el-progress__text) {
+            :global(.el-progress__text) {
                 min-width: 100%;
             }
             .percentage-value {
-                font-size: v-bind("`${autoCalcSize(6.2)}px`");
+                font-size: var(--upload-font-size);
                 color: white;
             }
         }
@@ -271,8 +277,8 @@ function autoCalcSize(ratio: number = 2) {
             cursor: pointer;
             position: relative;
             overflow: hidden;
-            width: v-bind("`${width}px`");
-            height: v-bind("`${height}px`");
+            width: var(--upload-width);
+            height: var(--upload-height);
             background: #FAFAFA;
             border: 1px dashed #cdd0d6;
             border-radius: 6px;

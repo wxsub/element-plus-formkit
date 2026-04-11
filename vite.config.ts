@@ -19,6 +19,9 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       }
     },
     css: {
+      modules: {
+        generateScopedName: '[hash:5]'
+      },
       preprocessorOptions: {
         scss: {
           javascriptEnabled: true,

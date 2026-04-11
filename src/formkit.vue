@@ -7,7 +7,7 @@
         :key="UNIQUE_KEY"
         v-bind="formAttrs"
         :label-position="labelPosition">
-        <el-row v-bind="{ gutter: props.gap?.col || 10 }">
+        <el-row :gutter="props.gap?.col || 10" :style="{ rowGap: `${props.gap?.row || 12}px` }">
           <slot name="prepend" />
           <el-col
             v-for="conf in configs"
@@ -44,7 +44,7 @@
                 </template>
               </Suspense>
               <slot :name="conf.key" :row="conf" :value="modelValue[conf.key]" :size="size" />
-              <p v-if="conf.hint" :class="[$style['item-hint'], 'w-full']" v-html="conf.hint"/>
+              <p v-if="conf.hint" :class="$style['item-hint']" v-html="conf.hint"/>
             </el-form-item>
           </el-col>
           <slot name="append" />
@@ -271,7 +271,7 @@ defineExpose<FormKitExposed>({
 
 <style lang="scss" module>
 .element-plus-formkit {
-  .item-hint { margin: 0; color: #888888; font-weight: 300; font-size: 12px; line-height: 24px }
+  .item-hint { width: 100%; margin: 0; color: #888888; font-weight: 300; font-size: 12px; line-height: 24px }
   .formKit-list-item { display: inline-block; width: 100% }
   .auto-alignment { margin-bottom: 0 }
   .form-kit-row {
@@ -298,7 +298,6 @@ defineExpose<FormKitExposed>({
   }
 
   :global {
-    .el-row { row-gap: v-bind("`${props.gap?.row || 12}px`") }
     .el-form-item { margin: 0; width: 100% }
     .el-form--label-top .el-form-item__label { padding: 0 }
     .el-form-item--default { margin-bottom: 0 }

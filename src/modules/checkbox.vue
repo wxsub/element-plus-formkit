@@ -1,5 +1,5 @@
 <template>
-  <div class="formKit-module-checkbox">
+  <div :class="$style['formkit-module-checkbox']">
     <el-checkbox v-if="isShowAllCheck" :indeterminate="isIndeterminate" v-model="checkAll" @change="checkAllChange">{{ slelectAllText }}</el-checkbox>
     <el-checkbox-group v-if="options.length > 0" v-model="FormData">
       <el-checkbox
@@ -76,8 +76,8 @@ function checkIndeterminate(value?: any) {
 watchEffect(() => checkIndeterminate(props.modelValue))
 </script>
 
-<style lang="scss">
-.formKit-module-checkbox {
-  .el-checkbox-group, .el-checkbox { height: 24px; line-height: 24px }
+<style module lang="scss">
+.formkit-module-checkbox {
+  :global(.el-checkbox-group), :global(.el-checkbox) { height: 24px; line-height: 24px }
 }
-</style>  
+</style>

@@ -1,5 +1,5 @@
 <template>
-    <el-select v-model="_value" v-bind="$attrs" class="formkit-module-select" @change="onChange" ref="Ref">
+    <el-select v-model="_value" v-bind="$attrs" :class="$style['formkit-module-select']" @change="onChange" ref="Ref">
         <el-option
                 v-for="it in options"
                 :key="it[$attrs?.valueKey || 'id']"
@@ -48,7 +48,7 @@ async function onChange(value: any) {
 }
 </script>
 
-<style scoped lang="scss">
+<style module lang="scss">
 .formkit-module-select {
     min-width: 50px;
 }
