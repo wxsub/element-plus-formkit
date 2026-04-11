@@ -23,7 +23,7 @@
     "vuepress": "2.0.0-rc.20"
   },
   "dependencies": {
-    "element-plus": "^2.10.2",
+    "element-plus": "^2.13.3",
     "element-plus-formkit": "link:..\\.packages"
   }
 }
