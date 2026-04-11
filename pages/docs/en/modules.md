@@ -103,6 +103,173 @@ Input field
 [Native Element Plus Input API](https://element-plus.org/zh-CN/component/input.html#api) Please write in the props field.
 :::
 
+## inputTag
+
+Input tag box; InputTag allows users to add content as a tag
+
+<formkit
+    :config="[
+        {
+            type: 'inputTag',
+            label: 'input Tag',
+            key: 'inputTag',
+            props: {
+                placeholder: 'Please enter tags',
+                clearable: true,
+                'collapse-tags': true,
+                'collapse-tags-tooltip': true,
+                'max-collapse-tags': 2
+            }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+<p v-if="dataset.inputTag">output: {{ dataset.inputTag }}</p>
+
+::: tip
+[Native Element Plus ElInputTag API](https://element-plus.org/en-US/component/input-tag#api), Please write in the props field.
+:::
+
+::: warning
+inputTag requires element-plus version 2.13.3 or higher.
+:::
+
+```vue
+<formkit
+    :config="[
+        {
+            type: 'inputTag',
+            label: 'input Tag',
+            key: 'inputTag',
+            props: {
+                placeholder: 'Please enter tags',
+                clearable: true,
+                'collapse-tags': true,
+                'collapse-tags-tooltip': true,
+                'max-collapse-tags': 2
+            }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+<p v-if="dataset.inputTag">output: {{ dataset.inputTag }}</p>
+```
+
+## mention
+Used to mention a person or thing in the input.
+
+**Props特有属性**
+
+| Name | Type | Description | Default
+| -------- | :----- | :----: | :----: |
+| valueKey | String | The key name that uniquely identifies the value; required when the bound value is an object type | id
+| labelKey | String | Specifies the option label as the value of a property on the option object | name
+| disabled | Boolean | Whether to disable | false
+
+<formkit
+    :config="[
+        {
+            type: 'mention',
+            label: 'mention',
+            key: 'mention',
+            props: { placeholder: 'Please enter', clearable: true, type: 'textarea', rows: 4 },
+            hint: 'Input @ to mention a person or thing in the input',
+            events: {
+                'search': (event) => {
+                    console.log('search event:', event);
+                },
+                'select': (event) => {
+                    console.log('select event:', event);
+                },
+                'whole-remove': (event) => {
+                    console.log('whole-remove event:', event);
+                }
+            },
+            options: [
+                { name: 'Option 1', id: 1 },
+                { name: 'Option 2', id: 2 },
+                { name: 'Option 3', id: 3 }
+            ]
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+<p v-if="dataset.mention">output: {{ dataset.mention }}</p>
+
+```vue
+<formkit
+    :config="[
+        {
+            type: 'mention',
+            label: 'mention',
+            key: 'mention',
+            props: { placeholder: 'Please enter', clearable: true, type: 'textarea', rows: 4 },
+            hint: 'Input @ to mention a person or thing in the input',
+            events: {
+                'search': (event) => {
+                    console.log('search event:', event);
+                },
+                'select': (event) => {
+                    console.log('select event:', event);
+                },
+                'whole-remove': (event) => {
+                    console.log('whole-remove event:', event);
+                }
+            },
+            options: [
+                { name: 'Option 1', id: 1 },
+                { name: 'Option 2', id: 2 },
+                { name: 'Option 3', id: 3 }
+            ]
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+<p v-if="dataset.mention">output: {{ dataset.mention }}</p>
+```
+
+The `mention` field can also be used to dynamically retrieve options
+
+<formkit
+    :config="[
+        {
+            type: 'mention',
+            label: 'mention',
+            key: 'mention1',
+            props: { placeholder: 'Please enter', clearable: true },
+            hint: 'Input @ to mention a person or thing in the input',
+            requester: fetchOptions,
+            handler: (response: any) => response?.items || []
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+```vue
+<formkit
+    :config="[
+        {
+            type: 'mention',
+            label: 'mention',
+            key: 'mention1',
+            props: { placeholder: 'Please enter', clearable: true },
+            hint: 'Input @ to mention a person or thing in the input',
+            requester: fetchOptions,
+            handler: (response: any) => response?.items || []
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+```
+
+::: tip
+[Native Element Plus ElMention API](https://element-plus.org/en-US/component/mention#api) Please write it in the `props` field.
+:::
+
 ## switch
 
 Indicates switching between two mutually exclusive states, commonly used to trigger “on/off” functions.

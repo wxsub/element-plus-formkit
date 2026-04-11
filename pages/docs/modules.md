@@ -101,6 +101,173 @@ const options = ref([
 [原生ELinput API](https://element-plus.org/zh-CN/component/input.html#api)请写入props内
 :::
 
+## inputTag 输入标签框
+
+输入标签框，InputTag 允许用户添加内容作为标签
+
+<formkit
+    :config="[
+        {
+            type: 'inputTag',
+            label: '标签',
+            key: 'inputTag',
+            props: {
+                placeholder: '请输入标签',
+                clearable: true,
+                'collapse-tags': true,
+                'collapse-tags-tooltip': true,
+                'max-collapse-tags': 2
+            }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+<p v-if="dataset.inputTag">output: {{ dataset.inputTag }}</p>
+
+::: tip
+[原生ELinputTag API](https://element-plus.org/zh-CN/component/input-tag#%E5%B1%9E%E6%80%A7)请写入props内
+:::
+
+::: warning
+inputTag组件需要您本地的element-plus版本为2.13.3或以上版本
+:::
+
+```vue
+<formkit
+    :config="[
+        {
+            type: 'inputTag',
+            label: '标签',
+            key: 'inputTag',
+            props: {
+                placeholder: '请输入标签',
+                clearable: true,
+                'collapse-tags': true,
+                'collapse-tags-tooltip': true,
+                'max-collapse-tags': 2
+            }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+<p v-if="dataset.inputTag">output: {{ dataset.inputTag }}</p>
+```
+
+## mention 提及
+用于在输入中提及某人或某事。
+
+**Props特有属性**
+
+| 名称 | 类型 | 说明 | 默认
+| -------- | :----- | :----: | :----: |
+| valueKey | String | 作为 value 唯一标识的键名，绑定值为对象类型时必填 | id
+| labelKey | String | 指定选项标签为选项对象的某个属性值 | name
+| disabled | Boolean | 是否禁用 | false
+
+<formkit
+    :config="[
+        {
+            type: 'mention',
+            label: '提及',
+            key: 'mention',
+            props: { placeholder: '请输入', clearable: true, type: 'textarea', rows: 4 },
+            hint: '输入@提及某人或某事',
+            events: {
+                'search': (event) => {
+                    console.log('search event:', event);
+                },
+                'select': (event) => {
+                    console.log('select event:', event);
+                },
+                'whole-remove': (event) => {
+                    console.log('whole-remove event:', event);
+                }
+            },
+            options: [
+                { name: '选项一', id: 1 },
+                { name: '选项二', id: 2 },
+                { name: '选项三', id: 3 }
+            ]
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+<p v-if="dataset.mention">output: {{ dataset.mention }}</p>
+
+```vue
+<formkit
+    :config="[
+        {
+            type: 'mention',
+            label: '提及',
+            key: 'mention',
+            props: { placeholder: '请输入', clearable: true, type: 'textarea', rows: 4 },
+            hint: '输入@提及某人或某事',
+            events: {
+                'search': (event) => {
+                    console.log('search event:', event);
+                },
+                'select': (event) => {
+                    console.log('select event:', event);
+                },
+                'whole-remove': (event) => {
+                    console.log('whole-remove event:', event);
+                }
+            },
+            options: [
+                { name: '选项一', id: 1 },
+                { name: '选项二', id: 2 },
+                { name: '选项三', id: 3 }
+            ]
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+<p v-if="dataset.mention">output: {{ dataset.mention }}</p>
+```
+
+mention也可通过`requester`字段用于动态获取options
+
+<formkit
+    :config="[
+        {
+            type: 'mention',
+            label: '提及',
+            key: 'mention1',
+            props: { placeholder: '请输入', clearable: true },
+            hint: '输入@提及某人或某事',
+            requester: fetchOptions,
+            handler: (response: any) => response?.items || []
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+```vue
+<formkit
+    :config="[
+        {
+            type: 'mention',
+            label: '提及',
+            key: 'mention1',
+            props: { placeholder: '请输入', clearable: true },
+            hint: '输入@提及某人或某事',
+            requester: fetchOptions,
+            handler: (response: any) => response?.items || []
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+```
+
+::: tip
+[原生ElMention API](https://element-plus.org/zh-CN/component/mention#api)请写入props内
+:::
+
 ## switch 开关
 
 表示两种相互对立的状态间的切换，多用于触发「开/关」。

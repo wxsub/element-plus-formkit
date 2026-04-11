@@ -17,6 +17,7 @@ export const Modules: Record<string, Component> = {
   popover: defineAsyncComponent(() => import('./modules/popover.vue')),
   inputNumber: defineAsyncComponent(() => import('./modules/inputNumber.vue')),
   upload: defineAsyncComponent(() => import('./modules/upload.vue')),
+  mention: defineAsyncComponent(() => import('./modules/mention.vue')),
   
   input: asyncElementPlus('ElInput'),
   inputTag: asyncElementPlus('ElInputTag'),
