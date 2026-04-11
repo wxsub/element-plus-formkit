@@ -16,6 +16,14 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'change']), attrs = useAttrs();
 
+const visible = ref(false)
+
+const handleCascaderChange = () => {
+  if (cascaderPanelAttrs.value?.multiple === false) {
+    visible.value = false
+  }
+}
+
 const cascaderPanelAttrs = computed(() => {
   return Object.assign(attrs.props as Record<string, any> || {}, {
     label: props.labelKey,
@@ -62,37 +70,45 @@ const getLabelById = (): string => {
     .map(opt => opt[labelKey] as string);
 
   return matchLabels.length 
-    ? `${matchLabels.join(' | ')}${matchLabels.length > 5 ? ` +${matchLabels.length}` : ''}` 
+    ? `${matchLabels.join(' ｜ ')}${matchLabels.length > 5 ? ` +${matchLabels.length}` : ''}` 
     : '';
 }
 </script>
 
 <template>
-  <el-popover trigger="click" :disabled="loading" v-bind="$attrs" :popper-style="{ padding: 0 }" width="auto">
+  <el-popover trigger="click" :disabled="loading" v-bind="$attrs" :popper-style="{ padding: 0 }" width="auto" v-model:visible="visible">
     <div>
       <el-empty :image-size="60" v-if="options.length === 0"></el-empty>
-      <el-cascader-panel :options="options" :props="cascaderPanelAttrs" v-model="_value" v-else />
+      <el-cascader-panel :options="options" :props="cascaderPanelAttrs" v-model="_value" @change="handleCascaderChange" v-else />
     </div>
     <template #reference>
-      <span :class="{ 'module-popover-active': _value }" class="module-popover-context">
-        <span v-if="loading" class="module-popover-loading">
+      <span :class="[{ [$style['module-popover-active']]: _value }, $style['module-popover-context']]">
+        <span v-if="loading" :class="$style['module-popover-loading']">
           {{ isZhCN ? '正在加载' : 'Loading...' }} <i class="el-icon-loading" />
         </span>
         <template v-else>
           <span class="ellipsis">{{ label }}</span>
-          <el-icon><ArrowDown /></el-icon>
+          <el-icon :class="[$style['module-popover-icon'], { [$style['is-reverse']]: visible }]"><ArrowDown /></el-icon>
         </template>
       </span>
     </template>
   </el-popover>
 </template>
 
-<style lang="scss">
+<style lang="scss" module>
 .module-popover-context {
   display: inline-flex;
   cursor: pointer;
   align-items: center;
   gap: 5px;
+}
+
+.module-popover-icon {
+  transition: transform 0.3s;
+}
+
+.is-reverse {
+  transform: rotate(180deg);
 }
 
 .module-popover-active {
