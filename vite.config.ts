@@ -25,7 +25,8 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       preprocessorOptions: {
         scss: {
           javascriptEnabled: true,
-          additionalData: `@use "@/styles/variables.scss" as *;`
+          additionalData: `@use "@/styles/variables.scss" as *;`,
+          silenceDeprecations: ['legacy-js-api']
         }
       },
       postcss: {
