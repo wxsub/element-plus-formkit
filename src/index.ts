@@ -2,6 +2,7 @@ import formkit from '@/formkit.vue';
 import Upload from '@/modules/upload.vue';
 import Uploader from '@/utils/upload.class';
 import Address from '@/modules/address.vue';
+import Popover from '@/modules/popover.vue';
 
 import { setConfigure, getConfigure, type configType } from '@/config';
 import { modules, registerModule, type CustomModuleRegistry } from '@/module-registry';
@@ -25,6 +26,6 @@ const pluginObject: ElementPlusFormkitPlugin = {
 
 export { pluginObject }
 
-export { Upload, Address, Uploader }
+export { Upload, Address, Uploader, Popover }
 
 export default formkit;
