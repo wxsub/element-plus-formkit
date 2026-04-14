@@ -6,12 +6,17 @@ import { sitemapPlugin } from '@vuepress/plugin-sitemap'
 import { defaultTheme } from '@vuepress/theme-default'
 import { defineUserConfig } from 'vuepress'
 import path from 'path'
+import fs from 'fs'
 
 const algolia = {
   appId: process.env.ALGOLIA_APP_ID,
   apiKey: process.env.ALGOLIA_API_KEY,
   indexName: process.env.ALGOLIA_INDEX_NAME
 }
+
+const pkgPath = path.resolve(__dirname, '../package.json')
+const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'))
+const version = pkg.version
 
 export default defineUserConfig({
   bundler: viteBundler({
@@ -55,6 +60,12 @@ export default defineUserConfig({
         selectLanguageName: '中文',
         selectLanguageText: '中文',
         selectLanguageAriaLabel: '中文',
+        navbar: [
+          {
+            text: `v${version}`,
+            link: 'https://github.com/wxsub/element-plus-formkit/releases'
+          }
+        ],
         sidebar: [
           {
             text: '快速开始',
@@ -94,6 +105,12 @@ export default defineUserConfig({
         selectLanguageName: 'English',
         selectLanguageText: 'English',
         selectLanguageAriaLabel: 'English',
+        navbar: [
+          {
+            text: `v${version}`,
+            link: 'https://github.com/wxsub/element-plus-formkit/releases',
+          },
+        ],
         sidebar: [
           {
             text: 'Quick Start',
