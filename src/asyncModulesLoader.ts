@@ -19,6 +19,7 @@ export const Modules: Record<string, Component> = {
   upload: defineAsyncComponent(() => import('./modules/upload.vue')),
   mention: defineAsyncComponent(() => import('./modules/mention.vue')),
   
+  autocomplete: asyncElementPlus('ElAutocomplete'),
   input: asyncElementPlus('ElInput'),
   inputTag: asyncElementPlus('ElInputTag'),
   selectV2: asyncElementPlus('ElSelectV2'),
