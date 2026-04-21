@@ -47,7 +47,7 @@
               <p v-if="conf.hint" :class="$style['item-hint']" v-html="conf.hint"/>
             </el-form-item>
           </el-col>
-          <el-col v-if="$slots.additional" :style="{ flex: 'none', width: 'auto' }">
+          <el-col v-if="$slots.append" :style="{ flex: 'none', width: 'auto' }">
             <slot name="append" :value="modelValue" />
           </el-col>
         </el-row>
