@@ -25,8 +25,7 @@
                     :is="loader(conf.type)"
                     :ref="`module-${conf.key}`"
                     :disabled="conf.disabled"
-                    :modelValue="modelValue[conf.key]"
-                    @update:modelValue="onFieldValueUpdate($event, conf.key)"
+                    v-model="modelValue[conf.key]"
                     :options="conf.options || buckets[conf.key]"
                     v-bind="{ ...conf.props, ...setEvents(conf) }"
                     @change="mutation($event, conf)"
@@ -99,7 +98,6 @@ watch(requesterConfigs, async (items) => {
 
 const formAttrs = computed(() => {
   const attrs = Object.create(null);
-  attrs.inline = Number(props.columns) > 1;
   if (props.disabled) attrs.disabled = props.disabled;
   if (props.rules && Object.keys(props.rules).length > 0) attrs.rules = props.rules;
   return attrs
@@ -183,9 +181,6 @@ function loader(type: string) {
 }
 function isStandaloneRequester(type: string) {
   return type === 'address' || type === 'remoteSearchSelect' || type === 'upload'
-}
-function onFieldValueUpdate(val: any, key: string) {
-  emits('update:modelValue', { ...props.modelValue, [key]: val })
 }
 function mutation(event: any, config: ConfigInterface) {
   emits('update', { event, config })
