@@ -1,5 +1,5 @@
 <template>
-  <div :class="[isAutoAlignment ? $style['form-label-auto'] : '', $style['element-plus-formkit']]">
+  <div :class="$style['element-plus-formkit']">
     <el-config-provider :locale="getConfigure('lang')" :size="size">
       <el-form
         ref="FormKitRef"
@@ -16,8 +16,7 @@
             v-bind="conf.col || {}">
             <el-form-item
               :label="conf.label"
-              :label-width="isAutoAlignment ? '0px' : (conf.labelWidth || `${labelWidth}px`)"
-              :class="isAutoAlignment ? $style['auto-alignment'] : ''"
+              :label-width="conf.labelWidth || `${labelWidth}px`"
               :prop="conf.key"
               :rules="conf.rules">
               <Suspense v-if="conf.type">
@@ -270,7 +269,6 @@ defineExpose<FormKitExposed>({
 <style lang="scss" module>
 .element-plus-formkit {
   .item-hint { width: 100%; margin: 0; color: #888888; font-weight: 300; font-size: 12px; line-height: 24px }
-  .auto-alignment { margin-bottom: 0 }
   .formkit-module-loading {
     background-image: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 37%, #f0f2f5 63%);
     background-size: 400% 100%;

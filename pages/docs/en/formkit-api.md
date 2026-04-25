@@ -99,7 +99,7 @@ Position of the form item label, when set to left or right, you also need to set
 ## labelWidth
 Label length, type: `Number`
 
-For example, ‘50’. Form-item elements that are direct children of the Form element inherit this value. The auto value can be used.
+For example, 50. Form-item elements that are direct children of the Form element inherit this value.
 
 ## columns
 Number of form items allowed per row.
@@ -204,62 +204,6 @@ Number of form items allowed per row.
         }
     ]"
     :columns="3"
-    v-model="dataset">
-</formkit>
-```
-
-::: tip
-When the `columns` value is set to `auto`, the width of each form item is automatically calculated, and line breaks occur based on the width. In this case, the `label-width` property becomes ineffective.
-:::
-
-<formkit
-    :config="[
-        {
-            type: 'input',
-            label: 'Name1',
-            key: 'password',
-            props: { placeholder: 'Please input name1', clearable: true }
-        },
-        {
-            type: 'input',
-            label: 'Name2',
-            key: 'password',
-            props: { placeholder: 'Please input name2', clearable: true }
-        },
-        {
-            type: 'input',
-            label: 'Name3',
-            key: 'password',
-            props: { placeholder: 'Please input name3', clearable: true }
-        }
-    ]"
-    columns="auto"
-    v-model="dataset">
-</formkit>
-
-```vue
-<formkit
-    :config="[
-        {
-            type: 'input',
-            label: 'Name1',
-            key: 'password',
-            props: { placeholder: 'Please input name1', clearable: true }
-        },
-        {
-            type: 'input',
-            label: 'Name2',
-            key: 'password',
-            props: { placeholder: 'Please input name2', clearable: true }
-        },
-        {
-            type: 'input',
-            label: 'Name3',
-            key: 'password',
-            props: { placeholder: 'Please input name3', clearable: true }
-        }
-    ]"
-    columns="auto"
     v-model="dataset">
 </formkit>
 ```
