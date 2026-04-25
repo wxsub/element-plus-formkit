@@ -7,7 +7,7 @@
         :key="UNIQUE_KEY"
         v-bind="formAttrs"
         :label-position="labelPosition">
-        <el-row v-bind="rows" :gutter="props.gap?.col || 10" :style="{ rowGap: `${props.gap?.row || 12}px` }">
+        <el-row :gutter="props.gap?.col || 10" :style="{ rowGap: `${props.gap?.row || 12}px` }">
           <slot name="prepend" />
           <el-col
             v-for="conf in configs"
@@ -79,7 +79,6 @@ const props = defineProps({
   labelWidth: { type: Number, default: 120 }, // Form item title width (only works when labelPosition is left, right)
   columns: { type: [Number, String], default: 1 }, // How many columns per row
   gap: { type: Object, default: () => null }, // Form item gap settings
-  rows: { type: Object as () => Partial<RowProps>, default: () => ({}) }, // el-row attributes
   size: {
     type: String as () => ValidSize,
     default: 'default',
