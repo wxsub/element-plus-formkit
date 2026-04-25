@@ -7,12 +7,13 @@
         :key="UNIQUE_KEY"
         v-bind="formAttrs"
         :label-position="labelPosition">
-        <el-row :gutter="props.gap?.col || 10" :style="{ rowGap: `${props.gap?.row || 12}px` }">
+        <el-row v-bind="rows" :gutter="props.gap?.col || 10" :style="{ rowGap: `${props.gap?.row || 12}px` }">
           <slot name="prepend" />
           <el-col
             v-for="conf in configs"
             :key="conf.key"
-            :span="conf.span || setSpanAttrs">
+            :span="conf.span || setSpanAttrs"
+            v-bind="conf.col || {}">
             <el-form-item
               :label="conf.label"
               :label-width="isAutoAlignment ? '0px' : (conf.labelWidth || `${labelWidth}px`)"
@@ -59,7 +60,7 @@
 <script setup lang="ts">
 import { modules } from '@/module-registry'
 import { getConfigure } from '@/config'
-import { ElForm, ElRow, ElCol, ElFormItem, ElConfigProvider, type FormItemProp } from 'element-plus'
+import { ElForm, ElRow, ElCol, ElFormItem, ElConfigProvider, type FormItemProp, type RowProps } from 'element-plus'
 import { isObject, isNumber, isArray, isBoolean, isFunction, uuidv4 } from '@/utils/util'
 import { ConfigInterface, FormKitExposed, ValidSize, FormKitSlots } from 'types/formkit-types'
 import { h } from 'vue'
@@ -78,6 +79,7 @@ const props = defineProps({
   labelWidth: { type: Number, default: 120 }, // Form item title width (only works when labelPosition is left, right)
   columns: { type: [Number, String], default: 1 }, // How many columns per row
   gap: { type: Object, default: () => null }, // Form item gap settings
+  rows: { type: Object as () => Partial<RowProps>, default: () => ({}) }, // el-row attributes
   size: {
     type: String as () => ValidSize,
     default: 'default',
