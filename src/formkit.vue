@@ -269,12 +269,7 @@ defineExpose<FormKitExposed>({
 <style lang="scss" module>
 .element-plus-formkit {
   .item-hint { width: 100%; margin: 0; color: #888888; font-weight: 300; font-size: 12px; line-height: 24px }
-  .formKit-list-item { display: inline-block; width: 100% }
   .auto-alignment { margin-bottom: 0 }
-  .form-kit-row {
-    flex-wrap: wrap;
-    :global(.el-form-item__content) { display: inline-block }
-  }
   .formkit-module-loading {
     background-image: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 37%, #f0f2f5 63%);
     background-size: 400% 100%;
@@ -293,7 +288,6 @@ defineExpose<FormKitExposed>({
     0% { background-position: 100% 50% }
     100% { background-position: 0 50% }
   }
-
   :global {
     .el-form-item { margin: 0; width: 100% }
     .el-form--label-top .el-form-item__label { padding: 0 }
