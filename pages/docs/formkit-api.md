@@ -99,7 +99,7 @@
 ## labelWidth
 标签的长度，类型：`Number`
 
-例如 '50'。 作为 Form 直接子元素的 form-item 会继承该值。 可以使用 auto。
+例如 50。 作为 Form 直接子元素的 form-item 会继承该值。
 
 ## columns
 每行允许存在的表单项。
@@ -204,62 +204,6 @@
         }
     ]"
     :columns="3"
-    v-model="dataset">
-</formkit>
-```
-
-::: tip
-columns 值为 auto 时，会自动计算每个表单项的宽度, 并根据宽度自动换行, 此时 label-width 会失效。
-:::
-
-<formkit
-    :config="[
-        {
-            type: 'input',
-            label: '姓名1',
-            key: 'password',
-            props: { placeholder: '请输入姓名1', clearable: true }
-        },
-        {
-            type: 'input',
-            label: '姓名2',
-            key: 'password',
-            props: { placeholder: '请输入姓名2', clearable: true }
-        },
-        {
-            type: 'input',
-            label: '姓名3',
-            key: 'password',
-            props: { placeholder: '请输入姓名3', clearable: true }
-        }
-    ]"
-    columns="auto"
-    v-model="dataset">
-</formkit>
-
-```vue
-<formkit
-    :config="[
-        {
-            type: 'input',
-            label: '姓名1',
-            key: 'password',
-            props: { placeholder: '请输入姓名1', clearable: true }
-        },
-        {
-            type: 'input',
-            label: '姓名2',
-            key: 'password',
-            props: { placeholder: '请输入姓名2', clearable: true }
-        },
-        {
-            type: 'input',
-            label: '姓名3',
-            key: 'password',
-            props: { placeholder: '请输入姓名3', clearable: true }
-        }
-    ]"
-    columns="auto"
     v-model="dataset">
 </formkit>
 ```

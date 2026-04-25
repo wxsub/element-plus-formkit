@@ -332,6 +332,160 @@ If `columns` is set, the `config.span` value will default to an integer multiple
 </formkit>
 ```
 
+## config.col
+The `col` field configures additional attributes for the `el-col` component of the current form item. It supports all attributes from Element Plus [Col Attributes](https://element-plus.org/en-US/component/layout#col-api). Type: `Object`
+
+| Attribute | Type | Description |
+| -------- | :----- | :----- |
+| offset | Number | Number of grids to offset from the left |
+| push | Number | Number of grids to move right |
+| pull | Number | Number of grids to move left |
+| xs | Number / Object | Responsive grid count or grid attribute object for <768px |
+| sm | Number / Object | Responsive grid count or grid attribute object for ≥768px |
+| md | Number / Object | Responsive grid count or grid attribute object for ≥992px |
+| lg | Number / Object | Responsive grid count or grid attribute object for ≥1200px |
+| xl | Number / Object | Responsive grid count or grid attribute object for ≥1920px |
+
+::: tip
+The `span` attribute is already provided as the standalone field `config.span`. It is not recommended to set `span` again inside `col`.
+:::
+
+### Offset
+
+Use the `offset` attribute to specify the number of columns to offset.
+
+<formkit
+    :config="[
+        {
+            type: 'input',
+            label: 'Name 1',
+            key: 'name1',
+            span: 6,
+            props: { placeholder: 'Enter name 1', clearable: true }
+        },
+        {
+            type: 'input',
+            label: 'Name 2 (offset 6)',
+            key: 'name2',
+            span: 6,
+            col: { offset: 6 },
+            props: { placeholder: 'Enter name 2', clearable: true }
+        },
+        {
+            type: 'input',
+            label: 'Name 3',
+            key: 'name3',
+            span: 24,
+            props: { placeholder: 'Enter name 3', clearable: true }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+```vue
+<formkit
+    :config="[
+        {
+            type: 'input',
+            label: 'Name 1',
+            key: 'name1',
+            span: 6,
+            props: { placeholder: 'Enter name 1', clearable: true }
+        },
+        {
+            type: 'input',
+            label: 'Name 2 (offset 6)',
+            key: 'name2',
+            span: 6,
+            col: { offset: 6 },
+            props: { placeholder: 'Enter name 2', clearable: true }
+        },
+        {
+            type: 'input',
+            label: 'Name 3',
+            key: 'name3',
+            span: 24,
+            props: { placeholder: 'Enter name 3', clearable: true }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+```
+
+### Responsive Layout
+
+Use responsive attributes to set different grid counts for different screen sizes.
+
+<formkit
+    :config="[
+        {
+            type: 'input',
+            label: 'Responsive Field',
+            key: 'responsiveField',
+            col: { xs: 24, sm: 12, md: 8, lg: 6 },
+            props: { placeholder: 'I adjust columns based on screen width', clearable: true }
+        },
+        {
+            type: 'input',
+            label: 'Responsive Field 2',
+            key: 'responsiveField2',
+            col: { xs: 24, sm: 12, md: 8, lg: 6 },
+            props: { placeholder: 'I also adjust responsively', clearable: true }
+        },
+        {
+            type: 'input',
+            label: 'Responsive Field 3',
+            key: 'responsiveField3',
+            col: { xs: 24, sm: 12, md: 8, lg: 6 },
+            props: { placeholder: 'Try resizing the browser window', clearable: true }
+        },
+        {
+            type: 'input',
+            label: 'Responsive Field 4',
+            key: 'responsiveField4',
+            col: { xs: 24, sm: 12, md: 8, lg: 6 },
+            props: { placeholder: 'Resize the window to see the effect', clearable: true }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+```vue
+<formkit
+    :config="[
+        {
+            type: 'input',
+            label: 'Responsive Field',
+            key: 'responsiveField',
+            col: { xs: 24, sm: 12, md: 8, lg: 6 },
+            props: { placeholder: 'I adjust columns based on screen width', clearable: true }
+        },
+        {
+            type: 'input',
+            label: 'Responsive Field 2',
+            key: 'responsiveField2',
+            col: { xs: 24, sm: 12, md: 8, lg: 6 },
+            props: { placeholder: 'I also adjust responsively', clearable: true }
+        },
+        {
+            type: 'input',
+            label: 'Responsive Field 3',
+            key: 'responsiveField3',
+            col: { xs: 24, sm: 12, md: 8, lg: 6 },
+            props: { placeholder: 'Try resizing the browser window', clearable: true }
+        },
+        {
+            type: 'input',
+            label: 'Responsive Field 4',
+            key: 'responsiveField4',
+            col: { xs: 24, sm: 12, md: 8, lg: 6 },
+            props: { placeholder: 'Resize the window to see the effect', clearable: true }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+```
+
 ## config.labelWidth
 Current form item label width, default value is 120px, type: `String`
 

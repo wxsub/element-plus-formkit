@@ -1,4 +1,4 @@
-import { ConfigProviderProps, type FormItemProp, FormItemContext, FormInstance } from 'element-plus';
+import { ConfigProviderProps, type FormItemProp, FormItemContext, FormInstance, type ColProps } from 'element-plus';
 import type { Component, Slot } from 'vue';
 
 export type ValidSize = '' | 'small' | 'default' | 'large'
@@ -32,6 +32,7 @@ export interface ConfigInterface {
   props?: object;
   requester?: Function | object;
   handler?: Function;
+  col?: Partial<ColProps>;
 }
 
 export interface FormKitExposed {

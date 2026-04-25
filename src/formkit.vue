@@ -1,5 +1,5 @@
 <template>
-  <div :class="[isAutoAlignment ? $style['form-label-auto'] : '', $style['element-plus-formkit']]">
+  <div :class="$style['element-plus-formkit']">
     <el-config-provider :locale="getConfigure('lang')" :size="size">
       <el-form
         ref="FormKitRef"
@@ -12,11 +12,11 @@
           <el-col
             v-for="conf in configs"
             :key="conf.key"
-            :span="conf.span || setSpanAttrs">
+            :span="conf.span || setSpanAttrs"
+            v-bind="conf.col || {}">
             <el-form-item
               :label="conf.label"
-              :label-width="isAutoAlignment ? '0px' : (conf.labelWidth || `${labelWidth}px`)"
-              :class="isAutoAlignment ? $style['auto-alignment'] : ''"
+              :label-width="conf.labelWidth || `${labelWidth}px`"
               :prop="conf.key"
               :rules="conf.rules">
               <Suspense v-if="conf.type">
@@ -59,7 +59,7 @@
 <script setup lang="ts">
 import { modules } from '@/module-registry'
 import { getConfigure } from '@/config'
-import { ElForm, ElRow, ElCol, ElFormItem, ElConfigProvider, type FormItemProp } from 'element-plus'
+import { ElForm, ElRow, ElCol, ElFormItem, ElConfigProvider, type FormItemProp, type RowProps } from 'element-plus'
 import { isObject, isNumber, isArray, isBoolean, isFunction, uuidv4 } from '@/utils/util'
 import { ConfigInterface, FormKitExposed, ValidSize, FormKitSlots } from 'types/formkit-types'
 import { h } from 'vue'
@@ -269,12 +269,6 @@ defineExpose<FormKitExposed>({
 <style lang="scss" module>
 .element-plus-formkit {
   .item-hint { width: 100%; margin: 0; color: #888888; font-weight: 300; font-size: 12px; line-height: 24px }
-  .formKit-list-item { display: inline-block; width: 100% }
-  .auto-alignment { margin-bottom: 0 }
-  .form-kit-row {
-    flex-wrap: wrap;
-    :global(.el-form-item__content) { display: inline-block }
-  }
   .formkit-module-loading {
     background-image: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 37%, #f0f2f5 63%);
     background-size: 400% 100%;
@@ -293,7 +287,6 @@ defineExpose<FormKitExposed>({
     0% { background-position: 100% 50% }
     100% { background-position: 0 50% }
   }
-
   :global {
     .el-form-item { margin: 0; width: 100% }
     .el-form--label-top .el-form-item__label { padding: 0 }
