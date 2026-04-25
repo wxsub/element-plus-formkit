@@ -332,6 +332,160 @@ formkit会根据`config.span`值自动调整模块的宽度，例如：`config.s
 </formkit>
 ```
 
+## config.col
+`col`字段用于配置当前表单项所在`el-col`的额外属性，支持 Element Plus [Col Attributes](https://element-plus.org/zh-CN/component/layout#col-api) 的所有属性。类型：`Object`
+
+| 属性 | 类型 | 说明 |
+| -------- | :----- | :----- |
+| offset | Number | 栅格左侧的间隔格数 |
+| push | Number | 栅格向右移动格数 |
+| pull | Number | 栅格向左移动格数 |
+| xs | Number / Object | <768px 响应式栅格数或栅格属性对象 |
+| sm | Number / Object | ≥768px 响应式栅格数或栅格属性对象 |
+| md | Number / Object | ≥992px 响应式栅格数或栅格属性对象 |
+| lg | Number / Object | ≥1200px 响应式栅格数或栅格属性对象 |
+| xl | Number / Object | ≥1920px 响应式栅格数或栅格属性对象 |
+
+::: tip
+`span` 属性已作为独立字段 `config.span` 提供，不建议在 `col` 中重复设置。
+:::
+
+### offset偏移
+
+通过 `offset` 属性可以指定分栏偏移的栏数。
+
+<formkit
+    :config="[
+        {
+            type: 'input',
+            label: '姓名1',
+            key: 'name1',
+            span: 6,
+            props: { placeholder: '请输入姓名1', clearable: true }
+        },
+        {
+            type: 'input',
+            label: '姓名2(偏移6列)',
+            key: 'name2',
+            span: 6,
+            col: { offset: 6 },
+            props: { placeholder: '请输入姓名2', clearable: true }
+        },
+        {
+            type: 'input',
+            label: '姓名3',
+            key: 'name3',
+            span: 24,
+            props: { placeholder: '请输入姓名3', clearable: true }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+```vue
+<formkit
+    :config="[
+        {
+            type: 'input',
+            label: '姓名1',
+            key: 'name1',
+            span: 6,
+            props: { placeholder: '请输入姓名1', clearable: true }
+        },
+        {
+            type: 'input',
+            label: '姓名2(偏移6列)',
+            key: 'name2',
+            span: 6,
+            col: { offset: 6 },
+            props: { placeholder: '请输入姓名2', clearable: true }
+        },
+        {
+            type: 'input',
+            label: '姓名3',
+            key: 'name3',
+            span: 24,
+            props: { placeholder: '请输入姓名3', clearable: true }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+```
+
+### 响应式布局
+
+通过响应式属性可以为不同屏幕尺寸设置不同的栅格数。
+
+<formkit
+    :config="[
+        {
+            type: 'input',
+            label: '响应式字段',
+            key: 'responsiveField',
+            col: { xs: 24, sm: 12, md: 8, lg: 6 },
+            props: { placeholder: '我会根据屏幕宽度自动调整列数', clearable: true }
+        },
+        {
+            type: 'input',
+            label: '响应式字段2',
+            key: 'responsiveField2',
+            col: { xs: 24, sm: 12, md: 8, lg: 6 },
+            props: { placeholder: '我同样会响应式调整', clearable: true }
+        },
+        {
+            type: 'input',
+            label: '响应式字段3',
+            key: 'responsiveField3',
+            col: { xs: 24, sm: 12, md: 8, lg: 6 },
+            props: { placeholder: '请尝试缩放浏览器窗口', clearable: true }
+        },
+        {
+            type: 'input',
+            label: '响应式字段4',
+            key: 'responsiveField4',
+            col: { xs: 24, sm: 12, md: 8, lg: 6 },
+            props: { placeholder: '缩放窗口查看效果', clearable: true }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+```vue
+<formkit
+    :config="[
+        {
+            type: 'input',
+            label: '响应式字段',
+            key: 'responsiveField',
+            col: { xs: 24, sm: 12, md: 8, lg: 6 },
+            props: { placeholder: '我会根据屏幕宽度自动调整列数', clearable: true }
+        },
+        {
+            type: 'input',
+            label: '响应式字段2',
+            key: 'responsiveField2',
+            col: { xs: 24, sm: 12, md: 8, lg: 6 },
+            props: { placeholder: '我同样会响应式调整', clearable: true }
+        },
+        {
+            type: 'input',
+            label: '响应式字段3',
+            key: 'responsiveField3',
+            col: { xs: 24, sm: 12, md: 8, lg: 6 },
+            props: { placeholder: '请尝试缩放浏览器窗口', clearable: true }
+        },
+        {
+            type: 'input',
+            label: '响应式字段4',
+            key: 'responsiveField4',
+            col: { xs: 24, sm: 12, md: 8, lg: 6 },
+            props: { placeholder: '缩放窗口查看效果', clearable: true }
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+```
+
 ## config.labelWidth
 当前表单项标签宽度，默认值为120px，类型：`String`
 
