@@ -1,3 +1,6 @@
 **/*
 !dist/**
 !types/**
+!skills/**
+!scripts/cli.mjs
+!scripts/install-skill.mjs
