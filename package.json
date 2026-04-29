@@ -1,16 +1,23 @@
 {
   "name": "element-plus-formkit",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "main": "dist/formkit.umd.js",
   "module": "dist/formkit.es.js",
   "types": "types/element-plus-formkit.d.ts",
   "style": "dist/index.css",
   "description": "Data-driven form component based on ElementPlus implementation",
+  "bin": {
+    "element-plus-formkit": "scripts/cli.mjs"
+  },
   "files": [
     "dist",
-    "types"
+    "types",
+    "skills",
+    "scripts/cli.mjs",
+    "scripts/install-skill.mjs"
   ],
   "scripts": {
+    "postinstall": "echo '\\n\\n  💡 element-plus-formkit: Run \\x1b[36mnpx element-plus-formkit skill\\x1b[0m to enable AI coding assistance\\n'",
     "dev": "node scripts/start-dev.mjs",
     "watch": "vite build --watch",
     "build": "vite build --mode development && vue-tsc --noEmit",
@@ -98,7 +105,10 @@
     "vue3",
     "formkit",
     "el-form",
-    "element-plus"
+    "element-plus",
+    "ai-coding",
+    "agent-skill",
+    "trae-skill"
   ],
   "author": "wxsub.com studios © 2023",
   "license": "MIT",

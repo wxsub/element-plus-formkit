@@ -18,6 +18,7 @@ export const Modules: Record<string, Component> = {
   inputNumber: defineAsyncComponent(() => import('./modules/inputNumber.vue')),
   upload: defineAsyncComponent(() => import('./modules/upload.vue')),
   mention: defineAsyncComponent(() => import('./modules/mention.vue')),
+  treeSelect: defineAsyncComponent(() => import('./modules/treeSelect.vue')),
   
   autocomplete: asyncElementPlus('ElAutocomplete'),
   input: asyncElementPlus('ElInput'),
@@ -29,8 +30,7 @@ export const Modules: Record<string, Component> = {
   cascader: asyncElementPlus('ElCascader'),
   rate: asyncElementPlus('ElRate'),
   switch: asyncElementPlus('ElSwitch'),
-  slider: asyncElementPlus('ElSlider'),
-  treeSelect: asyncElementPlus('ElTreeSelect')
+  slider: asyncElementPlus('ElSlider')
 };
 
 export default Object.keys(Modules);

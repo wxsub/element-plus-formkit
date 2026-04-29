@@ -1194,6 +1194,13 @@ Output: {{ dataset.sliderValue || "-" }}
 
 含有下拉菜单的树形选择器，结合了 el-tree 和 el-select 两个组件的功能。
 
+**Props特有属性**
+
+| 名称 | 类型 | 说明 | 默认
+| -------- | :----- | :----: | :----: |
+| valueKey | String | 作为 value 唯一标识的键名，绑定值为对象类型时必填 | id
+| labelKey | String | 指定选项标签为选项对象的某个属性值 | name
+
 <formkit
     :config="[
         {
@@ -1203,73 +1210,75 @@ Output: {{ dataset.sliderValue || "-" }}
             props: {
                 'render-after-expand': false,
                 style: { width: '240px' },
-                data: [
-                    {
-                        value: '1',
-                        label: 'Level one 1',
-                        children: [
-                            {
-                                value: '1-1',
-                                label: 'Level two 1-1',
-                                children: [
-                                    {
-                                        value: '1-1-1',
-                                        label: 'Level three 1-1-1'
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        value: '2',
-                        label: 'Level one 2',
-                        children: [
-                            {
-                                value: '2-1',
-                                label: 'Level two 2-1',
-                                children: [
-                                    {
-                                        value: '2-1-1',
-                                        label: 'Level three 2-1-1'
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        value: '3',
-                        label: 'Level one 3',
-                        children: [
-                            {
-                                value: '3-1',
-                                label: 'Level two 3-1',
-                                children: [
-                                    {
-                                        value: '3-1-1',
-                                        label: 'Level three 3-1-1'
-                                    }
-                                ]
-                            },
-                            {
-                                value: '3-2',
-                                label: 'Level two 3-2',
-                                children: [
-                                    {
-                                        value: '3-2-1',
-                                        label: 'Level three 3-2-1'
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            }
+                labelKey: 'label',
+                valueKey: 'value'
+            },
+            options: [
+                {
+                    value: '1',
+                    label: 'Level one 1',
+                    children: [
+                        {
+                            value: '1-1',
+                            label: 'Level two 1-1',
+                            children: [
+                                {
+                                    value: '1-1-1',
+                                    label: 'Level three 1-1-1'
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    value: '2',
+                    label: 'Level one 2',
+                    children: [
+                        {
+                            value: '2-1',
+                            label: 'Level two 2-1',
+                            children: [
+                                {
+                                    value: '2-1-1',
+                                    label: 'Level three 2-1-1'
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    value: '3',
+                    label: 'Level one 3',
+                    children: [
+                        {
+                            value: '3-1',
+                            label: 'Level two 3-1',
+                            children: [
+                                {
+                                    value: '3-1-1',
+                                    label: 'Level three 3-1-1'
+                                }
+                            ]
+                        },
+                        {
+                            value: '3-2',
+                            label: 'Level two 3-2',
+                            children: [
+                                {
+                                    value: '3-2-1',
+                                    label: 'Level three 3-2-1'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
         }
     ]"
     v-model="dataset">
 </formkit>
 
-<p>Output: {{ dataset.timeSelectValue || "-" }}</p>
+<p>Output: {{ dataset.treeSelectValue || "-" }}</p>
 
 ```vue
 <formkit
@@ -1281,74 +1290,195 @@ Output: {{ dataset.sliderValue || "-" }}
             props: {
                 'render-after-expand': false,
                 style: { width: '240px' },
-                data: [
-                    {
-                        value: '1',
-                        label: 'Level one 1',
-                        children: [
-                            {
-                                value: '1-1',
-                                label: 'Level two 1-1',
-                                children: [
-                                    {
-                                        value: '1-1-1',
-                                        label: 'Level three 1-1-1'
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        value: '2',
-                        label: 'Level one 2',
-                        children: [
-                            {
-                                value: '2-1',
-                                label: 'Level two 2-1',
-                                children: [
-                                    {
-                                        value: '2-1-1',
-                                        label: 'Level three 2-1-1'
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        value: '3',
-                        label: 'Level one 3',
-                        children: [
-                            {
-                                value: '3-1',
-                                label: 'Level two 3-1',
-                                children: [
-                                    {
-                                        value: '3-1-1',
-                                        label: 'Level three 3-1-1'
-                                    }
-                                ]
-                            },
-                            {
-                                value: '3-2',
-                                label: 'Level two 3-2',
-                                children: [
-                                    {
-                                        value: '3-2-1',
-                                        label: 'Level three 3-2-1'
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            }
+                labelKey: 'label',
+                valueKey: 'value'
+            },
+            options: [
+                {
+                    value: '1',
+                    label: 'Level one 1',
+                    children: [
+                        {
+                            value: '1-1',
+                            label: 'Level two 1-1',
+                            children: [
+                                {
+                                    value: '1-1-1',
+                                    label: 'Level three 1-1-1'
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    value: '2',
+                    label: 'Level one 2',
+                    children: [
+                        {
+                            value: '2-1',
+                            label: 'Level two 2-1',
+                            children: [
+                                {
+                                    value: '2-1-1',
+                                    label: 'Level three 2-1-1'
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    value: '3',
+                    label: 'Level one 3',
+                    children: [
+                        {
+                            value: '3-1',
+                            label: 'Level two 3-1',
+                            children: [
+                                {
+                                    value: '3-1-1',
+                                    label: 'Level three 3-1-1'
+                                }
+                            ]
+                        },
+                        {
+                            value: '3-2',
+                            label: 'Level two 3-2',
+                            children: [
+                                {
+                                    value: '3-2-1',
+                                    label: 'Level three 3-2-1'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
         }
     ]"
     v-model="dataset">
 </formkit>
 
-<p>Output: {{ dataset.timeSelectValue || "-" }}</p>
+<p>Output: {{ dataset.treeSelectValue || "-" }}</p>
 ```
+
+treeSelect也可通过requester字段用于动态获取options
+
+<formkit
+    :config="[
+        {
+            type: 'treeSelect',
+            label: '树形选择器',
+            key: 'treeSelectValue',
+            props: {
+                'render-after-expand': false,
+                style: { width: '240px' },
+                labelKey: 'label',
+                valueKey: 'value'
+            },
+            requester: fetchTreeSelectOptions,
+            handler: (response: any) => response?.items || []
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+::: code-tabs
+@tab template
+```vue
+<formkit
+    :config="[
+        {
+            type: 'treeSelect',
+            label: '树形选择器',
+            key: 'treeSelectValue',
+            props: {
+                labelKey: 'label',
+                valueKey: 'value'
+            },
+            requester: fetchTreeSelectOptions,
+            handler: (response: any) => response?.items || []
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+```
+@tab script
+```js
+import formkit from 'element-plus-formkit';
+
+const dataset = ref({})
+
+function fetchTreeSelectOptions() {
+    return new Promise((r, j) => {
+        setTimeout(() => {
+           r({
+            code: 200,
+            items: [
+                {
+                    value: '1',
+                    label: 'Level one 1',
+                    children: [
+                        {
+                            value: '1-1',
+                            label: 'Level two 1-1',
+                            children: [
+                                {
+                                    value: '1-1-1',
+                                    label: 'Level three 1-1-1'
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    value: '2',
+                    label: 'Level one 2',
+                    children: [
+                        {
+                            value: '2-1',
+                            label: 'Level two 2-1',
+                            children: [
+                                {
+                                    value: '2-1-1',
+                                    label: 'Level three 2-1-1'
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    value: '3',
+                    label: 'Level one 3',
+                    children: [
+                        {
+                            value: '3-1',
+                            label: 'Level two 3-1',
+                            children: [
+                                {
+                                    value: '3-1-1',
+                                    label: 'Level three 3-1-1'
+                                }
+                            ]
+                        },
+                        {
+                            value: '3-2',
+                            label: 'Level two 3-2',
+                            children: [
+                                {
+                                    value: '3-2-1',
+                                    label: 'Level three 3-2-1'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+           })
+        }, 1000)
+    })
+}
+```
+:::
 
 ::: tip
 [原生ElTreeSelect API](https://element-plus.org/zh-CN/component/tree#属性)请写入props内
@@ -1436,4 +1566,74 @@ const options = ref([
     ]
   }
 ])
+
+function fetchTreeSelectOptions() {
+    return new Promise((r, j) => {
+        setTimeout(() => {
+           r({
+            code: 200,
+            items: [
+                {
+                    value: '1',
+                    label: 'Level one 1',
+                    children: [
+                        {
+                            value: '1-1',
+                            label: 'Level two 1-1',
+                            children: [
+                                {
+                                    value: '1-1-1',
+                                    label: 'Level three 1-1-1'
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    value: '2',
+                    label: 'Level one 2',
+                    children: [
+                        {
+                            value: '2-1',
+                            label: 'Level two 2-1',
+                            children: [
+                                {
+                                    value: '2-1-1',
+                                    label: 'Level three 2-1-1'
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    value: '3',
+                    label: 'Level one 3',
+                    children: [
+                        {
+                            value: '3-1',
+                            label: 'Level two 3-1',
+                            children: [
+                                {
+                                    value: '3-1-1',
+                                    label: 'Level three 3-1-1'
+                                }
+                            ]
+                        },
+                        {
+                            value: '3-2',
+                            label: 'Level two 3-2',
+                            children: [
+                                {
+                                    value: '3-2-1',
+                                    label: 'Level three 3-2-1'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+           })
+        }, 1000)
+    })
+}
 </script>

@@ -86,7 +86,10 @@ async function main() {
     const copyItems = [
       { src: path.join(rootDir, 'dist'), dest: path.join(packageDir, 'dist') },
       { src: path.join(rootDir, 'package.json'), dest: path.join(packageDir, 'package.json') },
-      { src: path.join(rootDir, 'types'), dest: path.join(packageDir, 'types') }
+      { src: path.join(rootDir, 'types'), dest: path.join(packageDir, 'types') },
+      { src: path.join(rootDir, 'scripts', 'cli.mjs'), dest: path.join(packageDir, 'scripts', 'cli.mjs') },
+      { src: path.join(rootDir, 'scripts', 'install-skill.mjs'), dest: path.join(packageDir, 'scripts', 'install-skill.mjs') },
+      { src: path.join(rootDir, 'skills'), dest: path.join(packageDir, 'skills') }
     ];
 
     const copySpinner = ora('Copying files...').start();
