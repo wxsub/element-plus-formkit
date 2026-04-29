@@ -3,7 +3,7 @@
         v-model="_value"
         :data="options"
         :class="$style['formkit-module-treeSelect']"
-        :props="{ value: valueKey, label: labelKey }"
+        :props="{ valueKey, labelKey }"
         v-bind="$attrs">
         <template
             v-for="name in Object.keys($slots)"
