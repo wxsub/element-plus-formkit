@@ -3,7 +3,7 @@
         v-model="_value"
         :data="options"
         :class="$style['formkit-module-treeSelect']"
-        :props="{ valueKey, labelKey }"
+        :props="treeProps"
         v-bind="$attrs">
         <template
             v-for="name in Object.keys($slots)"
@@ -27,6 +27,8 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue']);
 
 const $attrs = useAttrs() as Record<string, any> & { labelKey?: string; };
+
+const treeProps = computed(() => ({ value: props.valueKey, label: props.labelKey }))
 
 const _value: any = computed({
     get: () => {
