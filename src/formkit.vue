@@ -193,7 +193,9 @@ const labelProbeRef = ref<HTMLElement>(),
   measuredLabelWidths: Record<string, number> = reactive({});
 function resolveFormItemLabelWidth(conf: ConfigInterface): string | undefined {
   if (props.labelPosition === 'top') return undefined
+  // Priority: conf.labelWidth(number) > empty label(0) > conf.labelWidth('auto') > global 'auto' > global number
   if (isNumber(conf.labelWidth)) return `${conf.labelWidth}px`
+  if (stripHtml(conf.label).trim().length === 0) return undefined
   if (conf.labelWidth === 'auto' || props.labelWidth === 'auto') {
     const measured = measuredLabelWidths[conf.key]
     return `${measured ?? measureLabelWidth(conf.label, hasRequiredRule(conf))}px`
@@ -205,7 +207,9 @@ function computeAutoLabelWidths() {
   if (!probe || props.labelPosition === 'top') return
 
   const items = props.config.filter(conf =>
-    conf.key && (conf.labelWidth === 'auto' || (!isNumber(conf.labelWidth) && props.labelWidth === 'auto'))
+    conf.key &&
+    stripHtml(conf.label).trim().length > 0 &&
+    (conf.labelWidth === 'auto' || (!isNumber(conf.labelWidth) && props.labelWidth === 'auto'))
   )
   if (items.length === 0) {
     probe.replaceChildren()

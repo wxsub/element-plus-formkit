@@ -493,6 +493,8 @@ formkit会根据`config.span`值自动调整模块的宽度，例如：`config.s
 
 也支持设置为 `'auto'`，此时仅当前表单项根据自身标签文本的真实渲染宽度（DOM 精确测量）自动计算标签宽度。
 
+> 当某一项的 `label` 为空时，其标签宽度默认置为 `0`（除非该项显式指定了 `labelWidth`）。
+
 <formkit
     :config="[
         { type: 'input', label: '姓名', key: 'name' },

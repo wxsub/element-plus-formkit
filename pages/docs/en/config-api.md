@@ -493,6 +493,8 @@ By default, FormKit will automatically adjust the label width according to [labe
 
 It also supports `'auto'`, in which case only the current form item computes its label width based on its own label's real rendered width (precisely measured via DOM).
 
+> When an item's `label` is empty, its label width defaults to `0` (unless the item explicitly specifies `labelWidth`).
+
 <formkit
     :config="[
         { type: 'input', label: 'Name', key: 'name' },
