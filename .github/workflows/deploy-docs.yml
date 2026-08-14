@@ -35,8 +35,8 @@ jobs:
       - name: package install
         run: pnpm install
 
-      - name: dev
-        run: pnpm dev
+      - name: build
+        run: pnpm dev --build-only
 
       - name: update lockfile
         run: pnpm --filter ./pages install --lockfile-only

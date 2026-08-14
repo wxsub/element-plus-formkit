@@ -110,6 +110,12 @@ async function main() {
       return;
     }
 
+    const buildOnly = process.argv.includes('--build-only');
+    if (buildOnly) {
+      log.success('Build-only mode: skipping dev server');
+      return;
+    }
+
     const pagesDir = path.join(rootDir, 'pages');
     try {
       process.chdir(pagesDir);
