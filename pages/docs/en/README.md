@@ -42,7 +42,7 @@ footer: MIT Licensed | wxsub.com Studios Copyright © 2018-present All Rights Re
 ## Quick Start
 
 ```bash
-npm install element-plus-formkit
+pnpm add element-plus-formkit
 ```
 
 ```vue
