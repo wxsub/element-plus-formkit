@@ -487,9 +487,33 @@ Use responsive attributes to set different grid counts for different screen size
 ```
 
 ## config.labelWidth
-Current form item label width, default value is 120px, type: `String`
+Current form item label width, default value is 120px, type: `Number | String`
 
 By default, FormKit will automatically adjust the label width according to [labelWidth Attribute](/formkit-api.md#labelwidth). This does not conflict with [labelWidth Attribute](/formkit-api.md#labelwidth), as FormKit prioritizes the `config.labelWidth` value.
+
+It also supports `'auto'`, in which case only the current form item computes its label width based on its own label's real rendered width (precisely measured via DOM).
+
+<formkit
+    :config="[
+        { type: 'input', label: 'Name', key: 'name' },
+        { type: 'input', label: 'Central Local Unit Identifier', key: 'unitId', labelWidth: 'auto' }
+    ]"
+    labelPosition="right"
+    :labelWidth="120"
+    v-model="dataset">
+</formkit>
+
+```vue
+<formkit
+    :config="[
+        { type: 'input', label: 'Name', key: 'name' },
+        { type: 'input', label: 'Central Local Unit Identifier', key: 'unitId', labelWidth: 'auto' }
+    ]"
+    labelPosition="right"
+    :labelWidth="120"
+    v-model="dataset">
+</formkit>
+```
 
 ## config.events
 

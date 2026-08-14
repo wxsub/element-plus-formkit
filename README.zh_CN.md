@@ -122,7 +122,7 @@ setConfigure('upload', async (file: File, options: UploadRequesterOptions) => {
 | config |  表单配置项，详细config配置参数参考下方`config Attributes`  |  Array  |   []
 | disabled |  禁用整个表单  |  Boolean  |   false  
 | labelPosition |  表单项label对齐规则，参照[ElementPlus Form Attributes](https://element-plus.org/zh-CN/component/form.html#form-api)  |  String  |   top  
-| labelWidth |  表单项标题宽度（此参数仅在labelPosition为left、right时生效，为top时会自动忽略）  |  Number  |   125 
+| labelWidth |  表单项标题宽度（此参数仅在labelPosition为left、right时生效，为top时会自动忽略）。设置为 'auto' 时按标签真实渲染宽度精确测量每项标签宽度  |  Number / String  |   125 
 | columns |  每行显示多少列表单项  |  Number / String  |   5  
 | size |  用于控制该表单内组件的尺寸（可选值: '' / 'large' / 'default' / 'small'）  |  String  |   mini 
 | rows |  参照[ElementPlus Row API](https://element-plus.org/zh-CN/component/layout.html#row-api)  |  String  |   top

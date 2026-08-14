@@ -20,13 +20,50 @@ actions:
 
 features:
   - title: 简单至上
-    details: 面对复杂的表单以及其校验项，快速开发.
-  - title: 基于Vue3 and ElementPlus
-    details: 基于ElementPlus对表单组件进行组合封装，通过数据流的方法对表单数据进行处理，方便快速开发.
+    details: 通过一个配置数组描述整个表单，面对复杂的表单以及其校验项，快速开发。
+  - title: 数据驱动
+    details: 基于 ElementPlus 对表单组件进行组合封装，通过数据流的方法对表单数据进行处理，支持条件显隐（visible）与字段联动。
   - title: 高性能
-    details: element-plus-formkit 为每个组件的加载完全符合vue3异步组件方案.
+    details: element-plus-formkit 为每个组件的加载完全符合 Vue3 异步组件方案，配合 Suspense 骨架屏按需加载，打包体积更小。
+  - title: 丰富的内置组件
+    details: 内置 20+ 常用表单组件（select、remoteSearchSelect、address、cascader、datePicker、upload、treeSelect、mention 等），开箱即用。
+  - title: 远程数据加载
+    details: 通过 requester / handler 为 select、radio、checkbox 等组件异步拉取选项数据，并支持错误兜底与 error 事件回调。
+  - title: 灵活布局
+    details: 支持 columns 多列布局、span / col 栅格配置、gap 间距设置，以及 labelWidth 'auto' 自动测量标签宽度。
+  - title: 可扩展
+    details: 通过 registerModule 注册自定义表单组件，与内置模块享有相同的数据流与校验能力。
+  - title: 完整的表单能力
+    details: 继承 ElementPlus 表单体系，暴露 validate、clearValidate、resetFields、validateField、scrollToField 等完整 API，支持 TypeScript。
 
 footer: MIT Licensed | wxsub.com Studios Copyright © 2018-present All Rights Reserved
 ---
+
+## 快速体验
+
+```bash
+npm install element-plus-formkit
+```
+
+```vue
+<template>
+  <FormKit v-model="form" :config="config" :columns="2" />
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import FormKit from 'element-plus-formkit'
+
+const form = ref({ name: '', gender: '', birthday: '' })
+
+const config = [
+  { type: 'input', key: 'name', label: '姓名', rules: [{ required: true, message: '请输入姓名' }] },
+  { type: 'radio', key: 'gender', label: '性别', options: [{ label: '男', value: 1 }, { label: '女', value: 2 }] },
+  { type: 'datePicker', key: 'birthday', label: '出生日期' }
+]
+</script>
+```
+
+只需一个配置数组，即可渲染出带校验、带布局的完整表单。[查看文档开始 →](/get-started.html)
 
 [default-theme-home]: https://vuejs.press/reference/default-theme/frontmatter.html#home-page

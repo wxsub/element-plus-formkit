@@ -487,9 +487,33 @@ formkit会根据`config.span`值自动调整模块的宽度，例如：`config.s
 ```
 
 ## config.labelWidth
-当前表单项标签宽度，默认值为120px，类型：`String`
+当前表单项标签宽度，默认值为120px，类型：`Number | String`
 
 默认情况下，formkit会根据[labelWidth Attribute](/formkit-api.md#labelwidth)自动调整标签宽度, 当然这和[labelWidth Attribute](/formkit-api.md#labelwidth)并不冲突，formkit优先使用`config.labelWidth`值。
+
+也支持设置为 `'auto'`，此时仅当前表单项根据自身标签文本的真实渲染宽度（DOM 精确测量）自动计算标签宽度。
+
+<formkit
+    :config="[
+        { type: 'input', label: '姓名', key: 'name' },
+        { type: 'input', label: 'Central Local Unit Identifier', key: 'unitId', labelWidth: 'auto' }
+    ]"
+    labelPosition="right"
+    :labelWidth="120"
+    v-model="dataset">
+</formkit>
+
+```vue
+<formkit
+    :config="[
+        { type: 'input', label: '姓名', key: 'name' },
+        { type: 'input', label: 'Central Local Unit Identifier', key: 'unitId', labelWidth: 'auto' }
+    ]"
+    labelPosition="right"
+    :labelWidth="120"
+    v-model="dataset">
+</formkit>
+```
 
 ## config.events
 

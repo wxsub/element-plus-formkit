@@ -20,13 +20,50 @@ actions:
 
 features:
   - title: Simple and Easy to Use
-    details: Face complex forms and their validation items, and develop quickly.
-  - title: Based on Vue3 and ElementPlus
-    details: Based on ElementPlus to combine form components, and process form data through data flow methods, which is convenient for quick development.
+    details: Describe an entire form with a single config array, and develop complex forms with their validation rules quickly.
+  - title: Data-Driven
+    details: Built on ElementPlus form components, form data is processed through data flow, with conditional visibility (visible) and field linkage support.
   - title: High Performance
-    details: element-plus-formkit complies with the vue3 asynchronous component loading scheme for each component.
+    details: element-plus-formkit fully complies with the Vue3 async component loading scheme for every component, with Suspense skeleton loading and smaller bundle size.
+  - title: Rich Built-in Components
+    details: Ships 20+ common form components out of the box (select, remoteSearchSelect, address, cascader, datePicker, upload, treeSelect, mention, etc.).
+  - title: Remote Data Loading
+    details: Fetch options asynchronously for select, radio, checkbox and more via requester / handler, with error fallback and error event callbacks.
+  - title: Flexible Layout
+    details: Supports multi-column layouts via columns, span / col grid config, gap settings, and labelWidth 'auto' for automatic label width measurement.
+  - title: Extensible
+    details: Register custom form components with registerModule, enjoying the same data flow and validation capabilities as built-in modules.
+  - title: Full Form Capabilities
+    details: Inherits the ElementPlus form system, exposing validate, clearValidate, resetFields, validateField, scrollToField and more, with TypeScript support.
 
 footer: MIT Licensed | wxsub.com Studios Copyright © 2018-present All Rights Reserved
 ---
+
+## Quick Start
+
+```bash
+npm install element-plus-formkit
+```
+
+```vue
+<template>
+  <FormKit v-model="form" :config="config" :columns="2" />
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import FormKit from 'element-plus-formkit'
+
+const form = ref({ name: '', gender: '', birthday: '' })
+
+const config = [
+  { type: 'input', key: 'name', label: 'Name', rules: [{ required: true, message: 'Name is required' }] },
+  { type: 'radio', key: 'gender', label: 'Gender', options: [{ label: 'Male', value: 1 }, { label: 'Female', value: 2 }] },
+  { type: 'datePicker', key: 'birthday', label: 'Birthday' }
+]
+</script>
+```
+
+Render a complete form with validation and layout from a single config array. [Read the docs →](/en/get-started.html)
 
 [default-theme-home]: https://vuejs.press/reference/default-theme/frontmatter.html#home-page
