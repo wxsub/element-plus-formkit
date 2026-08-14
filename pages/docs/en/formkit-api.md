@@ -97,9 +97,35 @@ Position of the form item label, when set to left or right, you also need to set
 ```
 
 ## labelWidth
-Label length, type: `Number`
+Label length, type: `Number | String`
 
 For example, 50. Form-item elements that are direct children of the Form element inherit this value.
+
+It also supports `'auto'`, in which case FormKit precisely measures each label's text width through a hidden probe element using the form item label's actual rendered styles (including required-asterisk compensation and typography effects such as letter-spacing and kerning, so labels won't wrap due to OS or font differences). Only takes effect when `labelPosition` is `left` or `right`.
+
+<formkit
+    :config="[
+        { type: 'input', label: 'Name', key: 'name' },
+        { type: 'input', label: 'Central Local Unit Identifier', key: 'unitId' },
+        { type: 'input', label: 'Test labelWidth', key: 'testLabelWidth' }
+    ]"
+    labelPosition="right"
+    labelWidth="auto"
+    v-model="dataset">
+</formkit>
+
+```vue
+<formkit
+    :config="[
+        { type: 'input', label: 'Name', key: 'name' },
+        { type: 'input', label: 'Central Local Unit Identifier', key: 'unitId' },
+        { type: 'input', label: 'Test labelWidth', key: 'testLabelWidth' }
+    ]"
+    labelPosition="right"
+    labelWidth="auto"
+    v-model="dataset">
+</formkit>
+```
 
 ## columns
 Number of form items allowed per row.

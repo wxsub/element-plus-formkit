@@ -7,6 +7,10 @@
         :key="UNIQUE_KEY"
         v-bind="formAttrs"
         :label-position="labelPosition">
+        <span
+          ref="labelProbeRef"
+          :class="$style['label-probe']"
+          aria-hidden="true"></span>
         <el-row :gutter="props.gap?.col || 10" :style="{ rowGap: `${props.gap?.row || 12}px` }">
           <slot name="prepend" />
           <el-col
@@ -16,7 +20,7 @@
             v-bind="conf.col || {}">
             <el-form-item
               :label="conf.label"
-              :label-width="conf.labelWidth || `${labelWidth}px`"
+              :label-width="resolveFormItemLabelWidth(conf)"
               :prop="conf.key"
               :rules="conf.rules">
               <Suspense v-if="conf.type">
@@ -60,8 +64,8 @@
 import { modules } from '@/module-registry'
 import { getConfigure } from '@/config'
 import { ElForm, ElRow, ElCol, ElFormItem, ElConfigProvider, type FormItemProp, type RowProps } from 'element-plus'
-import { isObject, isNumber, isArray, isBoolean, isFunction, uuidv4 } from '@/utils/util'
-import { ConfigInterface, FormKitExposed, ValidSize, FormKitSlots } from 'types/formkit-types'
+import { isObject, isNumber, isArray, isBoolean, isFunction, uuidv4, measureLabelWidth, stripHtml } from '@/utils/util'
+import { ConfigInterface, FormKitExposed, ValidSize, FormKitSlots, FormItemRule } from 'types/formkit-types'
 import { h } from 'vue'
 
 const UNIQUE_KEY = ref(uuidv4()),
@@ -75,7 +79,11 @@ const props = defineProps({
   rules: { type: Object, default: () => {} },
   disabled: { type: Boolean, default: false },
   labelPosition: { type: String, default: 'top' }, // Form Input Alignment Rules
-  labelWidth: { type: Number, default: 120 }, // Form item title width (only works when labelPosition is left, right)
+  labelWidth: { // Form item title width (only works when labelPosition is left, right). 'auto' computes width by label character count
+    type: [Number, String],
+    default: 120,
+    validator: (val: number | string) => isNumber(val) || val === 'auto'
+  },
   columns: { type: [Number, String], default: 1 }, // How many columns per row
   gap: { type: Object, default: () => null }, // Form item gap settings
   size: {
@@ -101,8 +109,6 @@ const formAttrs = computed(() => {
   if (props.disabled) attrs.disabled = props.disabled;
   if (props.rules && Object.keys(props.rules).length > 0) attrs.rules = props.rules;
   return attrs
-}), isAutoAlignment = computed(() => {
-  return props.columns === 'auto'
 }), setSpanAttrs = computed(() => {
   const columnsValue = props.columns as number;
   return isNumber(columnsValue) ? 24 / columnsValue : -1;
@@ -179,6 +185,64 @@ function loader(type: string) {
     };
   }
 }
+function hasRequiredRule(conf: ConfigInterface): boolean {
+  return isArray(conf.rules) && (conf.rules as FormItemRule[]).some(rule => rule?.required === true)
+}
+
+const labelProbeRef = ref<HTMLElement>(),
+  measuredLabelWidths: Record<string, number> = reactive({});
+function resolveFormItemLabelWidth(conf: ConfigInterface): string | undefined {
+  if (props.labelPosition === 'top') return undefined
+  if (isNumber(conf.labelWidth)) return `${conf.labelWidth}px`
+  if (conf.labelWidth === 'auto' || props.labelWidth === 'auto') {
+    const measured = measuredLabelWidths[conf.key]
+    return `${measured ?? measureLabelWidth(conf.label, hasRequiredRule(conf))}px`
+  }
+  return `${props.labelWidth}px`
+}
+function computeAutoLabelWidths() {
+  const probe = labelProbeRef.value
+  if (!probe || props.labelPosition === 'top') return
+
+  const items = props.config.filter(conf =>
+    conf.key && (conf.labelWidth === 'auto' || (!isNumber(conf.labelWidth) && props.labelWidth === 'auto'))
+  )
+  if (items.length === 0) {
+    probe.replaceChildren()
+    return
+  }
+
+  const fragment = document.createDocumentFragment(),
+      createNode = (text: string) => {
+        const node = document.createElement('span')
+        node.className = 'el-form-item__label'
+        node.textContent = text
+        fragment.appendChild(node)
+        return node
+      },
+      asteriskNode = createNode('*'),
+      labelNodes = items.map(conf => createNode(stripHtml(conf.label)));
+
+  // Phase 1: single DOM write for all measurement nodes
+  probe.replaceChildren(fragment)
+
+  // Phase 2: single layout pass — the first read forces one reflow, the rest are free
+  const requiredMarkWidth = asteriskNode.offsetWidth + 4
+  items.forEach((conf, index) => {
+    const extra = hasRequiredRule(conf) ? requiredMarkWidth : 0
+    measuredLabelWidths[conf.key] = labelNodes[index].offsetWidth + extra + 1
+  })
+}
+watch(
+  () => props.labelPosition === 'top' ? null : [props.config, props.labelWidth, props.size],
+  computeAutoLabelWidths,
+  { deep: true, immediate: true, flush: 'post' }
+)
+onMounted(() => {
+  if (props.labelPosition === 'top') return
+  document.fonts?.ready?.then(() => computeAutoLabelWidths())
+})
+
 function isStandaloneRequester(type: string) {
   return type === 'address' || type === 'remoteSearchSelect' || type === 'upload'
 }
@@ -269,6 +333,14 @@ defineExpose<FormKitExposed>({
 <style lang="scss" module>
 .element-plus-formkit {
   .item-hint { width: 100%; margin: 0; color: #888888; font-weight: 300; font-size: 12px; line-height: 24px }
+  .label-probe {
+    position: absolute;
+    visibility: hidden;
+    white-space: nowrap;
+    height: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
   .formkit-module-loading {
     background-image: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 37%, #f0f2f5 63%);
     background-size: 400% 100%;

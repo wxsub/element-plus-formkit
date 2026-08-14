@@ -97,9 +97,35 @@
 ```
 
 ## labelWidth
-标签的长度，类型：`Number`
+标签的长度，类型：`Number | String`
 
 例如 50。 作为 Form 直接子元素的 form-item 会继承该值。
+
+也支持设置为 `'auto'`，此时 FormKit 将通过隐藏探针元素以表单项标签的真实渲染样式精确测量每个标签的文本宽度（含必填星号补偿及 letter-spacing、字距调整等排版效果，不会因系统或字体差异导致标签换行）。仅当 `labelPosition` 为 `left` 或 `right` 时生效。
+
+<formkit
+    :config="[
+        { type: 'input', label: '姓名', key: 'name' },
+        { type: 'input', label: 'Central Local Unit Identifier', key: 'unitId' },
+        { type: 'input', label: '测试labelWidth', key: 'testLabelWidth' }
+    ]"
+    labelPosition="right"
+    labelWidth="auto"
+    v-model="dataset">
+</formkit>
+
+```vue
+<formkit
+    :config="[
+        { type: 'input', label: '姓名', key: 'name' },
+        { type: 'input', label: 'Central Local Unit Identifier', key: 'unitId' },
+        { type: 'input', label: '测试labelWidth', key: 'testLabelWidth' }
+    ]"
+    labelPosition="right"
+    labelWidth="auto"
+    v-model="dataset">
+</formkit>
+```
 
 ## columns
 每行允许存在的表单项。

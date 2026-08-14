@@ -123,7 +123,7 @@ setConfigure('upload', async (file: File, options: UploadRequesterOptions) => {
 | config | Form configuration items, detailed config configuration parameters refer to `config Attributes` below | Array | []
 | disabled | Disable entire form | Boolean | false  
 | labelPosition | Label alignment rules, refer to [ElementPlus Form Attributes](https://element-plus.org/zh-CN/component/form.html#form-api) | String | top  
-| labelWidth | labelWidth of the title of the form item (this parameter is only valid when labelPosition is left or right, and will be ignored when labelPosition is top) | Number | 125 
+| labelWidth | labelWidth of the title of the form item (this parameter is only valid when labelPosition is left or right, and will be ignored when labelPosition is top). Set to 'auto' to precisely measure each item's label width by its real rendered width | Number / String | 125 
 | columns | How many list items are displayed in each row | Number / String | 5  
 | size | The size of the components in the form (optional: '' / 'large' / 'default' / 'small') | String | mini 
 | rows | See [ElementPlus Row API](https://element-plus.org/zh-CN/component/layout.html#row-api) | String | top

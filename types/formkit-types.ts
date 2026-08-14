@@ -20,7 +20,7 @@ export interface ConfigInterface {
   type?: string;
   key: string;
   span?: number;
-  labelWidth?: number;
+  labelWidth?: number | 'auto';
   label?: string;
   prefix?: string;
   disabled?: boolean;
