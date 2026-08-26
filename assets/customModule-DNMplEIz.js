@@ -1,0 +1,1 @@
+import{d as e,o,c as t}from"./app-CVG6GBCA.js";const u=e({__name:"customModule",props:{value:{type:Object,default:()=>({})}},setup(s){return(c,a)=>(o(),t("h2",null,"This is customModule"))}});export{u as default};
