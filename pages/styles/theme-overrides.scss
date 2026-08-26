@@ -18,3 +18,47 @@
   --search-input-width: 9rem;
   padding: 0 1rem 0 2rem;
 }
+
+// "Who's Using" logo wall on home page
+.who-using {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem 2.5rem;
+  margin: 1.5rem 0;
+
+  .who-using-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--vp-c-text-2, #666);
+    text-decoration: none;
+    filter: grayscale(1);
+    opacity: 0.75;
+    transition: filter 0.25s ease, opacity 0.25s ease, color 0.25s ease;
+
+    img {
+      height: 30px;
+      width: auto;
+      max-width: 110px;
+      object-fit: contain;
+    }
+
+    span {
+      font-size: 0.95rem;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    &:hover {
+      filter: none;
+      opacity: 1;
+      color: var(--vp-c-accent, #3e64b3);
+    }
+  }
+}
+
+.who-using-tip {
+  font-size: 0.85rem;
+  color: var(--vp-c-text-3, #999);
+}

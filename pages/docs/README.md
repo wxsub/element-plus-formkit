@@ -66,4 +66,37 @@ const config = [
 
 只需一个配置数组，即可渲染出带校验、带布局的完整表单。[查看文档开始 →](/get-started.html)
 
+## 谁在使用
+
+以下企业和机构正在生产环境中使用 element-plus-formkit（排名不分先后）：
+
+<div class="who-using">
+  <a class="who-using-item" href="https://hrss.ah.gov.cn/" target="_blank" rel="noopener noreferrer" title="安徽省人力资源和社会保障厅">
+    <img src="https://raw.githubusercontent.com/wxsub/element-plus-formkit/refs/heads/main/pages/docs/public/rst.png" alt="安徽省人力资源和社会保障厅" loading="lazy" />
+    <span>安徽省人社厅</span>
+  </a>
+  <a class="who-using-item" href="http://www.tongqinglou.cn/" target="_blank" rel="noopener noreferrer" title="同庆楼">
+    <img src="https://raw.githubusercontent.com/wxsub/element-plus-formkit/refs/heads/main/pages/docs/public/tql.png" alt="同庆楼" loading="lazy" />
+    <span>同庆楼</span>
+  </a>
+  <a class="who-using-item" href="https://www.cisco.com/" target="_blank" rel="noopener noreferrer" title="Cisco System">
+    <img src="https://raw.githubusercontent.com/wxsub/element-plus-formkit/refs/heads/main/pages/docs/public/cisco.svg" alt="Cisco System" loading="lazy" />
+    <span>Cisco</span>
+  </a>
+  <a class="who-using-item" href="https://www.xdf.cn/" target="_blank" rel="noopener noreferrer" title="新东方教育">
+    <img src="https://raw.githubusercontent.com/wxsub/element-plus-formkit/refs/heads/main/pages/docs/public/xdf.png" alt="新东方教育" loading="lazy" />
+    <span>新东方教育</span>
+  </a>
+  <a class="who-using-item" href="https://www.jdt.com.cn/" target="_blank" rel="noopener noreferrer" title="京东科技">
+    <img src="https://raw.githubusercontent.com/wxsub/element-plus-formkit/refs/heads/main/pages/docs/public/jdt-logo.svg" alt="京东科技" loading="lazy" />
+    <span>京东科技</span>
+  </a>
+  <a class="who-using-item" href="https://www.ahslyy.com.cn/rszp" target="_blank" rel="noopener noreferrer" title="中国科学技术大学附属第一医院（安徽省立医院）">
+    <img src="https://raw.githubusercontent.com/wxsub/element-plus-formkit/refs/heads/main/pages/docs/public/slyy.png" alt="中国科学技术大学附属第一医院（安徽省立医院）" loading="lazy" />
+    <span>安徽省立医院</span>
+  </a>
+</div>
+
+<p class="who-using-tip">如果你的企业也在使用 element-plus-formkit，欢迎提交 <a href="https://github.com/wxsub/element-plus-formkit/issues" target="_blank" rel="noopener noreferrer">Issue</a> 或 PR，将 Logo 展示在这里。</p>
+
 [default-theme-home]: https://vuejs.press/reference/default-theme/frontmatter.html#home-page

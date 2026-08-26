@@ -66,4 +66,37 @@ const config = [
 
 Render a complete form with validation and layout from a single config array. [Read the docs →](/en/get-started.html)
 
+## Who's Using
+
+The following companies and organizations are using element-plus-formkit in production (in no particular order):
+
+<div class="who-using">
+  <a class="who-using-item" href="https://hrss.ah.gov.cn/" target="_blank" rel="noopener noreferrer" title="Anhui Provincial Department of Human Resources and Social Security">
+    <img src="https://raw.githubusercontent.com/wxsub/element-plus-formkit/refs/heads/main/pages/docs/public/rst.png" alt="Anhui Provincial Department of Human Resources and Social Security" loading="lazy" />
+    <span>Anhui HRSS</span>
+  </a>
+  <a class="who-using-item" href="http://www.tongqinglou.cn/" target="_blank" rel="noopener noreferrer" title="Tongqinglou">
+    <img src="https://raw.githubusercontent.com/wxsub/element-plus-formkit/refs/heads/main/pages/docs/public/tql.png" alt="Tongqinglou" loading="lazy" />
+    <span>Tongqinglou</span>
+  </a>
+  <a class="who-using-item" href="https://www.cisco.com/" target="_blank" rel="noopener noreferrer" title="Cisco System">
+    <img src="https://raw.githubusercontent.com/wxsub/element-plus-formkit/refs/heads/main/pages/docs/public/cisco.svg" alt="Cisco System" loading="lazy" />
+    <span>Cisco</span>
+  </a>
+  <a class="who-using-item" href="https://www.xdf.cn/" target="_blank" rel="noopener noreferrer" title="New Oriental Education">
+    <img src="https://raw.githubusercontent.com/wxsub/element-plus-formkit/refs/heads/main/pages/docs/public/xdf.png" alt="New Oriental Education" loading="lazy" />
+    <span>New Oriental</span>
+  </a>
+  <a class="who-using-item" href="https://www.jdt.com.cn/" target="_blank" rel="noopener noreferrer" title="JD Technology">
+    <img src="https://raw.githubusercontent.com/wxsub/element-plus-formkit/refs/heads/main/pages/docs/public/jdt-logo.svg" alt="JD Technology" loading="lazy" />
+    <span>JD Technology</span>
+  </a>
+  <a class="who-using-item" href="https://www.ahslyy.com.cn/rszp" target="_blank" rel="noopener noreferrer" title="The First Affiliated Hospital of USTC (Anhui Provincial Hospital)">
+    <img src="https://raw.githubusercontent.com/wxsub/element-plus-formkit/refs/heads/main/pages/docs/public/slyy.png" alt="The First Affiliated Hospital of USTC (Anhui Provincial Hospital)" loading="lazy" />
+    <span>Anhui Provincial Hospital</span>
+  </a>
+</div>
+
+<p class="who-using-tip">If your company is also using element-plus-formkit, feel free to open an <a href="https://github.com/wxsub/element-plus-formkit/issues" target="_blank" rel="noopener noreferrer">Issue</a> or PR to add your logo here.</p>
+
 [default-theme-home]: https://vuejs.press/reference/default-theme/frontmatter.html#home-page
