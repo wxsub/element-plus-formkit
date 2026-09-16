@@ -557,12 +557,165 @@ Event field, used to listen to module events, type: `Object`
 </formkit>
 ```
 
+## config.requester
+The request used by the current form item to fetch remote data, dynamically replacing the `options` attribute value. Supports all modules that have an `options` property.
+
+| Type | Description |
+| -------- | :----- |
+| Function | A function returning a `Promise`; FormKit invokes it automatically and awaits completion |
+| Promise | A `Promise` object passed directly; FormKit awaits it as-is |
+
+### Execution Timing & Concurrency
+
+- All `requester`s run **immediately after the component mounts** — no manual trigger needed.
+- Since `config` is watched deeply (`deep`), any deep change to the `config` array **re-executes** the related `requester`s.
+- All `requester`s in the same form run **concurrently** via `Promise.allSettled`; they never block each other, and a single failed request does not affect the others.
+
 ::: warning
-The current function must return a `Promise` object, otherwise it will fail.
+When `requester` is a function, it must return a `Promise` object, otherwise it will fail.
+:::
+
+::: tip Modules managing their own requests
+The `address`, `remoteSearchSelect`, and `upload` modules manage their own request lifecycle. Pass their `requester` and `handler` through `config.props`; FormKit will not execute them on your behalf.
+:::
+
+### Error Handling
+
+When a `requester` fails (the `Promise` rejects or the function throws):
+
+1. The options of the corresponding form item fall back to an empty array `[]` to prevent UI crashes;
+2. The FormKit `error` event is emitted with `{ key, error, requester }` as the callback payload;
+3. An error log is printed to the console.
+
+### Basic Usage
+
+When no `handler` is provided, FormKit uses the data returned by `requester` directly as the options data source.
+
+<formkit
+    :config="[
+        {
+            type: 'select',
+            label: 'Remote options (no handler)',
+            key: 'requesterBasic',
+            props: { placeholder: 'Please select an option', clearable: true },
+            requester: () => fetchRawOptions()
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+::: code-tabs
+@tab template
+``` vue
+<formkit
+    :config="[
+        {
+            type: 'select',
+            label: 'Remote options (no handler)',
+            key: 'requesterBasic',
+            props: { placeholder: 'Please select an option', clearable: true },
+            requester: () => fetchRawOptions()
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+```
+
+@tab script
+``` vue
+<script setup lang="ts">
+import formkit from 'element-plus-formkit';
+import { ref } from 'vue';
+
+const dataset = ref({})
+
+function fetchRawOptions() {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve([
+                { name: 'Option One', id: 1 },
+                { name: 'Option Two', id: 2 },
+                { name: 'Option Three', id: 3 }
+            ])
+        }, 1500)
+    })
+}
+</script>
+```
+:::
+
+### Failure & error Event
+
+Toggle the switch below to trigger a failing remote request and observe the `error` event callback and the empty-array fallback.
+
+<formkit
+    :config="requesterFailedConfig"
+    @error="onRequestError"
+    v-model="dataset">
+</formkit>
+
+::: code-tabs
+@tab template
+``` vue
+<formkit
+    :config="requesterFailedConfig"
+    @error="onRequestError"
+    v-model="dataset">
+</formkit>
+```
+
+@tab script
+``` vue
+<script setup lang="ts">
+import formkit from 'element-plus-formkit';
+import { ElMessage } from 'element-plus';
+import { ref, computed } from 'vue';
+
+const dataset = ref({})
+
+// Control the config dynamically via computed: the requester item is only
+// inserted after the switch is turned on, leveraging the deep config watch
+const requesterFailedConfig = computed(() => {
+    const configs: any[] = [
+        {
+            type: 'switch',
+            label: 'Trigger a failing remote request',
+            key: 'triggerFailedRequest',
+            props: { 'inline-prompt': true, 'active-text': 'On', 'inactive-text': 'Off' }
+        }
+    ]
+    if (dataset.value.triggerFailedRequest) {
+        configs.push({
+            type: 'select',
+            label: 'Simulated request failure',
+            key: 'requesterFailed',
+            props: { placeholder: 'The request will fail; options fall back to []' },
+            requester: () => fetchFailedOptions()
+        })
+    }
+    return configs
+})
+
+function fetchFailedOptions() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            reject(new Error('Network Error: 500 Internal Server Error'))
+        }, 1500)
+    })
+}
+
+// error event callback payload: { key, error, requester }
+function onRequestError({ key, error }: any) {
+    ElMessage.error(`Failed to load options for "${key}": ${error.message}`)
+}
+</script>
+```
 :::
 
 ## config.handler
-Handler function used to process data returned by the `requester`. The `handler` serves as an additional auxiliary field. After the `requester` completes, the module will invoke the `handler` with the return value as an argument. The `handler`'s return value ultimately becomes the module's data source. Type: `Function`
+Handler function used to process the data returned by `requester`. The `handler` serves as an additional auxiliary field. After the `requester` completes, FormKit invokes the `handler` with the return value as an argument, and the `handler`'s return value becomes the module's final data source. Type: `Function`
+
+Data flow: `requester response` → `handler (optional)` → module `options` data source (cached internally by `key`, accessible via the exposed [buckets](/en/expose.md#buckets))
 
 <formkit
     :config="[
@@ -751,6 +904,7 @@ Combined with the component to implement complete form item validation, refer to
 
 <script setup lang="ts">
 import formkit, { setConfigure } from 'element-plus-formkit';
+import { ElMessage } from 'element-plus';
 import en from 'element-plus/es/locale/lang/en';
 import { ref, computed } from 'vue';
 
@@ -793,6 +947,27 @@ const visibleExampleConfig = computed(() => [
     }
 ])
 
+const requesterFailedConfig = computed(() => {
+    const configs: any[] = [
+        {
+            type: 'switch',
+            label: 'Trigger a failing remote request',
+            key: 'triggerFailedRequest',
+            props: { 'inline-prompt': true, 'active-text': 'On', 'inactive-text': 'Off' }
+        }
+    ]
+    if (dataset.value.triggerFailedRequest) {
+        configs.push({
+            type: 'select',
+            label: 'Simulated request failure',
+            key: 'requesterFailed',
+            props: { placeholder: 'The request will fail; options fall back to []' },
+            requester: () => fetchFailedOptions()
+        })
+    }
+    return configs
+})
+
 function fetchOptions() {
     return new Promise((r, j) => {
         setTimeout(() => {
@@ -806,5 +981,29 @@ function fetchOptions() {
            })
         }, 2000)
     })
+}
+
+function fetchRawOptions() {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve([
+                { name: 'Option One', id: 1 },
+                { name: 'Option Two', id: 2 },
+                { name: 'Option Three', id: 3 }
+            ])
+        }, 1500)
+    })
+}
+
+function fetchFailedOptions() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            reject(new Error('Network Error: 500 Internal Server Error'))
+        }, 1500)
+    })
+}
+
+function onRequestError({ key, error }: any) {
+    ElMessage.error(`Failed to load options for "${key}": ${error.message}`)
 }
 </script>

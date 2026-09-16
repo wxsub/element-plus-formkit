@@ -558,14 +558,163 @@ formkit会根据`config.span`值自动调整模块的宽度，例如：`config.s
 ```
 
 ## config.requester
-当前表单项拉取远程数据请求函数，远程获取数据动态替换`options`属性值，支持所有存在`options`属性的模块，类型：`Function`
+当前表单项拉取远程数据的请求，远程获取数据并动态替换`options`属性值，支持所有存在`options`属性的模块。
+
+| 类型 | 说明 |
+| -------- | :----- |
+| Function | 返回`Promise`的函数，formkit 会自动调用并等待其完成 |
+| Promise | 直接传入一个`Promise`对象，formkit 会直接等待其完成 |
+
+### 执行时机与并发
+
+- 组件挂载后**立即执行**所有`requester`，无需手动触发。
+- `config`为深度监听（`deep`），当`config`数组发生深层次变化时，相关`requester`会**重新执行**。
+- 同一表单内的所有`requester`基于`Promise.allSettled`**并发执行**，互不阻塞，单个请求失败不会影响其他请求。
 
 ::: warning
-当前函数必须返回一个`Promise`对象，否则会失效。
+当`requester`为函数时必须返回一个`Promise`对象，否则会失效。
+:::
+
+::: tip 独立管理请求的模块
+`address`、`remoteSearchSelect`、`upload`这三个模块自行管理请求生命周期，它们的`requester`、`handler`需通过`config.props`传入，formkit 不会代为执行。
+:::
+
+### 请求失败处理
+
+当某个`requester`执行失败（`Promise`被 reject 或函数抛错）时：
+
+1. 对应表单项的选项数据兜底为空数组`[]`，避免界面崩溃；
+2. 触发 formkit 的`error`事件，回调参数为`{ key, error, requester }`；
+3. 同时在控制台输出错误日志。
+
+### 基础用法
+
+未提供`handler`时，formkit 将直接使用`requester`返回的数据作为选项数据源。
+
+<formkit
+    :config="[
+        {
+            type: 'select',
+            label: '远程选项（无 handler）',
+            key: 'requesterBasic',
+            props: { placeholder: '请选择一个选项', clearable: true },
+            requester: () => fetchRawOptions()
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+
+::: code-tabs
+@tab template
+``` vue
+<formkit
+    :config="[
+        {
+            type: 'select',
+            label: '远程选项（无 handler）',
+            key: 'requesterBasic',
+            props: { placeholder: '请选择一个选项', clearable: true },
+            requester: () => fetchRawOptions()
+        }
+    ]"
+    v-model="dataset">
+</formkit>
+```
+
+@tab script
+``` vue
+<script setup lang="ts">
+import formkit from 'element-plus-formkit';
+import { ref } from 'vue';
+
+const dataset = ref({})
+
+function fetchRawOptions() {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve([
+                { name: '选项一', id: 1 },
+                { name: '选项二', id: 2 },
+                { name: '选项三', id: 3 }
+            ])
+        }, 1500)
+    })
+}
+</script>
+```
+:::
+
+### 请求失败与 error 事件
+
+打开下方开关以触发一次失败的远程请求，观察`error`事件回调与选项兜底行为。
+
+<formkit
+    :config="requesterFailedConfig"
+    @error="onRequestError"
+    v-model="dataset">
+</formkit>
+
+::: code-tabs
+@tab template
+``` vue
+<formkit
+    :config="requesterFailedConfig"
+    @error="onRequestError"
+    v-model="dataset">
+</formkit>
+```
+
+@tab script
+``` vue
+<script setup lang="ts">
+import formkit from 'element-plus-formkit';
+import { ElMessage } from 'element-plus';
+import { ref, computed } from 'vue';
+
+const dataset = ref({})
+
+// 通过 computed 动态控制配置：打开开关后才插入 requester 项，利用 config 深度监听触发请求
+const requesterFailedConfig = computed(() => {
+    const configs: any[] = [
+        {
+            type: 'switch',
+            label: '触发一次失败的远程请求',
+            key: 'triggerFailedRequest',
+            props: { 'inline-prompt': true, 'active-text': '触发', 'inactive-text': '关闭' }
+        }
+    ]
+    if (dataset.value.triggerFailedRequest) {
+        configs.push({
+            type: 'select',
+            label: '模拟请求失败',
+            key: 'requesterFailed',
+            props: { placeholder: '请求将失败，选项兜底为空数组' },
+            requester: () => fetchFailedOptions()
+        })
+    }
+    return configs
+})
+
+function fetchFailedOptions() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            reject(new Error('Network Error: 500 Internal Server Error'))
+        }, 1500)
+    })
+}
+
+// error 事件回调参数：{ key, error, requester }
+function onRequestError({ key, error }: any) {
+    ElMessage.error(`字段「${key}」数据加载失败：${error.message}`)
+}
+</script>
+```
 :::
 
 ## config.handler
-处理函数，用于处理`requester`返回的数据，`handler`作为额外的辅助字段，模块会在`requester`完成后将返回值作为参数调用`handler`，最终将`handler`返回值作为模块数据源，类型：`Function`
+处理函数，用于加工`requester`返回的数据，`handler`作为额外的辅助字段，模块会在`requester`完成后将返回值作为参数调用`handler`，最终将`handler`返回值作为模块数据源，类型：`Function`
+
+数据流向：`requester 返回值` → `handler（可选）` → 模块`options`数据源（内部按`key`缓存，可通过 expose 的 [buckets](/expose.md#buckets) 访问）
 
 <formkit
     :config="[
@@ -754,6 +903,7 @@ const visibleExampleConfig = computed(() => [
 
 <script setup lang="ts">
 import formkit from 'element-plus-formkit';
+import { ElMessage } from 'element-plus';
 import { ref, computed } from 'vue';
 
 const dataset = ref({})
@@ -793,6 +943,27 @@ const visibleExampleConfig = computed(() => [
     }
 ])
 
+const requesterFailedConfig = computed(() => {
+    const configs: any[] = [
+        {
+            type: 'switch',
+            label: '触发一次失败的远程请求',
+            key: 'triggerFailedRequest',
+            props: { 'inline-prompt': true, 'active-text': '触发', 'inactive-text': '关闭' }
+        }
+    ]
+    if (dataset.value.triggerFailedRequest) {
+        configs.push({
+            type: 'select',
+            label: '模拟请求失败',
+            key: 'requesterFailed',
+            props: { placeholder: '请求将失败，选项兜底为空数组' },
+            requester: () => fetchFailedOptions()
+        })
+    }
+    return configs
+})
+
 function fetchOptions() {
     return new Promise((r, j) => {
         setTimeout(() => {
@@ -806,5 +977,29 @@ function fetchOptions() {
            })
         }, 2000)
     })
+}
+
+function fetchRawOptions() {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve([
+                { name: '选项一', id: 1 },
+                { name: '选项二', id: 2 },
+                { name: '选项三', id: 3 }
+            ])
+        }, 1500)
+    })
+}
+
+function fetchFailedOptions() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            reject(new Error('Network Error: 500 Internal Server Error'))
+        }, 1500)
+    })
+}
+
+function onRequestError({ key, error }: any) {
+    ElMessage.error(`字段「${key}」数据加载失败：${error.message}`)
 }
 </script>
