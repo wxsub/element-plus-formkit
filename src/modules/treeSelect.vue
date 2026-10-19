@@ -15,7 +15,9 @@
 </template>
 
 <script setup lang="ts">
-import { ElTreeSelect } from 'element-plus'
+import { asyncElementPlus } from '@/asyncModulesLoader'
+
+const ElTreeSelect = asyncElementPlus('ElTreeSelect')
 
 const props = defineProps({
     modelValue: { default: null },

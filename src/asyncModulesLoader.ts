@@ -1,10 +1,17 @@
 import { defineAsyncComponent } from 'vue';
 import type { Component } from 'vue';
+import * as ElementPlus from 'element-plus';
 
-const asyncElementPlus = (componentName: string): Component => {
+export const asyncElementPlus = (componentName: string): Component => {
   return defineAsyncComponent(async () => {
-    const module = await import('element-plus');
-    return (module as any)[componentName];
+    // 注意：必须用运行时变量做计算属性访问，静态具名访问（如 ElementPlus.ElMention）
+    // 会被用户端的 Rollup 做导出校验，低版本 element-plus 缺少该导出时直接导致构建失败
+    const component = (ElementPlus as any)[componentName];
+    if (!component) {
+      console.warn(`[element-plus-formkit] The component "${componentName}" does not exist in the current version of element-plus; please upgrade element-plus before using this component.`);
+      return { render: () => null };
+    }
+    return component;
   });
 };
 

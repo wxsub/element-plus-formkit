@@ -15,7 +15,9 @@
 </template>
 
 <script setup lang="ts">
-import { ElMention } from 'element-plus'
+import { asyncElementPlus } from '@/asyncModulesLoader'
+
+const ElMention = asyncElementPlus('ElMention')
 
 const props = defineProps({
     modelValue: { default: null },
