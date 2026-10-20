@@ -26,12 +26,12 @@ export const Modules: Record<string, Component> = {
   upload: defineAsyncComponent(() => import('./modules/upload.vue')),
   mention: defineAsyncComponent(() => import('./modules/mention.vue')),
   treeSelect: defineAsyncComponent(() => import('./modules/treeSelect.vue')),
-  
+  datePicker: defineAsyncComponent(() => import('./modules/datePicker.vue')),
+
   autocomplete: asyncElementPlus('ElAutocomplete'),
   input: asyncElementPlus('ElInput'),
   inputTag: asyncElementPlus('ElInputTag'),
   selectV2: asyncElementPlus('ElSelectV2'),
-  datePicker: asyncElementPlus('ElDatePicker'),
   timePicker: asyncElementPlus('ElTimePicker'),
   timeSelect: asyncElementPlus('ElTimeSelect'),
   cascader: asyncElementPlus('ElCascader'),
