@@ -11,9 +11,9 @@ Whenever the user needs to build or create a form — whether from an uploaded i
 
 ## Workflow
 
-### Step 1: Analyze the Image
+### Step 1: Analyze the Requirement
 
-Carefully examine the uploaded image and identify all form elements. For each form field, extract the following information:
+Carefully examine the uploaded image or description and identify all form elements. For each form field, extract the following information:
 
 - **Label**: The display text of the form field (e.g. "Name", "Department Name")
 - **Type**: The form control type (refer to the type mapping table below)
@@ -23,56 +23,76 @@ Carefully examine the uploaded image and identify all form elements. For each fo
 
 ### Step 2: Map FormKit Config Types
 
-Based on the visual form elements in the image, map them to the corresponding formkit `type`. For full module documentation, refer to: [element-plus-formkit Modules](https://wxsub.github.io/element-plus-formkit/modules.html)
+Based on the form elements, map them to the corresponding formkit `type`. For full module documentation, refer to: [element-plus-formkit Modules](https://wxsub.github.io/element-plus-formkit/modules.html)
+
+> **IMPORTANT**: Only the module types listed below actually exist in the component. Do NOT invent types such as `dict`, `vCascader`, `colorPicker`, or `textarea` — they are NOT registered modules and will fail at runtime.
 
 #### Basic Modules
 
 | Visual Element | formkit `type` | Description |
 |---|---|---|
 | Single-line text input | `input` | Default type for text fields |
-| Multi-line textarea | `input` + `props: { type: 'textarea' }` | Or use `textarea` type |
+| Multi-line textarea | `input` + `props: { type: 'textarea' }` | There is no standalone `textarea` type |
 | Password input | `input` + `props: { type: 'password', showPassword: true }` | |
-| Number input | `input` + `props: { type: 'number' }` | |
+| Number input | `inputNumber` | Dedicated number module; supports `props: { prefix, suffix }` (HTML allowed) in addition to ElInputNumber props |
+| Autocomplete input | `autocomplete` | ElAutocomplete with suggestions |
+| Tag input | `inputTag` | Add content as tags. Requires element-plus >= 2.9.0 |
 
 #### Selection Modules
 
 | Visual Element | formkit `type` | Description |
 |---|---|---|
-| Dropdown select | `select` | Requires `options` array in `{ name, id }` format. Also supports dynamically fetching options via `requester` field |
-| Dictionary dropdown | `dict` | When options come from system dictionary, use `props: { type: 'dict_key' }` (project-specific) |
-| Cascader | `cascader` | For hierarchical data with clear parent-child structure. Requires `options` array in `{ value, label, children }` format |
-| Custom cascader | `vCascader` | Project-specific cascader component |
-| Radio buttons | `radio` | Requires `options` array in `{ name, id }` format |
-| Checkboxes | `checkbox` | Requires `options` array in `{ name, id }` format |
+| Dropdown select | `select` | Requires `options` array in `{ name, id }` format. Supports dynamically fetching options via `requester`/`handler` fields. Supports `props: { onChoose: (value, selectedLabel, options) => {} }` callback |
+| Virtualized select | `selectV2` | ElSelectV2 for large option lists |
+| Remote search select | `remoteSearchSelect` | Search-as-you-type select. Its `requester(query)` receives the search keyword; see "Standalone Requester Modules" below |
+| Tree select | `treeSelect` | ElTreeSelect; `options` is tree data with `{ id, name, children }` (keys customizable via `labelKey`/`valueKey`) |
+| Cascader | `cascader` | ElCascader for hierarchical data. Requires `options` array in `{ value, label, children }` format |
+| Address (lazy cascader) | `address` | Lazy-loaded region cascader. Requires a `requester`; see "Standalone Requester Modules" below. Use `props: { level }` for cascade depth and `props: { cascaderProps }` to override the internal ElCascader lazy config |
+| Popover panel select | `popover` | ElCascaderPanel inside a click popover; `options` is tree data with `{ id, name, children }`. Configure the inner panel via the nested `props: { props: { multiple: true } }` (note the double `props`) |
+| Radio buttons | `radio` | Requires `options` array in `{ name, id }` format. Use `props: { type: 'button' }` for el-radio-button style; per-option `disabled` is supported |
+| Checkboxes | `checkbox` | Requires `options` array in `{ name, id }` format. Supports `props: { showAllCheck: true }` for a "Select All" checkbox |
 | Switch | `switch` | Toggle between two states. Commonly uses `props: { inlinePrompt: true, activeText: '...', inactiveText: '...' }` |
 
 #### Date/Time Modules
 
 | Visual Element | formkit `type` | Description |
 |---|---|---|
-| Date picker | `datePicker` | Add `class: '!w-full'` in props by default. Use `props: { valueFormat: 'YYYY-MM-DD', class: '!w-full' }` |
-| DateTime picker | `datePicker` + `props: { type: 'datetime', class: '!w-full' }` | |
-| Date range picker | `datePicker` + `props: { type: 'daterange', class: '!w-full' }` | |
-| DateTime range picker | `datePicker` + `props: { type: 'datetimerange', class: '!w-full' }` | |
+| Date picker | `datePicker` | Defaults to 100% width (built-in inline style). Use `props: { valueFormat: 'YYYY-MM-DD' }` |
+| DateTime picker | `datePicker` + `props: { type: 'datetime' }` | |
+| Date range picker | `datePicker` + `props: { type: 'daterange' }` | |
+| DateTime range picker | `datePicker` + `props: { type: 'datetimerange' }` | |
+| Time picker | `timePicker` | ElTimePicker |
+| Time range picker | `timePicker` + `props: { isRange: true }` | |
+| Time select | `timeSelect` | ElTimeSelect (fixed time intervals) |
 
-> **Note**: When datetime form fields are detected in the image, always add `class: '!w-full'` to the `props` of that config item by default.
+> **Note**: The `datePicker` module already applies `width: 100%` by default — do NOT add `class: '!w-full'` to its props.
 
 #### Advanced Modules
 
 | Visual Element | formkit `type` | Description |
 |---|---|---|
-| File upload | `upload` | Uses `props: { accept, width, height }`. Upload configuration is set globally via `setConfigure('upload', ...)` |
-| Input tag | `inputTag` | Allows users to add content as tags. Requires element-plus >= 2.13.3 |
-| Mention (@mention) | `mention` | Mention someone/something in input. Supports `options` array or `requester` for dynamic fetching. Unique properties: `valueKey`, `labelKey` |
+| File upload | `upload` | See "Upload Module" below. Upload request is configured globally via `setConfigure('upload', ...)` |
+| Mention (@mention) | `mention` | Mention someone/something in input. Supports `options` array or `requester` for dynamic fetching. Requires element-plus >= 2.8.0 |
 | Rate (rating) | `rate` | Star rating component |
-| Color picker | `colorPicker` | Color selection |
 | Slider | `slider` | Slider selection. Uses `props: { min, max, step }` |
-| Time picker | `timePicker` | Time selection |
-| Time range picker | `timePicker` + `props: { isRange: true }` | |
 
-#### Dynamic Options Loading
+#### Option Key Mapping (`valueKey` / `labelKey`)
 
-Modules such as `select` and `mention` support dynamically fetching options via `requester` + `handler` fields:
+Modules that render options (`select`, `radio`, `checkbox`, `mention`, `treeSelect`, `remoteSearchSelect`, `address`, `popover`) read the display text from the `name` field and the value from the `id` field by default. Override via props:
+
+```ts
+{
+    type: 'select',
+    label: 'Status',
+    key: 'status',
+    options: [{ text: 'Enabled', code: 1 }],
+    props: { labelKey: 'text', valueKey: 'code' }
+}
+```
+
+#### Dynamic Options Loading (`requester` + `handler`)
+
+For non-standalone modules (e.g. `select`, `mention`), formkit itself executes the `requester` on mount and feeds the result into the module's `options`:
 
 ```ts
 {
@@ -88,9 +108,32 @@ Modules such as `select` and `mention` support dynamically fetching options via 
 }
 ```
 
+**Standalone Requester Modules**: `address`, `remoteSearchSelect`, and `upload` handle their own requests — their `requester`/`handler` are passed down as component props instead of being executed by formkit:
+
+```ts
+{
+    type: 'remoteSearchSelect',
+    label: 'User',
+    key: 'userId',
+    requester: async (keyword: string) => searchUsers(keyword), // receives the search keyword
+    handler: (response: any) => response?.items || [],
+    props: { placeholder: 'Type to search', initialValue: '' }
+}
+```
+
+```ts
+{
+    type: 'address',
+    label: 'Region',
+    key: 'region',
+    requester: async (pid: string | number, level?: number) => fetchRegions(pid), // lazy load by parent id
+    props: { level: 3 } // cascade depth
+}
+```
+
 #### Cascader Options Format
 
-Cascader `options` use a different format from regular selectors, with `{ value, label, children }` structure:
+Cascader `options` use the ElCascader default `{ value, label, children }` structure:
 
 ```ts
 {
@@ -117,20 +160,81 @@ Cascader `options` use a different format from regular selectors, with `{ value,
 }
 ```
 
-### Step 3: Generate Config Array
+#### Upload Module
 
-Generate a formkit config array following the project's existing pattern. Each config item follows this structure:
+The `upload` module renders an image/file picker. Config item:
 
 ```ts
 {
-    type: 'input',          // formkit module type
-    label: 'Field Label',   // display label
+    type: 'upload',
+    label: 'Avatar',
+    key: 'avatar'
+    // props below are all optional:
+    // accept: 'image/*' (default) | '.pdf' | ...
+    // limit: 1 (default); -1 means unlimited; modelValue is a string when limit === 1, string[] otherwise
+    // width / height: 80 (default, px)
+    // fileSize: 0 (default, MB; 0 = no limit)
+    // autoUpload: true (default)
+    // beforeUpload: async (fileItem) => {}
+    // afterUpload: (response) => response.url  // map server response to stored path
+    // isCustom: false // true renders default slot as trigger
+}
+```
+
+The actual upload request MUST be configured once globally (do not duplicate per form):
+
+```ts
+import { setConfigure } from 'element-plus-formkit'
+
+setConfigure('upload', async (file: File, { onProgress }) => {
+    // upload the file and return the accessible URL
+    return url
+})
+
+// Optional: switch locale (default is zh-cn)
+import en from 'element-plus/es/locale/lang/en'
+setConfigure('lang', en)
+```
+
+#### Custom Module Registration
+
+When built-in modules don't cover a need, register a custom module (or override a built-in one) once at app entry, then reference it by `type` in any config:
+
+```ts
+import { registerModule } from 'element-plus-formkit'
+import MyCustomField from './MyCustomField.vue'
+
+registerModule('myField', MyCustomField)
+
+// then in config:
+// { type: 'myField', label: 'Custom', key: 'custom' }
+```
+
+A custom module component must accept `modelValue` and emit `update:modelValue`; it also receives `options`, `disabled`, and everything under `props`.
+
+The package additionally exports standalone components `Upload`, `Address`, `Popover`, and the `Uploader` class for direct use outside of formkit.
+
+### Step 3: Generate Config Array
+
+Generate a formkit config array. Each config item follows this structure (from the component's `ConfigInterface`):
+
+```ts
+{
+    type: 'input',          // formkit module type (optional; omit when fully replacing via #[key] slot)
+    label: 'Field Label',   // display label (supports HTML)
     key: 'fieldName',       // data binding key (use camelCase)
-    rules: [{ required: true, message: 'Please enter xxx', trigger: 'change' }],  // validation rules (add when required)
-    props: {                // element-plus component props
+    span: 12,               // grid span (24-grid system), higher priority than the component's `columns` prop
+    labelWidth: 150,        // per-item label width: number (px) or 'auto'; overrides the component prop
+    disabled: false,        // disable this item only
+    visible: { key: 'type', value: 1 }, // conditional visibility, see below
+    hint: 'Tip shown below the field',  // supplementary note under the field (v-html supported)
+    rules: [{ required: true, message: 'Please enter xxx', trigger: 'change' }],  // el-form-item validation rules
+    options: [...],         // options for select/radio/checkbox/cascader/mention/treeSelect/popover
+    events: { change: (val) => {} },    // native component events, see below
+    col: { xs: 24 },        // extra el-col props for this item
+    props: {                // element-plus / module component props
         placeholder: 'Please enter xxx',
-        clearable: true,
-        // ...other element-plus props
+        clearable: true
     }
 }
 ```
@@ -146,6 +250,37 @@ options: [
     { name: 'Display Name', id: 'value' },
     { name: 'Display Name 2', id: 'value2' }
 ]
+```
+
+**Conditional Visibility (`visible`):**
+```ts
+// Shown only when formData.type === 1
+{ type: 'input', label: 'Reason', key: 'reason', visible: { key: 'type', value: 1 } }
+
+// Shown when formData.type is truthy
+{ type: 'input', label: 'Reason', key: 'reason', visible: { key: 'type' } }
+
+// Shown when ANY condition matches
+{ type: 'input', label: 'Reason', key: 'reason', visible: [{ key: 'type', value: 1 }, { key: 'type', value: 2 }] }
+
+// Boolean also works
+{ type: 'input', label: 'Reason', key: 'reason', visible: false }
+```
+
+**Item Events (`events`):**
+
+Event names are auto-normalized — `change` and `onChange` are equivalent; hyphenated names are camelCased:
+
+```ts
+{
+    type: 'input',
+    label: 'Name',
+    key: 'name',
+    events: {
+        input: (val: string) => console.log(val),
+        'visible-change': (val: boolean) => {}
+    }
+}
 ```
 
 ### Step 4: Generate Complete Vue Component Code
@@ -167,83 +302,100 @@ Generate code containing the following:
     :columns="2"
     :gap="{ col: 30, row: 20 }"
     ref="formRef"
+    @update="onFieldUpdate"
+    @error="onRequestError"
   />
 </template>
 ```
 
-**Common formkit Component Properties:**
-| Property | Type | Description |
-|---|---|---|
-| `config` | `Array` | Form field configuration array |
-| `v-model` | `Object` | Reactive form data object |
-| `label-position` | `String` | Label position: `'left'` / `'right'` / `'top'` |
-| `label-width` | `Number` | Component prop (Number): sets the uniform label width for all form items. Can also be used in individual config items (String) for precise control, with higher priority than the component prop |
+**formkit Component Props:**
 
-> **label-width Calculation Strategy** (only effective when `label-position` is `'left'` or `'right'`, ignored when `'top'`):
-> 1. Analyze the label widths of all form items in the image, calculate an average, and set it as the component prop `label-width` (number type)
-> 2. If a form item has a label significantly wider than the average, precisely specify `labelWidth: '150px'` (string type) in that config item to prevent label text wrapping
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `config` | `ConfigInterface[]` | `[]` | Form field configuration array |
+| `v-model` | `Object` | (required) | Reactive form data object |
+| `label-position` | `'left' \| 'right' \| 'top'` | `'top'` | Label position |
+| `label-width` | `Number \| 'auto'` | `120` | Uniform label width (px) for all items; `'auto'` measures each label's actual rendered width. Only effective when `label-position` is `'left'` or `'right'`. Per-item `labelWidth` (number or `'auto'`) has higher priority |
+| `columns` | `Number` | `1` | Form items per row for quick uniform layout |
+| `gap` | `Object` | `{ col: 10, row: 12 }` | Spacing: `{ col, row }` (px) |
+| `size` | `'' \| 'small' \| 'default' \| 'large'` | `'default'` | Component size |
+| `disabled` | `Boolean` | `false` | Disable all form items |
+| `rules` | `Object` | — | Form-level el-form rules object (alternative to per-item `rules`) |
+
+**Component Events:**
+
+| Event | Payload | Description |
+|---|---|---|
+| `@update` | `{ event, config }` | Fired when any field's value changes |
+| `@error` | `{ key, error, requester }` | Fired when a field's `requester` fails |
+
+> **label-width Calculation Strategy** (only effective when `label-position` is `'left'` or `'right'`):
+> 1. Simplest: set `label-width="auto"` on the component — formkit measures the actual rendered label width per item automatically (required-field asterisks included)
+> 2. Or estimate an average width and set it as the numeric component prop `:label-width="120"`
+> 3. If a specific item needs a different width, set `labelWidth: 150` (number, px) or `labelWidth: 'auto'` in that config item — it overrides the component prop
 >
-> Example: Most labels are about 80px wide, but one label "Central Local Unit Identifier" is about 150px wide:
-> ```ts
-> // Set uniformly on component
-> <formkit :label-width="80" ... />
->
-> // Override precisely in the specific config item
-> { type: 'radio', label: 'Central Local Unit Identifier', key: 'unitId', labelWidth: '150px', ... }
+> ```vue
+> <formkit label-width="auto" label-position="right" ... />
 > ```
-| `columns` | `Number` | Number of form items per row for quick uniform layout (e.g. `columns: 3` means 3 items per row) |
-| `span` | `Number` | Grid span for a single form item (24-grid system), configured in the config item, with higher priority than `columns` |
-| `gap` | `Object` | Spacing between items: `{ col: 30, row: 20 }` (`col` is column gap, `row` is row gap) |
-| `size` | `String` | Component size: `'large'` / `'default'` / `'small'` |
-| `disabled` | `Boolean` | Disable all form items |
-| `ref` | `String` | Template reference for accessing form methods (e.g. `validate()`) |
+> ```ts
+> // Per-item override (number only — strings like '150px' are NOT supported)
+> { type: 'radio', label: 'Central Local Unit Identifier', key: 'unitId', labelWidth: 150 }
+> ```
 
 #### Script Pattern
 
 ```vue
 <script setup lang="ts">
-import { reactive } from 'vue'
-import formkit, { type Instance } from 'element-plus-formkit'
+import { reactive, ref } from 'vue'
+import formkit, { type FormKitExposed } from 'element-plus-formkit'
 
-const dataset = reactive<Record<string, any>>({})
+const formData = reactive<Record<string, any>>({})
 
 const formConfig = reactive([
   // ... generated config items
 ])
 
-const formRef = ref<Instance>()
+const formRef = ref<FormKitExposed>()
 
 async function onSubmit() {
   await formRef.value?.validate()
   // submit logic
-  console.log(dataset)
+  console.log(formData)
+}
+
+function onFieldUpdate({ event, config }: any) {
+  // field value changed
+}
+
+function onRequestError({ key, error }: any) {
+  // requester failed
 }
 </script>
 ```
 
-### Step 5: Handle Special Cases
+**Exposed Methods (via template ref, typed as `FormKitExposed`):**
 
-**Dictionary Dropdown Fields:**
-If the dropdown select field in the image may use system dictionary data:
-```ts
-{
-    type: 'dict',
-    label: 'Field Label',
-    key: 'fieldName',
-    props: {
-        placeholder: 'Please select xxx',
-        type: 'dictionary_key'  // dictionary type key
-    }
-}
-```
+| Method | Description |
+|---|---|
+| `validate()` | Validate the whole form (el-form validate) |
+| `validateField(key)` | Validate specific field(s) |
+| `clearValidate(props?)` | Clear validation state |
+| `resetFields(props?)` | Reset fields to initial values |
+| `scrollToField(prop)` | Scroll to a field |
+| `setInitialValues(obj)` | Set form values programmatically |
+| `fields` | el-form field contexts |
+| `buckets` | Reactive store of `requester`-fetched option lists keyed by field key |
+
+### Step 5: Handle Special Cases
 
 **Grouped Form Sections:**
 If the form has groups/sections, use `el-divider` or section titles between multiple `<formkit>` instances:
+
 ```vue
-<div class="modify-dialog-title">Basic Information</div>
+<div class="form-section-title">Basic Information</div>
 <formkit :config="basicConfig" v-model="formData" ... />
 <el-divider />
-<div class="modify-dialog-title">Other Information</div>
+<div class="form-section-title">Other Information</div>
 <formkit :config="otherConfig" v-model="formData" ... />
 ```
 
@@ -258,6 +410,7 @@ Both `columns` and `span` control the number of form items per row and do not co
 - If most rows have a fixed column count but some rows differ (e.g. a row with only 2 or 4 items), use `span` for those rows
 
 **Example:** Assuming `columns: 3` (3 items per row, each taking 8 equal parts), but one row has only 2 items that should each take half:
+
 ```ts
 // Previous items arranged normally, 3 per row
 { type: 'input', label: 'Name', key: 'name' },
@@ -283,6 +436,7 @@ Both `columns` and `span` control the number of form items per row and do not co
 ```
 
 **Disabled/Read-only Fields:**
+
 ```ts
 {
     type: 'input',
@@ -295,19 +449,31 @@ Both `columns` and `span` control the number of form items per row and do not co
 }
 ```
 
+**Field Hints:**
+
+```ts
+{
+    type: 'input',
+    label: 'ID Card',
+    key: 'idCard',
+    hint: 'Used for identity verification only'  // rendered under the field, v-html supported
+}
+```
+
 **Slots:**
 
 formkit supports various slots for extending form content. For full documentation, refer to: [element-plus-formkit Slots](https://wxsub.github.io/element-plus-formkit/slot.html)
 
-| Slot Name | Description | Use Case |
+| Slot Name | Scope | Description |
 |---|---|---|
-| `#prepend` | Insert content before all config items | For top-of-form notes, tips, etc. |
-| `#append` | Append content after all config items | For bottom-of-form buttons, additional actions, etc. |
-| `#content` | Append after the entire form with less style interference | Receives `scope` parameter (contains `config`) |
-| `#[key]` | Replace a specific key's form item module | Scoped slot, receives `scope: { row, size }`. To fully replace, remove the `type` from that config item |
-| `#[key]-[native slot name]` | Access element-plus native component slots | E.g. `#sex-prefix`, `#sex-empty`, etc. |
+| `#prepend` | — | Insert content before all config items (inside the grid row) |
+| `#append` | `{ value }` (the modelValue) | Append content after all config items (inside the grid row) |
+| `#content` | `{ config }` | Append after the entire form, outside the grid |
+| `#[key]` | `{ row, value, size }` | Rendered inside the form item for that key. To fully replace the module, omit `type` from that config item |
+| `#[key]-[native slot name]` | native slot props | Forwarded to the underlying element-plus component's slot, e.g. `#sex-prefix`, `#sex-empty` |
 
 **prepend/append Example:**
+
 ```vue
 <formkit :config="formConfig" v-model="formData">
     <template #prepend>
@@ -324,21 +490,22 @@ formkit supports various slots for extending form content. For full documentatio
 ```
 
 **[key] Replace Module Example:**
+
 ```vue
 <formkit
     :config="[
-        { label: 'Nickname', key: 'nickname', props: { placeholder: 'Please enter nickname' } }
+        { label: 'Nickname', key: 'nickname' }
     ]"
     v-model="formData">
-    <!-- type removed, fully replaced by slot content -->
-    <template #nickname="scope">
-        <b>Custom nickname component</b>
-        <p>Current config: {{ scope.row }}</p>
+    <!-- type omitted, module fully replaced by slot content -->
+    <template #nickname="{ row, value, size }">
+        <el-input v-model="formData.nickname" placeholder="Custom nickname component" />
     </template>
 </formkit>
 ```
 
 **Native Component Slot Example:**
+
 ```vue
 <formkit
     :config="[
@@ -356,26 +523,24 @@ formkit supports various slots for extending form content. For full documentatio
 
 Present the generated code to the user in the following order:
 
-1. **Analysis Summary**: Briefly describe the form fields identified from the image
+1. **Analysis Summary**: Briefly describe the form fields identified from the requirement
 2. **Config File** (`xxxFormConfig.ts`): Form configuration array
 3. **Vue Component** (`xxx.vue`): Complete component using formkit
 
-Always follow the project's existing code conventions:
+Always follow these conventions:
 - Use `<script setup lang="ts">`
 - Use `reactive()` to define config arrays
 - Use `computed()` for configs that depend on reactive data
-- Import formkit: `import formkit, { type Instance } from 'element-plus-formkit'`
-- Label text must match the image exactly (Chinese)
+- Import formkit: `import formkit, { type FormKitExposed } from 'element-plus-formkit'`
+- Label text must match the requirement exactly
 - Use meaningful camelCase format keys
 
 ### Important Notes
 
 - **File Operation Scope**: If the user specifies a file or code block to operate on, file modifications must be strictly limited to that file only, and other files must not be modified. If the user does not specify a file, **you must first ask the user which file to generate/modify code in**, and only proceed after confirmation.
-- The `element-plus-formkit` package is already installed in the project (v1.0.6+)
-- CSS has been imported in the project's main entry
-- Do not add CSS import statements in generated components
-- Follow the project's existing code style (refer to files under `src/pages/manage/`)
+- Do not add CSS import statements in generated components — styles ship with the package
 - When unsure about a field type, default to `input`
 - When unsure whether a field is required, do not add `rules`
-- The formkit `validate()` method is exposed via a template reference of type `Instance` (from `element-plus-formkit`)
-- For upload fields, the project uses `setConfigure('upload', ...)` for upload configuration — do not duplicate this configuration
+- The formkit instance type is `FormKitExposed` (exported from `element-plus-formkit`) — NOT `Instance`
+- For upload fields, the project configures the request globally via `setConfigure('upload', ...)` — do not duplicate this configuration
+- Only use module types listed in Step 2. Invalid types render an "Unable to find module" placeholder at runtime
