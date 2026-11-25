@@ -89,8 +89,14 @@ const uploading = async () => {
         }
         upload.setProgressListener((progress: number) => item.progress = progress)
         upload.setCompleteListener(async (response: any) => {
-            item.path = props.afterUpload ? props.afterUpload(response) : (response || null)
-            item.status = 1
+            const path = props.afterUpload ? await props.afterUpload(response) : (response || null)
+            if (path) {
+                item.path = path
+                item.status = 1
+            } else {
+                item.progress = 0
+                item.status = -1
+            }
             upload.destroy()
             setTimeout(() => setData(), 300)
         })
@@ -114,7 +120,7 @@ const setData = () => {
     if (fileBucket.value.length === 0) {
         emit('update:modelValue', props.limit === 1 ? '' : [])
     } else {
-        const data = fileBucket.value.map((item: any) => item.path)
+        const data = fileBucket.value.filter((item: any) => item.path).map((item: any) => item.path)
         emit('update:modelValue', props.limit === 1 ? data[0] : data)
     }
 }
